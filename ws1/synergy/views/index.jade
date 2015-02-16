@@ -1,5 +1,19 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.container
+      div.jumbotron
+        if user
+          h2 <b>Welcome, #{user.fullName}</b>
+          p
+            a.small(href="profile") Edit my profile
+          a.btn.btn-primary(href="/logout") Logout
+        else
+          h2 <b>Welcome to SynergySpace!</b>
+          p Ready to Start 
+          p
+            a.btn.btn-primary(href="/login") Login Now
+          p
+            span.small Don't have an account?
+            span &nbsp;
+            a.small(href="/register") Register now
