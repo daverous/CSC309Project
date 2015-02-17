@@ -1,0 +1,26 @@
+extends layout
+
+block content
+	div.container
+		form( method="post")#register-form.well.span4
+			h2 <b>Register for SynergySpace</b>
+			br 
+			br
+			input(type='hidden', name='_csrf', value=_csrf)
+			.form-group
+				input.form-control(type='text', name='fName', id='fName', placeholder='First Name', autofocus)
+			.form-group
+				input.form-control(type='text', name='lName', id='lName', placeholder='Last Name', autofocus)
+			.form-group
+				input.form-control(type='address', name='address', id='address', placeholder='Address', autofocus)
+			.form-group
+				input.form-control(type='email', name='email', id='email', placeholder='Email/Username', autofocus)
+			.form-group
+				input.form-control(type='password', name='password', id='password', placeholder='Password')
+			.form-group
+				input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password')
+			.form-group
+				br
+				button.btn.btn-success(type='submit')
+					span.ion-person-add
+					| Register

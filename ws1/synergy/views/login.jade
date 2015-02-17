@@ -1,0 +1,26 @@
+extends layout
+
+block content
+	div.container
+		form( method="post")#login-form.well.span4
+			h2 <b>Welcome to SynergySpace!</b>
+			h3 Please sign in
+			p
+				input.form-control(type='email', name='email', id='username', placeholder='Username')
+			p
+				input.form-control(type="password", name="password", id='pass-tf', placeholder='Password')
+			p
+				button(type="submit")#btn-login.btn.btn-primary
+					i.icon-lock.icon-white
+					| Sign in
+		
+			label.checkbox.
+				<input type="checkbox" style="margin-left: 1px;" value="remember-me" />  
+				&nbsp; &nbsp; &nbsp; Remember me
+			div.clear-fix
+			hr
+			div.btm-links
+				p
+					a(href='#')#forgot-password Forgot Your Password?
+				p
+					a(href='/reger')#create-account Create a new account
