@@ -13,7 +13,7 @@ module.exports = function (passport) {
 	});
 
 	router.post('/login', passport.authenticate('login', {
-			successRedirect: '/',
+			successRedirect: '/home',
 			failureRedirect: '/login',
 			failureFlash : true  
 	}));
@@ -23,10 +23,14 @@ module.exports = function (passport) {
 	});
 
 	router.post('/register', passport.authenticate('register', {
-		successRedirect: '/',
+		successRedirect: '/home',
 		failureRedirect: '/register',
 		failureFlash : true  
 	}));
+
+	router.get('/home', function(req, res) {
+		res.render('home', { user: req.user });
+	});
 
 	router.get('/logout', function(req, res) {
 		req.logout();

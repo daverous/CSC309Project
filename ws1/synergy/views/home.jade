@@ -1,0 +1,30 @@
+extends layout
+
+block content
+    include navbar
+  
+    p 
+      h3 <b>Welcome, #{user.username}</b>
+    p 
+      a.btn.btn-primary.btn-large Learn more &raquo;
+
+    .row
+      .col-sm-12
+        h2 Rental Posting 1
+        p Location Images Description
+        p    
+          a.btn.btn-default(href='#', role='button') View details »
+
+      .col-sm-12
+        h2 Rental Posting 2
+        p Location Images Description
+        p   
+          a.btn.btn-default(href='#', role='button') View details »
+
+      .col-sm-12
+        h2 Rental Posting 3
+        p Location Images Description
+        p
+          a.btn.btn-default(href='#', role='button') View details »
+    footer
+      p &copy; 2014 Spanish Inquisition

@@ -1,0 +1,30 @@
+.navbar.navbar-inverse.navbar-fixed-top
+  .container
+    .navbar-header
+
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
+      a.navbar-brand(href='/home')
+        span.ion-cube
+        | <b>Synergy Space</b>
+
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li(class=title=='Home'?'active':undefined)
+          a(href='/home') <b>Home</b>
+        li(class=title=='Search'?'active':undefined)
+          a(href='/search') <b>Search</b>
+        li(class=title=='Messages'?'active':undefined)
+          a(href='/messages') <b>Messages</b>
+
+      ul.nav.navbar-nav.navbar-right
+        li(class=title=='Settings'?'active':undefined)
+          a(href='/settings') <b>Settings</b>
+        li(class=title=='Profile'?'active':undefined)
+          a(href='/') <b>Profile</b>
+        li(class=title=='Logout'?'active':undefined)
+          a(href='/logout') <b>Logout</b>
