@@ -73,7 +73,7 @@ module.exports = function(passport) {
                             return done(null, false, req.flash('message','Error: Passwords do not match'));
                         }
 
-                        var createUser = new User();
+                        var createUser = new UserProfile();
                         createUser.username = username;
                         createUser.email = req.param('email');
                         createUser.firstName = req.param('fName');
