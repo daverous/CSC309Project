@@ -1,17 +1,47 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'SynergySpace' });
-});
+module.exports = function (passport) {
 
-router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Login' });
-});
+	/* GET home page. */
+	router.get('/', function(req, res, next) {
+	  res.render('index', { user: req.user });
+	});
 
-router.get('/register', function(req, res, next) {
-  res.render('register', { title: 'Create your profile' });
-});
+	router.get('/login', function(req, res, next) {
+	  res.render('login', { message: req.flash('message') });
+	});
 
-module.exports = router;
+	router.post('/login', passport.authenticate('login', {
+			successRedirect: '/',
+			failureRedirect: '/login',
+			failureFlash : true  
+	}));
+
+	router.get('/register', function(req, res, next) {
+	  res.render('register', { message: req.flash('message') });
+	});
+
+	router.post('/register', passport.authenticate('register', {
+		successRedirect: '/',
+		failureRedirect: '/register',
+		failureFlash : true  
+	}));
+
+	router.get('/logout', function(req, res) {
+		req.logout();
+		res.redirect('/');
+	});
+
+	return router;
+}
+
+var isAuthenticated = function (req, res, next) {
+	// check if user is authenticated
+	if (req.isAuthenticated()) {
+		return next();
+	}
+
+	// if not authenticated, then redirect to login page
+	res.redirect('/login');
+}
