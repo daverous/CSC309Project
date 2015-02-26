@@ -2,14 +2,20 @@ extends layout
 
 block content
   div.container
+    div.col-sm-6.col-md-6.col-md-offset-3
       div.jumbotron
         if user
-          h2 <b>Welcome, #{user.fullName}</b>
+          h2 <b>Welcome, #{user.username}</b>
+          p
+            ul.user-details
+              li Email    ---> #{user.email}
+              li First Name ---> #{user.firstName} 
+              li Last Name ---> #{user.lastName}
           p
             a.small(href="profile") Edit my profile
           a.btn.btn-primary(href="/logout") Logout
         else
-          h2 <b>Welcome to SynergySpace!</b>
+          h2 <b>Welcome to Synergy Space!</b>
           p Ready to Start 
           p
             a.btn.btn-primary(href="/login") Login Now
