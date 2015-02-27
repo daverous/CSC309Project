@@ -39,6 +39,7 @@ exports.createHouse =  function(req, house, password, done) { var houseName = ho
 					createHouse.houseName = house.houseName;
 					createHouse.description = req.param('description');
 						// name of path will be housename
+					createHouse.maxRenters = house.maxRenters;
 						createHouse.picture.data = fs.readFileSync(tempPath);
 						createHouse.contentType
 

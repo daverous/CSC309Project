@@ -11,14 +11,18 @@ block content
           p
             //- input.form-control(type='textarea', name='description', placeholder='Description')
             //- br
+            br
+            div(data-role='fieldcontain')
+   
+            input.form-control(type='number', name='max tenents', placeholder='Maximum Number of tenents')
             textarea(id="theTextarea" class="form-control" rows="3" placeholder="Description")
             br
             
             input#inputstoreImage(type="file",placeholder="storeimage" name="image")
             br      
-            button(type='submit')#btn-login.btn.btn-success
+            button(type='submit')#btn-create.btn.btn-success
               i.icon-lock.icon-white
-              | Register
+              | Create
 
           #message
             if message
