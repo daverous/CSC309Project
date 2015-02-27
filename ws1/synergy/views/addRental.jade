@@ -1,23 +1,25 @@
 extends layout
-
 block content
-  div.container
-    div.col-sm-6.col-md-6.col-md-offset-3
-      form(method="post")#listing-form.well.span4
-        h2 <b>Create a new listing</b>
-        br
-        p
-          input.form-control(type='text', name='name', placeholder='House Name')
-        p
-          input.form-control(type='text', name='email', placeholder='Email')
+    include navbar
+    div.container
+      div.col-sm-6.col-md-6.col-md-offset-3
+        form(method="post")#listing-form.well.span4
+          h2 <b>Create a new listing</b>
           br
-          
-          input#inputstoreImage(type="file",placeholder="storeimage" name="image")
-          br      
-          button(type='submit')#btn-login.btn.btn-success
-            i.icon-lock.icon-white
-            | Register
+          p
+            input.form-control(type='text', name='name', placeholder='House Name')
+          p
+            //- input.form-control(type='textarea', name='description', placeholder='Description')
+            //- br
+            textarea(id="theTextarea" class="form-control" rows="3" placeholder="Description")
+            br
+            
+            input#inputstoreImage(type="file",placeholder="storeimage" name="image")
+            br      
+            button(type='submit')#btn-login.btn.btn-success
+              i.icon-lock.icon-white
+              | Register
 
-        #message
-          if message
-            h3.text-center.error-message #{message}
+          #message
+            if message
+              h3.text-center.error-message #{message}
