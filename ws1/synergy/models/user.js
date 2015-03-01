@@ -6,5 +6,7 @@ module.exports = mongoose.model('User',{
 	lastName: String,
 	email: String,
 	username: String,
-	password: String
+	password: String,
+	rating: {type: Number, default: 0},
+	evaluations: {type: Number, default: 0}
 });
