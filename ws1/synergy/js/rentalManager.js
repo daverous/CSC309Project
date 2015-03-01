@@ -1,11 +1,18 @@
-var fs = require ('fs.extra');
 
+var HouseProfile = require('../models/house');
 var bCrypt = require('bcrypt-nodejs');
 var PassportLocalStrategy   = require('passport-local').Strategy;
-var HouseProfile = require('../models/house');
-var UserProfile = require('../models/user');
 
-var tempPath = './public/images/temp.png';
+// var authenticate = require('auth');
+
+
+findHousesForUser = function(req,username, done){
+HouseProfile.find({ owner: username }, function(err, houses) {
+  if (err) return console.error(err);
+  console.dir(houses);
+});
+
+}
 
 exports.createHouse =  function(req, house, password, done) { var houseName = house.name;
 	var description = house.description;
@@ -29,9 +36,7 @@ exports.createHouse =  function(req, house, password, done) { var houseName = ho
 
 	});
 
-	function(req, house, done) {
-
-		findOrCreateHouse = function(){
+	exports.findOrCreateHouse = function(req, house, done){
 			HouseProfile.findOne({ 'houseName' :  houseName }, function(err, user) {
 				if (!house) {
 
@@ -66,4 +71,3 @@ exports.createHouse =  function(req, house, password, done) { var houseName = ho
 		}
 	}
 
-}
