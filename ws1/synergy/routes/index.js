@@ -28,6 +28,18 @@ module.exports = function (passport) {
 		failureFlash : true  
 	}));
 
+	router.get('/addRental', function(req, res) {
+		res.render('addRental', { user: req.user });
+	});
+
+	router.get('/editRental', function(req, res) {
+		res.render('editRental', { user: req.user });
+	});
+
+	router.get('/topRentals', function(req, res) {
+		res.render('topRentals', { user: req.user });
+	});
+
 	router.get('/home', function(req, res) {
 		res.render('home', { user: req.user });
 	});

@@ -16,15 +16,34 @@
       ul.nav.navbar-nav
         li(class=title=='Home'?'active':undefined)
           a(href='/home') <b>Home</b>
-        li(class=title=='Search'?'active':undefined)
-          a(href='/search') <b>Search</b>
         li(class=title=='Messages'?'active':undefined)
-          a(href='/messages') <b>Messages</b>
+            a(href='/messages') <b>Messages</b>
+          //- .li(class=title=='Rentals'?'active':undefined)
+          //- a(href='/ren.tals') <b>Rentals</b>
+           li.dropdown
+        ul.nav.navbar-nav.navbar-left
+          li.dropdown
+            a.dropdown-toggle(href="#" data-toggle="dropdown") <b>Rentals</b> 
+              b.caret
+              ul.dropdown-menu
+                li
+                  a(href="/addRental") Add Rental
+                li
+                  a(href="/manageRentals") Manage Rentals
+                li
+                  a(href="/topRentals") Top Rentals
 
-      ul.nav.navbar-nav.navbar-right
-        li(class=title=='Settings'?'active':undefined)
-          a(href='/settings') <b>Settings</b>
-        li(class=title=='Profile'?'active':undefined)
-          a(href='/') <b>Profile</b>
-        li(class=title=='Logout'?'active':undefined)
-          a(href='/logout') <b>Logout</b>
+
+        form.navbar-form.navbar-left(role="search")
+          .form-group
+            input.form-control(type="text" placeholder="Search")
+          button.btn.btn-default Submit
+          
+
+        ul.nav.navbar-nav.navbar-right
+          li(class=title=='Settings'?'active':undefined)
+            a(href='/settings') <b>Settings</b>
+          li(class=title=='Profile'?'active':undefined)
+            a(href='/') <b>Profile</b>
+          li(class=title=='Logout'?'active':undefined)
+            a(href='/logout') <b>Logout</b>
