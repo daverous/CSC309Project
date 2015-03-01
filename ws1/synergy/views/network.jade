@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  div.container
+    div.col-sm-6.col-md-6.col-md-offset-3
+      div.jumbotron
+        if user
+          include navbar
+          h2 <b>Welcome, #{user.username}</b>
+          p
+            ul.user-details
+              li Email    ---> #{user.email}
+              li First Name ---> #{user.firstName} 
+              li Last Name ---> #{user.lastName}
+              li Rating ---> #{user.rating} (Total Ratings: #{user.evaluations})
+          p
+            a.small(href="profile") Edit my profile
+          a.btn.btn-primary(href="/logout") Logout
+        else
+          h2 <b>Welcome to Synergy Space!</b>
+          p a(href='/') <b>Please login to see your network.</b>
