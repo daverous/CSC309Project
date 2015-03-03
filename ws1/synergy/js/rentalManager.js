@@ -82,8 +82,11 @@ exports.createHouse =  function(req, house, password, done) { var houseName = ho
 
 	// take in old name to avoid new one being changed
 
-	exports.editHouse = function(req, oldName, houseObj, done){
+	exports.editHouse = function(req, oldName, houseObj, user,done){
 	// TODO make sure its not just name that is checked
+	if  (user != houseObj.owner) {
+		return false;
+	}
 	HouseProfile.update({ 'houseName' :  houseObj.houseName }, {
 		name: houseObj.name,
 		desription: houseObj.description,
