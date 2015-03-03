@@ -6,23 +6,23 @@ block content
       div.jumbotron
         include navbar
         if house
-          
-          h2 <b>Edit #{house.name}</b>
-          p
-            input.form-control(type='text', name='name', placeholder='#{house.name}')
+          form(method="post")#editForm.well.span4
+            h2 <b>Edit #{house.name}</b>
             p
-              br
-              div.row
-                p max tenents 
-                input(type='number', name='max tenents', placeholder='#{house.maxRenters}')
-              textarea(id="theTextarea" class="form-control" rows="3" placeholder='#{house.description}')
-              br
-              
-              input#inputstoreImage(type="file",placeholder="storeimage" name="image")
-              br      
-              button(type='submit')#btn-create.btn.btn-success
-                i.icon-lock.icon-white
-                | Create
+              input.form-control(type='text', name='name', placeholder='#{house.name}')
+              p
+                br
+                div.row
+                  p max tenents 
+                  input(type='number', name='max tenents', placeholder='#{house.maxRenters}')
+                textarea(id="theTextarea" class="form-control" rows="3" placeholder='#{house.description}')
+                br
+                
+                input#inputstoreImage(type="file",placeholder="storeimage" name="image")
+                br      
+                button(type='submit')#btn-create.btn.btn-success
+                  i.icon-lock.icon-white
+                  | Create
         else 
           h2 <b>House not found</b> 
 
