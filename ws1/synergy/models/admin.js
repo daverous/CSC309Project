@@ -19,7 +19,7 @@ adminSchema.methods.deleteHouse = function(hid){
 			throw(err);
 	});
 }
-adminSchema.methods.changeRating = function changeRating(userid, rating){
+adminSchema.methods.changeRating = function(userid, rating){
 	UserProfile.findOne({_id : userid}, {}, function(err, profile){
 		if (err)
 			//let the calling function handle error
@@ -29,19 +29,6 @@ adminSchema.methods.changeRating = function changeRating(userid, rating){
 		profile.save();
 
 	});
-
-
 }
-module.exports = mongoose.model('User',{
-	firstName: String,
-	lastName: String,
-	email: String,
-	username: String,
-	password: String,
-	rating: {type: Number, default: 0},
-	evaluations: {type: Number, default: 0},
-	//role is either 0 for tenant or 1 for owner. 
-	//It's possible for a tenant to also be an owner?
-	role: {type: Number, default: 0},
-	isAdmin: {type: Boolean, default: false}
-});
+
+module.exports = mongoose.model('Admin', adminSchema);

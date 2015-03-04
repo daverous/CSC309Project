@@ -6,25 +6,25 @@ var Admin = require('../models/admin');
 /*
 	CP.js contains methods that help render the admin control panel
 */
-
-function getUsers(){
+module.exports = {
+getUsers: function(){
 	UserProfile.find({}, {}, function(err, users){
 		if (err)
 			//let the calling function handle error
 			throw(err);
 		//user retrieval is successful
-		profile.rating = rating;
-		profile.save();
+		return users;
 
 	});
+},
 
-
-})
-
-function deleteUser(userid){
-	UserProfile.remove({_id : userid}, function(err){
-		if(err)
+getHouses: function(){
+	HouseProfile.find({}, {}, function(err, houses){
+		if (err)
+			//let the calling function handle error
 			throw(err);
+		//user retrieval is successful
+		return houses;
 	});
-	
 }
+};
