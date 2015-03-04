@@ -1,14 +1,14 @@
+var app = require("../app").app
 var UserProfile = require('../models/user');
+var HouseProfile = require('../models/house');
+var Admin = require('../models/admin');
 
 /*
-	Admin.js contains methods that allow a systems administrator to make the following changes:
-
-	Change User Rating
-	Delete Users 
+	CP.js contains methods that help render the admin control panel
 */
 
-function changeRating(userid, rating){
-	UserProfile.findOne({_id : userid}, {}, function(err, profile){
+function getUsers(){
+	UserProfile.find({}, {}, function(err, users){
 		if (err)
 			//let the calling function handle error
 			throw(err);

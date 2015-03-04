@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var admin = require('../js/admin');
 module.exports = function (passport) {
 
 	/* GET home page. */
@@ -53,6 +53,15 @@ module.exports = function (passport) {
 	  res.render('network', { user: req.user });
 	});
 
+	router.get('/admin', function(req, res){
+		res.render('admin')
+	});
+
+	router.get('/listUser', function(req, res){
+		res.render('listUser', {
+			"users" : admin.getUsers()
+		});
+	});
 	return router;
 }
 

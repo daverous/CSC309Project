@@ -11,5 +11,4 @@ module.exports = mongoose.model('User',{
 	//role is either 0 for tenant or 1 for owner. 
 	//It's possible for a tenant to also be an owner?
 	role: {type: Number, default: 0},
-	isAdmin: {type: Boolean, default: false}
 });
