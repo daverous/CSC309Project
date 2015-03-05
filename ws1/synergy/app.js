@@ -41,6 +41,7 @@ app.use(passport.session());
 // adding user-authentication code
 authenticate(passport);
 
+
 var routes = require('./routes/index')(passport);
 
 app.use('/', routes);

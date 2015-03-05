@@ -1,4 +1,5 @@
 var express = require('express');
+var rentalManager = require('../js/rentalManager');
 var router = express.Router();
 
 module.exports = function (passport) {
@@ -31,9 +32,12 @@ module.exports = function (passport) {
 	router.get('/addRental', function(req, res) {
 		res.render('addRental', { user: req.user });
 	});
-
+	router.post('/addRental',function(req, res) {
+		rentalManager.addRental(req, res);
+		res.render('home', { user: req.user });
+	});
 	router.get('/editRental', function(req, res) {
-		res.render('editRental', { user: req.user });
+		res.render('editRental', { house: req.house });
 	});
 
 	router.get('/topRentals', function(req, res) {

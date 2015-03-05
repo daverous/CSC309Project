@@ -1,11 +1,13 @@
 
 var HouseProfile = require('../models/house');
+var fs = require('fs');
 var bCrypt = require('bcrypt-nodejs');
 var PassportLocalStrategy   = require('passport-local').Strategy;
+var UserProfile = require('../models/user');
 
 // var authenticate = require('auth');
 
-module.exports = function(passport) {
+// module.exports = function(passport) {
 
 	findHousesForUser = function(req,username, done){
 		HouseProfile.find({ owner: username }, function(err, houses) {
@@ -23,18 +25,20 @@ module.exports = function(passport) {
 
 	}
 
+	//add rental
+	function addRental(req, done) { 
+			console.log("hereeee");
+			findOrCreateHouse = function() {
 
-	passport.use('addRental', new PassportLocalStrategy({ passReqToCallback : true },  
+				var houseName = req.param('houseName');
+				var description = req.param('description');
+				var uploadedfilepath = req.files.image.path;
+				var uploadedfilename = req.files.image.originalFilename;
+				var image = req.files.image;
 
-	  function(req, house, password, done) { var houseName = house.name;
-		var description = house.description;
-		var uploadedfilepath = req.files.image.path;
-		var uploadedfilename = req.files.image.originalFilename;
-		var image = req.files.image;
-
-		var uploadedfilepathsplit= req.files.image.path.split('/');
-		var newPath = __dirname +'/public/images/' + uploadedfilepathsplit[(uploadedfilepathsplit.length - 1)];
-		var imageSrc = uploadedfilepathsplit[(uploadedfilepathsplit.length - 1)];
+				var uploadedfilepathsplit= req.files.image.path.split('/');
+				var newPath = __dirname +'/public/images/' + uploadedfilepathsplit[(uploadedfilepathsplit.length - 1)];
+				var imageSrc = uploadedfilepathsplit[(uploadedfilepathsplit.length - 1)];
 
 		//console.log("NEW PATH: " +newPath);
 		fs.copy(uploadedfilepath, newPath, function(err) {
@@ -43,23 +47,25 @@ module.exports = function(passport) {
 				throw err;
 			}
 			fs.unlink(uploadedfilepath, function() {
-				if (err) throw err;
-			});
+				if(err) {
+					console.log(err);
+					throw err;
+				}			});
 
-		})
+		});
 
 		// function(req, houseObj, done){
 		// 	// TODO make sure its not just name that is checked
-			HouseProfile.findOne({ 'houseName' :  houseObj.houseName }, function(err, house) {
-				if (!house) {
+		HouseProfile.findOne({ 'houseName' :  houseObj.houseName }, function(err, house) {
+			if (!house) {
 
-					var createHouse = new HouseProfile();
-					createHouse.houseName = house.houseName;
-					createHouse.description = req.param('description');
+				var createHouse = new HouseProfile();
+				createHouse.houseName = req.param('houseName');
+				createHouse.description = req.param('description');
 							// name of path will be housename
-							createHouse.maxRenters = house.maxRenters;
+							createHouse.maxRenters = req.param('maxRenters');
 							createHouse.picture.data = fs.readFileSync(tempPath);
-							createHouse.contentType
+							// createHouse.contentType = m
 
 
 
@@ -77,16 +83,14 @@ module.exports = function(passport) {
 						   // TODO add editing
 						   console.log('Error (house exists): ' + house.houseName);
 						   return done(null, false, req.flash('message','Error: That housename has already been taken'));
-						}
+						}});
+	}
+	process.nextTick(findOrCreateHouse);;
 
-						process.nextTick(findOrCreateHouse);
-					});
-		
-	}));
+};
 
 		// take in old name to avoid new one being changed
-	passport.use('editRental', new PassportLocalStrategy({ passReqToCallback : true },  
-		function(req, oldName, houseObj, userName ,done){
+		function editRental(req, oldName, houseObj, userName ,done){
 		// TODO make sure its not just name that is checked
 		if  (userName != houseObj.owner) {
 			return false;
@@ -103,8 +107,8 @@ module.exports = function(passport) {
 		picture : houseObj.picture,
 	}
 	);
-	}));
-}
+	}
+	
 
 
 
