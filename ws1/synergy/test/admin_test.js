@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Admin = require('../models/admin');
-var user = require('../models/user');
-var House = require('../models/house');
+var User = require('../models/user').model;
+var House = require('../models/house').model;
 var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
@@ -18,7 +18,7 @@ before(function(done){
 });
 
 after(function(done){
-	user.model.collection.drop();
+	User.collection.drop();
 	House.collection.drop();
 	mongoose.connection.close(done);
 });
@@ -26,7 +26,7 @@ after(function(done){
 describe('SHOULD', function(){
 	
 	before(function(done){
-	user.model.create({
+	User.create({
 		_id: uid1,
 		firstName: "Fred",
 		lastName: "Rubble",
@@ -49,12 +49,12 @@ describe('SHOULD', function(){
 	it('should remove the user with uid1',
 		function(done){
 			Admin.deleteUser(uid1);
-			user.model.findOne({_id : uid1}, {}, function(err, user1){
+			User.findOne({_id : uid1}, {}, function(err, user1){
 				should.not.exist(err);
 				expect(user1).to.be.a('null');
 				
 			});
-			user.model.findOne({_id : uid2}, {}, function(err, user2){
+			User.findOne({_id : uid2}, {}, function(err, user2){
 				should.not.exist(err);
 				should.exist(user2);
 				user2.firstName.should.be.equal('Barney');
@@ -64,7 +64,7 @@ describe('SHOULD', function(){
 	it('should modify user with uid2s rating to newRating',
 		function(done){
 			Admin.changeRating(uid2, newRating);
-			user.model.findOne({_id : uid2}, {}, function(err, user2){
+			User.findOne({_id : uid2}, {}, function(err, user2){
 				should.not.exist(err);
 				should.exist(user2);
 				user2.rating.should.be.equal(newRating);

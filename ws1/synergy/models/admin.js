@@ -2,7 +2,7 @@ var util = require('util');
 var mongoose = require('mongoose');
 var User = require('./user').model;
 var adminSchema = mongoose.Schema();
-var HouseProfile = require('./house');
+var HouseProfile = require('./house').model;
 
 util.inherits(adminSchema, User);
 
