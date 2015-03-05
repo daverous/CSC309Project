@@ -1,34 +1,31 @@
 var util = require('util');
 var mongoose = require('mongoose');
-var userSchema = require('mongoose').model('User').schema;
-var adminSchema = new Schema();
-var UserProfile = require('user');
-var HouseProfile = require('house');
+var User = require('./user').model;
+var adminSchema = mongoose.Schema();
+var HouseProfile = require('./house');
 
-util.inherits(adminSchema, userSchema);
+util.inherits(adminSchema, User);
 
-adminSchema.methods.deleteUser = function(userid){
-	UserProfile.remove({_id : userid}, function(err){
+adminSchema.statics.deleteUser = function(userid){
+	User.remove({_id : userid}, function(err){
 		if(err)
 			throw(err);
 	});
 }
-adminSchema.methods.deleteHouse = function(hid){
-	HouseProfile.remove({_id : userid}, function(err){
+adminSchema.statics.deleteHouse = function(hid){
+	HouseProfile.remove({_id : hid}, function(err){
 		if(err)
 			throw(err);
 	});
 }
-adminSchema.methods.changeRating = function(userid, rating){
-	UserProfile.findOne({_id : userid}, {}, function(err, profile){
-		if (err)
-			//let the calling function handle error
+adminSchema.statics.changeRating = function(userid, rating){
+	User.findOneAndUpdate({_id : userid}, {$set: {rating: rating}}, function(err, update){
+		if(err){
 			throw(err);
-		//user retrieval is successful
-		profile.rating = rating;
-		profile.save();
-
-	});
+		}
+		update.save();
+		});
 }
+
 
 module.exports = mongoose.model('Admin', adminSchema);

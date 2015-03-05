@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-module.exports = mongoose.model('User',{
+var userSchema = new mongoose.Schema({
 	firstName: String,
 	lastName: String,
 	email: String,
@@ -10,5 +10,12 @@ module.exports = mongoose.model('User',{
 	evaluations: {type: Number, default: 0},
 	//role is either 0 for tenant or 1 for owner. 
 	//It's possible for a tenant to also be an owner?
-	role: {type: Number, default: 0},
+	role: {type: Number, default: 0}
 });
+
+var User = mongoose.model('User', userSchema);
+
+module.exports = {
+	schema: userSchema,
+	model: User
+};

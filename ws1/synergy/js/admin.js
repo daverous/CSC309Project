@@ -4,7 +4,7 @@ var HouseProfile = require('../models/house');
 var Admin = require('../models/admin');
 
 /*
-	CP.js contains methods that help render the admin control panel
+	admin.js contains methods that help render the admin control panel
 */
 module.exports = {
 getUsers: function(){
