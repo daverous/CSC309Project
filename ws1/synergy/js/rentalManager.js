@@ -63,9 +63,9 @@ module.exports = {
 
 				var createHouse = new HouseProfile();
 				createHouse.houseName = houseName;
-				createHouse.description = req.param('description');
+				createHouse.description = req.params['description'];
 							// name of path will be housename
-							createHouse.maxRenters = req.param('maxRenters');
+							createHouse.maxRenters = req.params['maxRenters'];
 							createHouse.picture.data = fs.readFileSync(tempPath);
 							// createHouse.contentType = m
 
