@@ -16,7 +16,7 @@ module.exports = {
 		});
 
 	},
-	getTopRentals : function(req,username, done){
+	getTopRentals : function(req, done){
 
 		HouseProfile.find().sort( { rating: 1} ).limit(10), function(err, houses) {
 			if (err) return console.error(err);
@@ -36,26 +36,16 @@ module.exports = {
 				var image = req.files.image;
 				var type = req.files.type;
 
-				var uploadedfilepathsplit= req.files.image.path.split('/');
 				var tempPath = __dirname +'/public/images/temp';
+				console.log(tempPath);
 				fs.writeFile(tempPath, data, function (err) {
 					res.redirect("back");
 				});
 
-		//console.log("NEW PATH: " +newPath);
-		fs.copy(uploadedfilepath, newPath, function(err) {
-			if(err) {
-				console.log(err);
-				throw err;
-			}
-			fs.unlink(uploadedfilepath, function() {
-				if(err) {
-					console.log(err);
-					throw err;
-				}			});
+		//console.log("NEW PATH: " +newPath)
 
-		});
-	}
+		}
+	
 		// function(req, houseObj, done){
 		// 	// TODO make sure its not just name that is checked
 		HouseProfile.findOne({ 'houseName' :  houseName }, function(err, house) {

@@ -41,12 +41,18 @@ module.exports = function (passport) {
 	});
 
 	router.get('/topRentals', function(req, res) {
-		res.render('topRentals', { user: req.user });
+		res.render('topRentals', { user: req.user, houses: rentalManager.get });
 	});
 
 	router.get('/manageRentals', function(req, res) {
+		houses = 
 		res.render('manageRentals', { user: req.user, houses: req.houses });
 	});
+	router.get('/user/:id([0-9]+)', function(req, res){
+		res.render('/profile', { user: req.params.id});
+  		res.send('user ' + req.params.id);
+});
+	//TODO HERE
 
 
 	router.get('/home', function(req, res) {
