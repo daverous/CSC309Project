@@ -64,8 +64,16 @@ module.exports = function (passport) {
 		res.redirect('/');
 	});
 
-	router.get('/network', function(req, res, next) {
-	  res.render('network', { user: req.user });
+	router.get('/network', function(req, res){
+		User
+		.findOne({_id: req.user._id})
+		.populate('friends')
+		.run(function(err, network){
+			res.render('network', {
+				user: req.user,
+				friends: network
+			});
+		});
 	});
 
 	return router;
