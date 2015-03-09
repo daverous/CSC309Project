@@ -1,6 +1,7 @@
 var express = require('express');
 var rentalManager = require('../js/rentalManager');
 var router = express.Router();
+var User = require('../models/user');
 
 module.exports = function (passport) {
 	//TODO store user somewhere for session
@@ -64,16 +65,20 @@ module.exports = function (passport) {
 		res.redirect('/');
 	});
 
-	router.get('/network', function(req, res){
-		User
-		.findOne({_id: req.user._id})
-		.populate('friends')
-		.run(function(err, network){
-			res.render('network', {
-				user: req.user,
-				friends: network
+	router.get('/network', function(req, res, next){
+		if (req.user){
+			User
+			.findOne({ _id: req.user._id })
+			.populate('_friends')
+			.exec(function (err, network_list) {
+				res.render('network', {
+					user: req.user,
+					friends: network_list
+				});
 			});
-		});
+		} else{
+			res.render('network', {	user: req.user });
+		}
 	});
 
 	return router;

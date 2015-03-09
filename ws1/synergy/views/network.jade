@@ -7,9 +7,12 @@ block content
         if user
           include navbar
           h2 <b>#{user.username}'s Network</b>
-          ul.user-network
-              each user in user.network
-                li user
+          if friends
+            ul.user-network
+                each friend in friends
+                  li friend.firstname friend.lastname
+          else
+            <p> You currenly have no one in your network. Add a worksapce to get started.</p>
         else
           h2 <b>Welcome to Synergy Space!</b>
-          p a(href='/') <b>Please login to see your network.</b>
+          a(href="/") Please login to see your network.
