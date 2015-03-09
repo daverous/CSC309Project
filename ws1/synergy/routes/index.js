@@ -1,8 +1,9 @@
 var express = require('express');
+var rentalManager = require('../js/rentalManager');
 var router = express.Router();
 
 module.exports = function (passport) {
-
+	//TODO store user somewhere for session
 	/* GET home page. */
 	router.get('/', function(req, res, next) {
 	  res.render('index', { user: req.user });
@@ -31,14 +32,28 @@ module.exports = function (passport) {
 	router.get('/addRental', function(req, res) {
 		res.render('addRental', { user: req.user });
 	});
-
+	router.post('/addRental',function(req, res) {
+		rentalManager.addRental(req, res);
+		res.render('home', { user: req.user });
+	});
 	router.get('/editRental', function(req, res) {
-		res.render('editRental', { user: req.user });
+		res.render('editRental', { house: req.house });
 	});
 
 	router.get('/topRentals', function(req, res) {
-		res.render('topRentals', { user: req.user });
+		res.render('topRentals', { user: req.user, houses: rentalManager.get });
 	});
+
+	router.get('/manageRentals', function(req, res) {
+		houses = 
+		res.render('manageRentals', { user: req.user, houses: req.houses });
+	});
+	router.get('/user/:id([0-9]+)', function(req, res){
+		res.render('/profile', { user: req.params.id});
+  		res.send('user ' + req.params.id);
+});
+	//TODO Need a function that finds a user from ID above
+
 
 	router.get('/home', function(req, res) {
 		res.render('home', { user: req.user });

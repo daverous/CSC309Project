@@ -3,19 +3,16 @@ block content
     include navbar
     div.container
       div.col-sm-6.col-md-6.col-md-offset-3
-        form(method="post")#listing-form.well.span4
+        form(method="post")#house-form.well.span4
           h2 <b>Create a new listing</b>
           br
           p
-            input.form-control(type='text', name='name', placeholder='House Name')
+            input.form-control(type='text', name='houseName', placeholder='House Name')
           p
-            //- input.form-control(type='textarea', name='description', placeholder='Description')
-            //- br
-            br
-            div(data-role='fieldcontain')
+            //- div(data-role='fieldcontain')
    
-            input.form-control(type='number', name='max tenents', placeholder='Maximum Number of tenents')
-            textarea(id="theTextarea" class="form-control" rows="3" placeholder="Description")
+            input.form-control(type='text',pattern='\\d*', name='maxtenants', placeholder='Maximum Number of tenents')
+            textarea(id="theTextarea" class="form-control" rows="3" placeholder="description", name='description')
             br
             
             input#inputstoreImage(type="file",placeholder="storeimage" name="image")

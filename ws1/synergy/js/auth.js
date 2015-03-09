@@ -43,7 +43,7 @@ module.exports = function(passport) {
                     }
 
                     // verify is the password is valid
-                    if (!verifyPassword(user, password)){
+                    if (!verifyPassword(user, password)) {
                         console.log('Error: Invalid password');
                         return done(null, false, req.flash('message', 'Error: Invalid password')); 
                     }

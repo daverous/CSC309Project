@@ -3,28 +3,29 @@ extends layout
 block content
     include navbar
   
-    p 
+    if user
       h3 <b>Welcome, #{user.username}</b>
-    p 
-      a.btn.btn-primary.btn-large Learn more &raquo;
+      if houses 
+        .row
+          each house in houses
+            .col-sm-12
+              h2 house.name
+              h3 description
+              p house.description
+              h3 max renters
+              p house.maxRenters
+              each renter in house.currentRenters
+                p a(href='/'renter) renter
+              a.btn.btn-default(href='/editRental', role='button') Edit »
+      else
+        .row
+          h3 No Rentals yet!
+          a.btn.btn-default(href='/addRental', role='button') Add New Rental »
+    else
+      h3 <b> Error </b>
+      p 
+        a.btn.btn-primary.btn-large Learn more &raquo;
 
-    .row
-      .col-sm-12
-        h2 Rental Posting 1
-        p Location Images Description
-        p    
-          a.btn.btn-default(href='#', role='button') View details »
-
-      .col-sm-12
-        h2 Rental Posting 2
-        p Location Images Description
-        p   
-          a.btn.btn-default(href='#', role='button') View details »
-
-      .col-sm-12
-        h2 Rental Posting 3
-        p Location Images Description
-        p
-          a.btn.btn-default(href='#', role='button') View details »
+   
     footer
       p &copy; 2014 Spanish Inquisition
