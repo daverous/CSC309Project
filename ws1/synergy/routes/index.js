@@ -3,7 +3,7 @@ var rentalManager = require('../js/rentalManager');
 var router = express.Router();
 
 module.exports = function (passport) {
-
+	//TODO store user somewhere for session
 	/* GET home page. */
 	router.get('/', function(req, res, next) {
 	  res.render('index', { user: req.user });
@@ -52,7 +52,7 @@ module.exports = function (passport) {
 		res.render('/profile', { user: req.params.id});
   		res.send('user ' + req.params.id);
 });
-	//TODO HERE
+	//TODO Need a function that finds a user from ID above
 
 
 	router.get('/home', function(req, res) {

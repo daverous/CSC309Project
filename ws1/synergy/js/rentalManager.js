@@ -29,23 +29,25 @@ module.exports = {
 	addRental : function (req, done) { 
 		findOrCreateHouse = function() {
 
-			if (req.files) {
-				var uploadedfilepath = req.files.image.path;
-				var uploadedfilename = req.files.image.originalFilename;
-				var houseName = req.param('houseName');
+				console.log(req);
+				
+				var houseName = req.body.houseName;
+				if (req.files) {
 				var image = req.files.image;
 				var type = req.files.type;
+				var uploadedfilepath = req.files.image.path;
+				var uploadedfilename = req.files.image.originalFilename;
 
 				var tempPath = __dirname +'/public/images/temp';
-				console.log(tempPath);
+				console.log("BEFORE");
 				fs.writeFile(tempPath, data, function (err) {
 					res.redirect("back");
 				});
+			}
+				console.log("NEW PATH: " +tempPath);
 
-		//console.log("NEW PATH: " +newPath)
+			
 
-		}
-	
 		// function(req, houseObj, done){
 		// 	// TODO make sure its not just name that is checked
 		HouseProfile.findOne({ 'houseName' :  houseName }, function(err, house) {
@@ -53,11 +55,13 @@ module.exports = {
 
 				var createHouse = new HouseProfile();
 				createHouse.houseName = houseName;
-				createHouse.description = req.params['description'];
+				// createHouse.description = req.body.params['description'];
 							// name of path will be housename
-							createHouse.maxRenters = req.params['maxRenters'];
+							createHouse.maxRenters = req.body.maxtenants;
+							if (req.files) {
 							createHouse.picture.data = fs.readFileSync(tempPath);
-							// createHouse.contentType = m
+							createHouse.picture.contentType = type;
+							}
 
 
 
@@ -67,17 +71,17 @@ module.exports = {
 									console.log('Error (could not save): ' + err);  
 									throw err;  
 								}
-								console.log('Added house succesfully');    
-								return done(null, createHouse);
+								else {
+									console.log('Added house succesfully');    
+									return done;
+								}
 							});
 						}
 						else {
-						   // TODO add editing
 						   console.log('Error (house exists): ' + house.houseName);
-						   return done(null, false, req.flash('message','Error: That housename has already been taken'));
 						}});
 	}
-	process.nextTick(findOrCreateHouse);;
+	process.nextTick(findOrCreateHouse);
 
 },
 
