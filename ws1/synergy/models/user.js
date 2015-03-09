@@ -7,5 +7,6 @@ module.exports = mongoose.model('User',{
 	username: String,
 	password: String,
 	rating: {type: Number, default: 0},
-	evaluations: {type: Number, default: 0}
+	evaluations: {type: Number, default: 0},
+	friends : [{ type: Schema.Types.ObjectId, ref: 'User' }]
 });
