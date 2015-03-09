@@ -70,11 +70,15 @@ module.exports = function (passport) {
 			User
 			.findOne({ _id: req.user._id })
 			.populate('_friends')
-			.exec(function (err, network_list) {
-				res.render('network', {
-					user: req.user,
-					friends: network_list
-				});
+			.exec(function (err) {
+				if (req.user._friends.length > 0){
+					req.render('network', {
+						user: req.user,
+						friends: req.user._friends
+					});
+				} else{
+					res.render('network', {	user: req.user });		
+				}
 			});
 		} else{
 			res.render('network', {	user: req.user });

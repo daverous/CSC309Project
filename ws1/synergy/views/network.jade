@@ -9,10 +9,10 @@ block content
           h2 <b>#{user.username}'s Network</b>
           if friends
             ul.user-network
-                each friend in friends
+                each friend in user._friends
                   li friend.firstname friend.lastname
           else
-            <p> You currenly have no one in your network. Add a worksapce to get started.</p>
+            p You currenly have no one in your network. Add a worksapce to get started.
         else
           h2 <b>Welcome to Synergy Space!</b>
-          a(href="/") Please login to see your network.
+          a(href="/login") Please login to see your network.
