@@ -44,7 +44,7 @@ module.exports = {
 	addRental : function (req, done) { 
 		findOrCreateHouse = function() {
 
-				// console.log(req);
+				console.log(req);
 				
 				var houseName = req.body.houseName;
 				if (req.files) {
