@@ -52,7 +52,7 @@ module.exports = function (passport) {
 	
 	router.get('/user/:id([a-z0-9]+)', function(req, res){
 		var isFriend = req.user._friends.some(function (friend){
-			return friend.equals(about._id);
+			return friend.equals(req.params.id);
 		});
 
 		if (req.user && req.user._id == req.params.id){
