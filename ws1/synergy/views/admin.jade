@@ -1,0 +1,44 @@
+extends layout
+
+block content
+    div.container
+      table.table
+        thead
+          tr
+            th 
+            th Firstname
+            th Lastname
+            th Email
+            th username
+            th rating
+            th delete
+        tbody
+          form(name=modifyUser, action="/modifyUser", method="post")
+            each user, index in users
+              tr
+                td(class="hide")
+                  input(id='user' + index, name="user", value=0)
+                td  
+                  input(id=index type="checkbox", name="check", onClick="toggleUser(this.id)" checked=false)
+                td(class="hide")  
+                  input(name="id", value=user._id)
+                td  
+                  input(type="text", name=firstName, value=user.firstName readonly)
+                td  
+                  input(type="text", name=lastName, value=user.lastName readonly)
+                td  
+                  input(type="text", name=email, value=user.email readonly)
+                td  
+                  input(type="text", name=username, value=user.username readonly)
+                td  
+                  input(id=index type="text", onFocus="toggleBtn()", name="rating", value=user.rating)
+                td  
+                  input(type="checkbox", name="delete", checked=false)
+            tr  
+              td 
+                input(id='btn', class="hidden btn-default", type="submit", value="update")
+
+
+
+    footer
+      p &copy; 2014 Spanish Inquisition

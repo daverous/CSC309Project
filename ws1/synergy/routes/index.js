@@ -1,8 +1,9 @@
 var express = require('express');
 var rentalManager = require('../js/rentalManager');
 var router = express.Router();
-var User = require('../models/user');
-
+var user = require('../models/user').model;
+var admin = require('../models/admin').model;
+var house = require('../models/house').model;
 module.exports = function (passport) {
 	//TODO store user somewhere for session
 	/* GET home page. */
@@ -97,6 +98,36 @@ module.exports = function (passport) {
 		}
 	});
 
+	router.get('/listUsers', function(req, res){
+		user.list(function(err, users){
+			res.render('listUsers',{
+				"users" : users
+			});
+		});
+	});
+
+	router.get('/listHouses', function(req, res){
+		house.list(function(err, houses){
+			res.render('listHouses',{
+				"houses" : houses
+			});
+		});
+	});
+
+	router.post('/modifyHouse', function(req, res){
+		console.log(req.body);
+		admin.deleteHouses(req.body.id, req.body.deleteHouse);
+	})
+	router.post('/modifyUser', function(req, res){
+		console.log(req.body);
+		admin.deleteUsers(req.body.modUser, req.body.id, req.body.delete);
+		admin.changeRatings(req.body.modUser, req.body.id, req.body.rating);
+		res.location("listUsers");
+		res.redirect("listUsers");
+
+	});
+
+	router.post('/')
 	return router;
 }
 
