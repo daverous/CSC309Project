@@ -98,6 +98,10 @@ module.exports = function (passport) {
 		}
 	});
 
+	router.get('/admin', function(req, res){
+		res.render('admin');
+	});
+	
 	router.get('/listUsers', function(req, res){
 		user.list(function(err, users){
 			res.render('listUsers',{
