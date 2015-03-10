@@ -42,6 +42,11 @@ module.exports = function (passport) {
 		res.render('topRentals', { user: req.user });
 	});
 
+	router.get('/manageRentals', function(req, res) {
+		res.render('manageRentals', { user: req.user, houses: req.houses });
+	});
+
+
 	router.get('/home', function(req, res) {
 		res.render('home', { user: req.user });
 	});

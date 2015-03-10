@@ -1,11 +1,26 @@
-var fs = require ('fs.extra');
 
+var HouseProfile = require('../models/house');
 var bCrypt = require('bcrypt-nodejs');
 var PassportLocalStrategy   = require('passport-local').Strategy;
-var HouseProfile = require('../models/house');
-var UserProfile = require('../models/user');
 
-var tempPath = './public/images/temp.png';
+// var authenticate = require('auth');
+
+
+findHousesForUser = function(req,username, done){
+	HouseProfile.find({ owner: username }, function(err, houses) {
+		if (err) return console.error(err);
+		return houses;
+	});
+
+}
+getTopRentals = function(req,username, done){
+
+	HouseProfile.find().sort( { rating: 1} ).limit(10), function(err, houses) {
+		if (err) return console.error(err);
+		return houses;
+	}
+
+}
 
 exports.createHouse =  function(req, house, password, done) { var houseName = house.name;
 	var description = house.description;
@@ -29,17 +44,16 @@ exports.createHouse =  function(req, house, password, done) { var houseName = ho
 
 	});
 
-	function(req, house, done) {
+	// function(req, houseObj, done){
+	// 	// TODO make sure its not just name that is checked
+		HouseProfile.findOne({ 'houseName' :  houseObj.houseName }, function(err, house) {
+			if (!house) {
 
-		findOrCreateHouse = function(){
-			HouseProfile.findOne({ 'houseName' :  houseName }, function(err, user) {
-				if (!house) {
-
-					var createHouse = new HouseProfile();
-					createHouse.houseName = house.houseName;
-					createHouse.description = req.param('description');
+				var createHouse = new HouseProfile();
+				createHouse.houseName = house.houseName;
+				createHouse.description = req.param('description');
 						// name of path will be housename
-					createHouse.maxRenters = house.maxRenters;
+						createHouse.maxRenters = house.maxRenters;
 						createHouse.picture.data = fs.readFileSync(tempPath);
 						createHouse.contentType
 
@@ -61,9 +75,30 @@ exports.createHouse =  function(req, house, password, done) { var houseName = ho
 					   return done(null, false, req.flash('message','Error: That housename has already been taken'));
 					}
 
-				process.nextTick(findOrCreateHouse);
+					process.nextTick(findOrCreateHouse);
 				});
-		}
-	}
-
+	
 }
+
+	// take in old name to avoid new one being changed
+
+	exports.editHouse = function(req, oldName, houseObj, done){
+	// TODO make sure its not just name that is checked
+	HouseProfile.update({ 'houseName' :  houseObj.houseName }, {
+		name: houseObj.name,
+		desription: houseObj.description,
+		owner: houseObj.owner,
+		rating: houseObj.rating,
+		evaluations:houseObj.evaluations,
+		maxRenters: houseObj.maxRenters,
+		currentRenters: houseObj.currentRenters,
+	// Path to folder where images for house are stored
+	picture : houseObj.picture,
+}
+);
+}
+
+
+
+
+

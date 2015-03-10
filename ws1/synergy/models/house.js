@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 var houseSchema = new mongoose.Schema({name: String,
 	desription: String,
 	owner: String,
+	rating: {type: Number, default: 0},
+	evaluations: {type: Number, default: 0},
 	maxRenters: Number,
 	currentRenters: {
 		type:[String]},

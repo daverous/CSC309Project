@@ -2,28 +2,22 @@ extends layout
 
 block content
     include navbar
-  
-    p 
-      h3 <b>Rentals managed by #{user.username}</b>
+    
+    if user
+      p 
+        h3 <b>Rentals managed by #{user.username}</b>
  
-
-    .row
-      .col-sm-12
-        h2 Rental Posting 1
-        p Location Images Description
-        p    
-          a.btn.btn-default(href='/editRental', role='button') Edit »
-
-      .col-sm-12
-        h2 Rental Posting 2
-        p Location Images Description
-        p   
-          a.btn.btn-default(href='/editRental', role='button') Edit »
-
-      .col-sm-12
-        h2 Rental Posting 3
-        p Location Images Description
-        p
-          a.btn.btn-default(href='/editRental', role='button') Edit »
-    footer
-      p &copy; 2014 Spanish Inquisition
+    if houses 
+      .row
+        each house in houses
+          .col-sm-12
+            h2 house.name
+            h3 description
+            p house.description
+            h3 max renters
+            p house.maxRenters
+            each renter in house.currentRenters
+              p a(href='/'renter) renter
+            a.btn.btn-default(href='/editRental', role='button') Edit »
+      footer
+        p &copy; 2014 Spanish Inquisition

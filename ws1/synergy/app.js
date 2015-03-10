@@ -9,6 +9,7 @@ var express_session = require('express-session');
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var authenticate = require('./js/auth');
+var rentalManager = require('./js/rentalManager');
 
 mongoose.connect("mongodb://localhost/test");
 

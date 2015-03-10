@@ -11,10 +11,9 @@ block content
           p
             //- input.form-control(type='textarea', name='description', placeholder='Description')
             //- br
-            br
             div(data-role='fieldcontain')
    
-            input.form-control(type='number', name='max tenents', placeholder='Maximum Number of tenents')
+            input.form-control(type='text',pattern='\\d*', name='max tenents', placeholder='Maximum Number of tenents')
             textarea(id="theTextarea" class="form-control" rows="3" placeholder="Description")
             br
             
