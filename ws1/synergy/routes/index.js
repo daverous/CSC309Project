@@ -49,12 +49,26 @@ module.exports = function (passport) {
 		houses = 
 		res.render('manageRentals', { user: req.user, houses: req.houses });
 	});
+	
 	router.get('/user/:id([0-9]+)', function(req, res){
-		res.render('/profile', { user: req.params.id});
-  		res.send('user ' + req.params.id);
-});
-	//TODO Need a function that finds a user from ID above
+		var isFriend = req.user._friends.some(function (friend){
+			return friend.equals(about._id);
+		});
 
+		if (req.user && req.user._id == req.params.id){
+			res.render('/profile', { 
+				res.render('/profile', { user: req.params.id });
+			});	
+		} else if (isFriend){
+			res.render('/profile', { 
+				user: req.params.id,
+				current_user: req.user
+			});
+		} else{
+			res.render('/profile', { });	
+		}
+  		//res.send('user ' + req.params.id);
+	});
 
 	router.get('/home', function(req, res) {
 		res.render('home', { user: req.user });
