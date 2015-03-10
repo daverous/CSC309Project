@@ -39,6 +39,7 @@ module.exports = {
 
 
 	}
+)},
 	//add rental
 	addRental : function (req, done) { 
 		findOrCreateHouse = function() {
