@@ -119,9 +119,26 @@ module.exports = function (passport) {
 		admin.deleteHouses(req.body.id, req.body.deleteHouse);
 	})
 	router.post('/modifyUser', function(req, res){
-		console.log(req.body);
-		admin.deleteUsers(req.body.modUser, req.body.id, req.body.delete);
-		admin.changeRatings(req.body.modUser, req.body.id, req.body.rating);
+		console.log(req.body.modUser.length);
+		if(req.body.modUser.length == 1){
+			//when length == 1 req.body.id is passed as a string rather than string array
+			//of length 1.
+			if(req.body.delUser == 1){
+				admin.deleteUser(req.body.id);
+			}else{
+				console.log(req.body.id);
+				admin.changeRating(req.body.id, req.body.rating);
+			}
+		}
+		else{
+			admin.deleteUsers(req.body.modUser, req.body.id, req.body.delUser, function(deleted){
+				//users have been deleted, do not both modifying 
+				for(var i = 0; i < deleted.length; i++){
+					req.body.modUser[deleted[i]] = 0;
+				}
+			});
+			admin.changeRatings(req.body.modUser, req.body.id, req.body.rating);
+		}
 		res.location("listUsers");
 		res.redirect("listUsers");
 

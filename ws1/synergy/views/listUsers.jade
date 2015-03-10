@@ -1,11 +1,10 @@
 extends layout
-
 block content
+    include navbar
     div.container
       table.table
         thead
-          tr
-            th 
+          tr 
             th Firstname
             th Lastname
             th Email
@@ -18,8 +17,6 @@ block content
               tr
                 td(class="hide")
                   input(id='modUser' + index, name="modUser", value=0)
-                td  
-                  input(id=index type="checkbox", name="check", onClick="toggleModUser(this.id)" checked=false)
                 td(class="hide")  
                   input(name="id", value=user._id)
                 td  
@@ -31,11 +28,11 @@ block content
                 td  
                   input(type="text", name=username, value=user.username readonly)
                 td  
-                  input(id=index type="text", onFocus="toggleBtn()", name="rating", value=user.rating)
+                  input(id=index type="text", onFocus="showBtn();modifyUser(this.id)", name="rating", value=user.rating)
                 td(class="hide")
                   input(id='delUser' + index, name="delUser", value=0)
                 td  
-                  input(type="checkbox", name="delete",onClick="toggleDelUser(this.id)", checked=false)
+                  input(id=index, type="checkbox", name="delete",onClick="showBtn(); toggleDelUser(this.id);", checked=false)
             tr  
               td 
                 input(id='btn', class="hidden btn-default", type="submit", value="update")

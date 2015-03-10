@@ -1,6 +1,6 @@
 extends layout
-
 block content
+  include navbar
     div.container
       table.table
         thead
@@ -31,7 +31,7 @@ block content
                 td(class="hide")
                   input(id='delHouse' + index, name="delHouse", value=0)
                 td  
-                  input(type="checkbox", name="delete", onClick="toggleDelHouse(this.id)", checked=false)
+                  input(id=index, type="checkbox", name="delete", onClick="toggleDelHouse(this.id)", checked=false)
             tr  
               td 
                 input(id='btn', class="btn-default", type="submit", value="update")
