@@ -20,6 +20,9 @@ module.exports = function(passport) {
         done(null, user._id);
     });
 
+
+    // FOR SIGNOUT res.clearCookie('username');
+
     // deserialize a user
     passport.deserializeUser(function(id, done) {
         UserProfile.findById(id, function(err, user) {
@@ -47,7 +50,6 @@ module.exports = function(passport) {
                         console.log('Error: Invalid password');
                         return done(null, false, req.flash('message', 'Error: Invalid password')); 
                     }
-
                     return done(null, user);
                 }
             );
@@ -75,7 +77,7 @@ module.exports = function(passport) {
 
                         var createUser = new UserProfile();
                         createUser.username = username;
-                        createUser.email = req.param('email');
+                        createUser.email = -req.param('email');
                         createUser.firstName = req.param('fName');
                         createUser.lastName = req.param('lName');
                         createUser.password = createHash(password);

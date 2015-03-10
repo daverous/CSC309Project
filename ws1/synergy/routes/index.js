@@ -35,6 +35,7 @@ module.exports = function (passport) {
 		res.render('addRental', { user: req.user });
 	});
 	router.post('/addRental',function(req, res) {
+		// console.log(req);
 		rentalManager.addRental(req, res);
 		res.render('home', { user: req.user });
 	});
@@ -70,6 +71,7 @@ module.exports = function (passport) {
 	});
 
 	router.get('/home', function(req, res) {
+        res.cookie('username', req.user, { maxAge: 2592000000 });  // Expires in one mon
 		res.render('home', { user: req.user });
 	});
 
@@ -134,9 +136,10 @@ module.exports = function (passport) {
 var isAuthenticated = function (req, res, next) {
 	// check if user is authenticated
 	if (req.isAuthenticated()) {
-		return next();
+		return next;
 	}
 
 	// if not authenticated, then redirect to login page
+
 	res.redirect('/login');
 }
