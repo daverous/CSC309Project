@@ -25,6 +25,13 @@ adminSchema.statics.deleteHouse = function(hid){
 			throw(err);
 	});
 }
+adminSchema.statics.deleteHouses = function(hids, deletes){
+	for(var i = 0; i < houses.length; i++){
+		if(deletes[i] == 1){
+			adminSchema.statics.deleteUser(hids[i]);
+		}
+	}	
+}
 adminSchema.statics.changeRating = function(userid, rating){
 	User.findOneAndUpdate({_id : userid}, {$set: {rating: rating}}, function(err, update){
 		if(err){
