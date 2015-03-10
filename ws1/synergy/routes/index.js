@@ -50,7 +50,7 @@ module.exports = function (passport) {
 		res.render('manageRentals', { user: req.user, houses: req.houses });
 	});
 	
-	router.get('/user/:id([0-9]+)', function(req, res){
+	router.get('/user/:id([a-z0-9]+)', function(req, res){
 		var isFriend = req.user._friends.some(function (friend){
 			return friend.equals(about._id);
 		});

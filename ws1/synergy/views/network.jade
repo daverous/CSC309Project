@@ -10,7 +10,7 @@ block content
           if friends
             ul.user-network
                 each friend in user._friends
-                  li friend.firstname friend.lastname
+                  li a(href="/user/" + friend._id) #{friend.firstname} #{friend.lastname}
           else
             p You currenly have no one in your network. Add a worksapce to get started.
         else
