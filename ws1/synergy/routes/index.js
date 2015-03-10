@@ -56,14 +56,14 @@ module.exports = function (passport) {
 		});
 
 		if (req.user && req.user._id == req.params.id){
-			res.render('/profile', { user: req.params.id });
+			res.render('profile', { user: req.params.id });
 		} else if (isFriend){
-			res.render('/profile', { 
+			res.render('profile', { 
 				user: req.params.id,
 				current_user: req.user
 			});
 		} else{
-			res.render('/profile', { });	
+			res.render('profile', { });	
 		}
   		//res.send('user ' + req.params.id);
 	});
