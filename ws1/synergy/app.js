@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
+// http://runnable.com/UTlPPF-f2W1TAAET/how-to-use-cookies-in-express-for-node-js
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 
@@ -11,6 +12,7 @@ var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var authenticate = require('./js/auth');
 var rentalManager = require('./js/rentalManager');
+var Cookies = require( "cookies" );
 
 mongoose.connect("mongodb://localhost/test");
 
