@@ -6,7 +6,7 @@ block content
       div.jumbotron
         include navbar
         if house
-          form(method="post")#editForm.well.span4
+          form(method="post")#house-form.well.span4
             h2 <b>Edit #{house.name}</b>
             p
               input.form-control(type='text', name='name', placeholder='#{house.name}')

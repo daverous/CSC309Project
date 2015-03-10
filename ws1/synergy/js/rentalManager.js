@@ -1,5 +1,6 @@
 
 var HouseProfile = require('../models/house');
+var util = require('util');
 var fs = require('fs');
 var bCrypt = require('bcrypt-nodejs');
 var PassportLocalStrategy   = require('passport-local').Strategy;
@@ -29,22 +30,25 @@ module.exports = {
 	addRental : function (req, done) { 
 		findOrCreateHouse = function() {
 
-				console.log(req);
+				// console.log(req);
 				
 				var houseName = req.body.houseName;
 				if (req.files) {
-				var image = req.files.image;
-				var type = req.files.type;
-				var uploadedfilepath = req.files.image.path;
-				var uploadedfilename = req.files.image.originalFilename;
-
-				var tempPath = __dirname +'/public/images/temp';
-				console.log("BEFORE");
-				fs.writeFile(tempPath, data, function (err) {
-					res.redirect("back");
-				});
+					 console.log('file info: ',req.files.image);
+ 
+        //split the url into an array and then get the last chunk and render it out in the send req.
+        var pathArray = req.files.image.path.split( '/' );
+ 
+        res.send(util.format(' Task Complete \n uploaded %s (%d Kb) to %s as %s'
+            , req.files.image.name
+            , req.files.image.size / 1024 | 0
+            , req.files.image.path
+            , req.body.title
+            , req.files.image
+            , '<img src="uploads/' + pathArray[(pathArray.length - 1)] + '">'
+            ));
 			}
-				console.log("NEW PATH: " +tempPath);
+				
 
 			
 
@@ -57,10 +61,10 @@ module.exports = {
 				createHouse.houseName = houseName;
 				// createHouse.description = req.body.params['description'];
 							// name of path will be housename
-							createHouse.maxRenters = req.body.maxtenants;
+							createHouse.maxRenters = req.body.maxtenents;
 							if (req.files) {
-							createHouse.picture.data = fs.readFileSync(tempPath);
-							createHouse.picture.contentType = type;
+							// createHouse.picture.data = fs.readFileSync(tempPath);
+							// createHouse.picture.contentType = type;
 							}
 
 
@@ -78,7 +82,7 @@ module.exports = {
 							});
 						}
 						else {
-						   console.log('Error (house exists): ' + house.houseName);
+						   console.log('Error (house exists): ' + houseName);
 						}});
 	}
 	process.nextTick(findOrCreateHouse);
