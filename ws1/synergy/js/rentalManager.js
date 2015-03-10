@@ -26,6 +26,19 @@ module.exports = {
 
 	},
 
+	addTennant : function (req,done) {
+		var houseName = req.body.houseName;
+		var newTennant = req.body.user;
+		HouseProfile.findOne({ 'houseName' :  houseName }, function(err, house) {
+			if (!house) {
+				throw err;
+			}
+			else {
+				house.currentRenters.push(newTennant);
+			}
+
+
+	}
 	//add rental
 	addRental : function (req, done) { 
 		findOrCreateHouse = function() {
