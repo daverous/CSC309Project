@@ -3,8 +3,9 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+
 var passport = require('passport');
+var bodyParser = require('body-parser');
 var express_session = require('express-session');
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
@@ -26,7 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(bodyParser({ keepExtensions: true, uploadDir: __dirname + '/public/uploads' }));
 // key for hash computation
 app.use(express_session({secret: 'top_secret_key'}));
 
@@ -40,6 +41,7 @@ app.use(passport.session());
 
 // adding user-authentication code
 authenticate(passport);
+
 
 var routes = require('./routes/index')(passport);
 

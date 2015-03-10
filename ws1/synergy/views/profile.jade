@@ -1,0 +1,17 @@
+extends layout
+
+  block content  
+    if user
+            include navbar
+            h2 <b> #{user.username}</b>
+            p
+              ul.user-details
+                if !current_user
+                    li Email    ---> #{user.email}
+                li First Name ---> #{user.firstName} 
+                li Last Name ---> #{user.lastName}
+                li Rating ---> #{user.rating} (Total Ratings: #{user.evaluations})
+            
+    else
+        h2 <b> #{user.username}</b>
+        p This profile is private.

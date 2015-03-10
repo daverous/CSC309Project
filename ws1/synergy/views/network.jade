@@ -6,16 +6,13 @@ block content
       div.jumbotron
         if user
           include navbar
-          h2 <b>Welcome, #{user.username}</b>
-          p
-            ul.user-details
-              li Email    ---> #{user.email}
-              li First Name ---> #{user.firstName} 
-              li Last Name ---> #{user.lastName}
-              li Rating ---> #{user.rating} (Total Ratings: #{user.evaluations})
-          p
-            a.small(href="profile") Edit my profile
-          a.btn.btn-primary(href="/logout") Logout
+          h2 <b>#{user.username}'s Network</b>
+          if friends
+            ul.user-network
+                each friend in user._friends
+                  li a(href="/user/" + friend._id) #{friend.firstname} #{friend.lastname}
+          else
+            p You currenly have no one in your network. Add a worksapce to get started.
         else
           h2 <b>Welcome to Synergy Space!</b>
-          p a(href='/') <b>Please login to see your network.</b>
+          a(href="/login") Please login to see your network.

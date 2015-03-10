@@ -1,101 +1,127 @@
 
 var HouseProfile = require('../models/house');
+var util = require('util');
+var fs = require('fs');
 var bCrypt = require('bcrypt-nodejs');
 var PassportLocalStrategy   = require('passport-local').Strategy;
+var UserProfile = require('../models/user');
 
 // var authenticate = require('auth');
 
+module.exports = {
 
-findHousesForUser = function(req,username, done){
-	HouseProfile.find({ owner: username }, function(err, houses) {
-		if (err) return console.error(err);
-		return houses;
-	});
-
-}
-getTopRentals = function(req,username, done){
-
-	HouseProfile.find().sort( { rating: 1} ).limit(10), function(err, houses) {
-		if (err) return console.error(err);
-		return houses;
-	}
-
-}
-
-exports.createHouse =  function(req, house, password, done) { var houseName = house.name;
-	var description = house.description;
-	var uploadedfilepath = req.files.image.path;
-	var uploadedfilename = req.files.image.originalFilename;
-	var image = req.files.image;
-
-	var uploadedfilepathsplit= req.files.image.path.split('/');
-	var newPath = __dirname +'/public/images/' + uploadedfilepathsplit[(uploadedfilepathsplit.length - 1)];
-	var imageSrc = uploadedfilepathsplit[(uploadedfilepathsplit.length - 1)];
-
-	//console.log("NEW PATH: " +newPath);
-	fs.copy(uploadedfilepath, newPath, function(err) {
-		if(err) {
-			console.log(err);
-			throw err;
-		}
-		fs.unlink(uploadedfilepath, function() {
-			if (err) throw err;
+	findHousesForUser : function(req,username, done){
+		HouseProfile.find({ owner: username }, function(err, houses) {
+			if (err) return console.error(err);
+			return houses;
 		});
 
-	});
+	},
+	getTopRentals : function(req, done){
 
-	// function(req, houseObj, done){
-	// 	// TODO make sure its not just name that is checked
-		HouseProfile.findOne({ 'houseName' :  houseObj.houseName }, function(err, house) {
+		HouseProfile.find().sort( { rating: 1} ).limit(10), function(err, houses) {
+			if (err) return console.error(err);
+			return houses;
+		}
+
+	},
+
+	addTennant : function (req,done) {
+		var houseName = req.body.houseName;
+		var newTennant = req.body.user;
+		HouseProfile.findOne({ 'houseName' :  houseName }, function(err, house) {
+			if (!house) {
+				throw err;
+			}
+			else {
+				house.currentRenters.push(newTennant);
+			}
+
+
+	}
+)},
+	//add rental
+	addRental : function (req, done) { 
+		findOrCreateHouse = function() {
+
+				// console.log(req);
+				
+				var houseName = req.body.houseName;
+				if (req.files) {
+					 console.log('file info: ',req.files.image);
+ 
+        //split the url into an array and then get the last chunk and render it out in the send req.
+        var pathArray = req.files.image.path.split( '/' );
+ 
+        res.send(util.format(' Task Complete \n uploaded %s (%d Kb) to %s as %s'
+            , req.files.image.name
+            , req.files.image.size / 1024 | 0
+            , req.files.image.path
+            , req.body.title
+            , req.files.image
+            , '<img src="uploads/' + pathArray[(pathArray.length - 1)] + '">'
+            ));
+			}
+				
+
+			
+
+		// function(req, houseObj, done){
+		// 	// TODO make sure its not just name that is checked
+		HouseProfile.findOne({ 'houseName' :  houseName }, function(err, house) {
 			if (!house) {
 
 				var createHouse = new HouseProfile();
-				createHouse.houseName = house.houseName;
-				createHouse.description = req.param('description');
-						// name of path will be housename
-						createHouse.maxRenters = house.maxRenters;
-						createHouse.picture.data = fs.readFileSync(tempPath);
-						createHouse.contentType
-
-
-
-						// add the user to the database
-						createHouse.save(function(err) {
-							if (err){
-								console.log('Error (could not save): ' + err);  
-								throw err;  
+				createHouse.houseName = houseName;
+				// createHouse.description = req.body.params['description'];
+							// name of path will be housename
+							createHouse.maxRenters = req.body.maxtenents;
+							if (req.files) {
+							// createHouse.picture.data = fs.readFileSync(tempPath);
+							// createHouse.picture.contentType = type;
 							}
-							console.log('Added house succesfully');    
-							return done(null, createHouse);
-						});
-					}
-					else {
-					   // TODO add editing
-					   console.log('Error (house exists): ' + house.houseName);
-					   return done(null, false, req.flash('message','Error: That housename has already been taken'));
-					}
 
-					process.nextTick(findOrCreateHouse);
-				});
-	
-}
 
-	// take in old name to avoid new one being changed
 
-	exports.editHouse = function(req, oldName, houseObj, done){
-	// TODO make sure its not just name that is checked
-	HouseProfile.update({ 'houseName' :  houseObj.houseName }, {
-		name: houseObj.name,
-		desription: houseObj.description,
-		owner: houseObj.owner,
-		rating: houseObj.rating,
-		evaluations:houseObj.evaluations,
-		maxRenters: houseObj.maxRenters,
-		currentRenters: houseObj.currentRenters,
-	// Path to folder where images for house are stored
-	picture : houseObj.picture,
-}
-);
+							// add the user to the database
+							createHouse.save(function(err) {
+								if (err){
+									console.log('Error (could not save): ' + err);  
+									throw err;  
+								}
+								else {
+									console.log('Added house succesfully');    
+									return done;
+								}
+							});
+						}
+						else {
+						   console.log('Error (house exists): ' + houseName);
+						}});
+	}
+	process.nextTick(findOrCreateHouse);
+
+},
+
+		// take in old name to avoid new one being changed
+		editRental : function (req, oldName, houseObj, userName ,done){
+		// TODO make sure its not just name that is checked
+		if  (userName != houseObj.owner) {
+			return false;
+		}
+		HouseProfile.update({ 'houseName' :  houseObj.houseName }, {
+			name: houseObj.name,
+			desription: houseObj.description,
+			owner: houseObj.owner,
+			rating: houseObj.rating,
+			evaluations:houseObj.evaluations,
+			maxRenters: houseObj.maxRenters,
+			currentRenters: houseObj.currentRenters,
+		// Path to folder where images for house are stored
+		picture : houseObj.picture,
+	}
+	);
+	}
 }
 
 

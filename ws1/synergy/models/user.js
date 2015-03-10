@@ -8,7 +8,7 @@ var userSchema = new mongoose.Schema({
 	password: String,
 	rating: {type: Number, default: 0},
 	evaluations: {type: Number, default: 0},
-	//role is either 0 for tenant or 1 for owner. 
+	_friends: [{ type: mongoose.Schema.ObjectId, ref: 'User' }]
 	//It's possible for a tenant to also be an owner?
 	role: {type: Number, default: 0}
 });

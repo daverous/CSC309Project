@@ -1,10 +1,11 @@
 var express = require('express');
+var rentalManager = require('../js/rentalManager');
 var router = express.Router();
 var user = require('../models/user').model;
 var admin = require('../models/admin').model;
 var house = require('../models/house').model;
 module.exports = function (passport) {
-
+	//TODO store user somewhere for session
 	/* GET home page. */
 	router.get('/', function(req, res, next) {
 	  res.render('index', { user: req.user });
@@ -33,19 +34,40 @@ module.exports = function (passport) {
 	router.get('/addRental', function(req, res) {
 		res.render('addRental', { user: req.user });
 	});
-
+	router.post('/addRental',function(req, res) {
+		rentalManager.addRental(req, res);
+		res.render('home', { user: req.user });
+	});
 	router.get('/editRental', function(req, res) {
-		res.render('editRental', { user: req.user });
+		res.render('editRental', { house: req.house });
 	});
 
 	router.get('/topRentals', function(req, res) {
-		res.render('topRentals', { user: req.user });
+		res.render('topRentals', { user: req.user, houses: rentalManager.get });
 	});
 
 	router.get('/manageRentals', function(req, res) {
+		houses = 
 		res.render('manageRentals', { user: req.user, houses: req.houses });
 	});
+	
+	router.get('/user/:id([a-z0-9]+)', function(req, res){
+		var isFriend = req.user._friends.some(function (friend){
+			return friend.equals(req.params.id);
+		});
 
+		if (req.user && req.user._id == req.params.id){
+			res.render('profile', { user: req.params.id });
+		} else if (isFriend){
+			res.render('profile', { 
+				user: req.params.id,
+				current_user: req.user
+			});
+		} else{
+			res.render('profile', { });	
+		}
+  		//res.send('user ' + req.params.id);
+	});
 
 	router.get('/home', function(req, res) {
 		res.render('home', { user: req.user });
@@ -56,8 +78,24 @@ module.exports = function (passport) {
 		res.redirect('/');
 	});
 
-	router.get('/network', function(req, res, next) {
-	  res.render('network', { user: req.user });
+	router.get('/network', function(req, res, next){
+		if (req.user){
+			User
+			.findOne({ _id: req.user._id })
+			.populate('_friends')
+			.exec(function (err) {
+				if (req.user._friends.length > 0){
+					req.render('network', {
+						user: req.user,
+						friends: req.user._friends
+					});
+				} else{
+					res.render('network', {	user: req.user });		
+				}
+			});
+		} else{
+			res.render('network', {	user: req.user });
+		}
 	});
 
 	router.get('/listUsers', function(req, res){
