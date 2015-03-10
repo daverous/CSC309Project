@@ -108,25 +108,11 @@ module.exports = function (passport) {
 		});
 	});
 
-	router.get('/listUsers', function(req, res){
-		user.list(function(err, users){
-			res.render('listUsers',{
-				"users" : users
-			});
-		});
-	});
-
-	router.get('/listHouses', function(req, res){
-		house.list(function(err, houses){
-			res.render('listHouses',{
-				"houses" : houses
-			});
-		});
-	});
-
 	router.post('/modifyHouse', function(req, res){
 		console.log(req.body);
 		admin.deleteHouses(req.body.id, req.body.deleteHouse);
+		res.location("admin#houses");
+		res.redirect("admin#houses");
 	})
 	router.post('/modifyUser', function(req, res){
 		console.log(req.body.modUser.length);
@@ -149,8 +135,8 @@ module.exports = function (passport) {
 			});
 			admin.changeRatings(req.body.modUser, req.body.id, req.body.rating);
 		}
-		res.location("listUsers");
-		res.redirect("listUsers");
+		res.location("admin#users");
+		res.redirect("admin#users");
 
 	});
 
