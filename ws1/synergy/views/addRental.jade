@@ -1,27 +1,26 @@
 
 extends layout
-  block content
-      include navbar
-      div.container
-        div.col-sm-6.col-md-6.col-md-offset-3
-          form(method="post" enctype="multipart/form-data")#house-form.well.span4
-            h2 <b>Create a new listing</b>
-            br
-            p
-              input.form-control(type='text', name='houseName', placeholder='House Name')
-            p
-              //- div(data-role='fieldcontain')
-     
-              input.form-control(type='text',pattern='\\d*', name=' ', placeholder='Maximum Number of tenants')
-              textarea(id="theTextarea" class="form-control" rows="3" placeholder="description", name='description')
-              br
-              
-              input(type="file", multiple, name="image")
-              br      
-              button(type='submit')#btn-create.btn.btn-success
-                i.icon-lock.icon-white
-                | Create
+block content
+		include navbar
+		div.container
+			div.col-sm-6.col-md-6.col-md-offset-3
+				form(method="post" enctype="multipart/form-data")#house-form.well.span4
+					h2 <b>Create a new listing</b>
+					br
+					p
+						input.form-control(type='text', name='houseName', placeholder='House Name')
+					p
+						//- div(data-role='fieldcontain')
+						input.form-control(type='text',pattern='\\d*', name=' ', placeholder='Maximum Number of tenents')
+						textarea(id="theTextarea" class="form-control" rows="3" placeholder="description", name='description')
+						br
+						
+						input(type="file", multiple, name="image")
+						br      
+						button(type='submit')#btn-create.btn.btn-success
+							i.icon-lock.icon-white
+							| Create
 
-            #message
-              if message
-                h3.text-center.error-message #{message}
+					#message
+						if message
+							h3.text-center.error-message #{message}
