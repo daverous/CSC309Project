@@ -56,9 +56,7 @@ module.exports = function (passport) {
 		});
 
 		if (req.user && req.user._id == req.params.id){
-			res.render('/profile', { 
-				res.render('/profile', { user: req.params.id });
-			});	
+			res.render('/profile', { user: req.params.id });
 		} else if (isFriend){
 			res.render('/profile', { 
 				user: req.params.id,
