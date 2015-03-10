@@ -27,7 +27,14 @@ function modifyUser(id){
 	var mod = $( '#modUser' + id);
 	mod.val(1);
 }
+
 function showBtn(id){
 	var btn = $( '#btn' );
 	btn.removeClass('hidden');
+}
+
+function toggleDivs(ids){
+	for(var i = 0; i < ids.length; i++){
+		$( '#' + ids[i]).toggleClass('hidden');
+	}
 }
