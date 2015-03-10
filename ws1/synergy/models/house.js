@@ -10,6 +10,17 @@ var houseSchema = new mongoose.Schema({name: String,
 	picture : { data: Buffer, contentType: String}
 });
 
+houseSchema.statics.list = function(callback){
+	this.find(function(err, houses){
+		if(err){
+			return(err, null);
+		}
+		else{
+			callback(null, houses);
+		}
+	});
+}
+
 var House = mongoose.model('House', houseSchema);
 
 module.exports = {

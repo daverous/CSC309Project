@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Admin = require('../models/admin');
+var Admin = require('../models/admin').model;
 var User = require('../models/user').model;
 var House = require('../models/house').model;
 var chai = require('chai');

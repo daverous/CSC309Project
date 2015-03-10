@@ -1,0 +1,42 @@
+extends layout
+
+block content
+    div.container
+      table.table
+        thead
+          tr
+            th 
+            th Name
+            th Description
+            th Owner
+            th Max Renters
+            th Current Renters
+            th delete
+        tbody
+          form(name=modifyHouse, action="/modifyHouse", method="post")
+            each house, index in houses
+              tr
+                td(class="hide")  
+                  input(name="id", value=house._id)
+                td  
+                  input(type="text", name=name, value=house.name readonly)
+                td  
+                  input(type="text", name=description, value=house.description readonly)
+                td  
+                  input(type="text", name=owner, value=house.owner readonly)
+                td  
+                  input(type="text", name=maxRenters, value=user.maxRenters readonly)
+                td  
+                  input(type="text", name=currentRenters, value=house.currentRenters readonly)
+                td(class="hide")
+                  input(id='delHouse' + index, name="delHouse", value=0)
+                td  
+                  input(type="checkbox", name="delete", onClick="toggleDelHouse(this.id)", checked=false)
+            tr  
+              td 
+                input(id='btn', class="btn-default", type="submit", value="update")
+
+
+
+    footer
+      p &copy; 2014 Spanish Inquisition

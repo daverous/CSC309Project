@@ -17,9 +17,9 @@ block content
             each user, index in users
               tr
                 td(class="hide")
-                  input(id='modUser' + index, name="modUser", value=0)
+                  input(id='user' + index, name="user", value=0)
                 td  
-                  input(id=index type="checkbox", name="check", onClick="toggleModUser(this.id)" checked=false)
+                  input(id=index type="checkbox", name="check", onClick="toggleUser(this.id)" checked=false)
                 td(class="hide")  
                   input(name="id", value=user._id)
                 td  
@@ -32,10 +32,8 @@ block content
                   input(type="text", name=username, value=user.username readonly)
                 td  
                   input(id=index type="text", onFocus="toggleBtn()", name="rating", value=user.rating)
-                td(class="hide")
-                  input(id='delUser' + index, name="delUser", value=0)
                 td  
-                  input(type="checkbox", name="delete",onClick="toggleDelUser(this.id)", checked=false)
+                  input(type="checkbox", name="delete", checked=false)
             tr  
               td 
                 input(id='btn', class="hidden btn-default", type="submit", value="update")

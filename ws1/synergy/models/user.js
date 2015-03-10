@@ -13,6 +13,17 @@ var userSchema = new mongoose.Schema({
 	role: {type: Number, default: 0}
 });
 
+userSchema.statics.list = function(callback){
+	this.find(function(err, users){
+		if(err){
+			return(err, null);
+		}
+		else{
+			callback(null, users);
+		}
+	});
+}
+
 var User = mongoose.model('User', userSchema);
 
 module.exports = {

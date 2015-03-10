@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var admin = require('../js/admin');
+var user = require('../models/user').model;
+var admin = require('../models/admin').model;
+var house = require('../models/house').model;
 module.exports = function (passport) {
 
 	/* GET home page. */
@@ -53,15 +55,36 @@ module.exports = function (passport) {
 	  res.render('network', { user: req.user });
 	});
 
-	router.get('/admin', function(req, res){
-		res.render('admin')
-	});
-
-	router.get('/listUser', function(req, res){
-		res.render('listUser', {
-			"users" : admin.getUsers()
+	router.get('/listUsers', function(req, res){
+		user.list(function(err, users){
+			res.render('listUsers',{
+				"users" : users
+			});
 		});
 	});
+
+	router.get('/listHouses', function(req, res){
+		house.list(function(err, houses){
+			res.render('listHouses',{
+				"houses" : houses
+			});
+		});
+	});
+
+	router.post('/modifyHouse', function(req, res){
+		console.log(req.body);
+		admin.deleteHouses(req.body.id, req.body.deleteHouse);
+	})
+	router.post('/modifyUser', function(req, res){
+		console.log(req.body);
+		admin.deleteUsers(req.body.modUser, req.body.id, req.body.delete);
+		admin.changeRatings(req.body.modUser, req.body.id, req.body.rating);
+		res.location("listUsers");
+		res.redirect("listUsers");
+
+	});
+
+	router.post('/')
 	return router;
 }
 

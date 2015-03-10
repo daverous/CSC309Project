@@ -12,6 +12,13 @@ adminSchema.statics.deleteUser = function(userid){
 			throw(err);
 	});
 }
+adminSchema.statics.deleteUsers = function(users, userids, deletes){
+	for(var i = 0; i < users.length; i++){
+		if(users[i] == 1 && deletes[i] == 1){
+			adminSchema.statics.deleteUser(userids[i]);
+		}
+	}
+}
 adminSchema.statics.deleteHouse = function(hid){
 	HouseProfile.remove({_id : hid}, function(err){
 		if(err)
@@ -26,6 +33,16 @@ adminSchema.statics.changeRating = function(userid, rating){
 		update.save();
 		});
 }
+adminSchema.statics.changeRatings = function(users, userids, ratings){
+	for(var i = 0; i < users.length; i++){
+		if(users[i] == 1){
+			adminSchema.statics.changeRating(userids[i], ratings[i]);
+		}
+	}
+}
+var Admin = mongoose.model('Admin', adminSchema);
 
-
-module.exports = mongoose.model('Admin', adminSchema);
+module.exports = {
+	schema: adminSchema,
+	model: Admin
+};
