@@ -6,7 +6,7 @@ block content
       div.jumbotron
         if user
           include navbar
-          h2 <b>#{user.username}'s Network</b>
+          h2 <b>#{user}'s Network</b>
           if friends
             ul.user-network
                 each friend in friends

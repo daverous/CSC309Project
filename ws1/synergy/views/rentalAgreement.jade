@@ -1,0 +1,14 @@
+extends layout
+block content
+
+h2 <b>Rental Agreement</b>
+
+if renter, user, house, date
+  p This certifies that #{user} is renting #{house} which is owned by #{renter} on #{date}.
+
+button(class="accept", data-action="accept").
+  Accept
+button(class="decline" , data-action="decline").
+  Decline
+else
+  h3 Error  

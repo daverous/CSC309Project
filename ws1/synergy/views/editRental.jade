@@ -6,25 +6,26 @@ block content
       div.jumbotron
         include navbar
         if house
-          form(method="post")#house-form.well.span4
-            h2 <b>Edit #{house.name}</b>
+          form(method="post" action="/modifyRental")#house-form.well.span4
+            h2 <b>Edit Listing for #{house.name}</b>
             p
-              input.form-control(type='text', name='name', placeholder='#{house.name}')
-              p
-                br
-                div.row
-                  p max tenents 
-                  input(type='number', name='max tenents', placeholder='#{house.maxRenters}')
-                textarea(id="theTextarea" class="form-control" rows="3" placeholder='#{house.description}')
-                br
-                
-                input#inputstoreImage(type="file",placeholder="storeimage" name="image")
-                br      
-                button(type='submit')#btn-create.btn.btn-success
-                  i.icon-lock.icon-white
-                  | Create
+              <b>House Name</b> 
+              input.form-control(type='text', name='houseName' value=house.name)
+            p 
+              <b>Maximum tenants</b> 
+              input(type='number', name='maxt', value='#{house.maxRenters}')
+            p
+              <b> House description </b>
+              textarea(name="description" class="form-control" rows="3" placeholder='#{house.desc}')
+              
+            input(name="id", value=house._id, type='hidden')  
+            input#inputstoreImage(type="file",value="storeimage" name="image")
+            br      
+            button(type='submit')#btn-create.btn.btn-success
+              i.icon-lock.icon-white
+              | Save Changes
         else 
-          h2 <b>House not found</b> 
+          h2 <b>500 Error : House not found</b> 
 
 
         #message

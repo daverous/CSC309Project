@@ -12,7 +12,7 @@ var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var authenticate = require('./js/auth');
 var rentalManager = require('./js/rentalManager');
-var Cookies = require( "cookies" );
+var Cookies = require("cookies");
 var cookieParser = require('cookie-parser');
 mongoose.connect("mongodb://localhost/test");
 
@@ -26,12 +26,19 @@ app.set('view engine', 'jade');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser({ keepExtensions: true, uploadDir: __dirname + '/public/uploads' }));
+app.use(bodyParser({
+    keepExtensions: true,
+    uploadDir: __dirname + '/public/uploads'
+}));
 // key for hash computationx
-app.use(express_session({secret: 'top_secret_key'}));
+app.use(express_session({
+    secret: 'top_secret_key'
+}));
 
 // store and display messages in templates
 app.use(flash());

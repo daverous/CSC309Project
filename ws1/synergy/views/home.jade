@@ -9,14 +9,16 @@ block content
         .row
           each house in houses
             .col-sm-12
-              h2 house.name
+              h2=house.name
               h3 description
-              p house.description
+              p=house.desc
               h3 max renters
-              p house.maxRenters
+              p=house.maxRenters
               each renter in house.currentRenters
-                p a(href='/'renter) renter
-              a.btn.btn-default(href='/editRental', role='button') Edit »
+                p a(href='/'renter)=renter
+              form(method="post" action='/editRental')
+                input(name="id", value=house._id, type='hidden')
+                input(class = 'btn btn-default',type='submit' value='Edit »') 
       else
         .row
           h3 No Rentals yet!
