@@ -1,5 +1,6 @@
 var User = require('../models/user').model;
 var Rating = require('../models/user').rmodel;
+var House = require('../models/house').model;
 var util = require('util');
 
 module.exports = {
