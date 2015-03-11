@@ -30,6 +30,8 @@ module.exports = {
             			rated.rating -= result.rating;
        					result.rating = req.body.rating;
        					rated.rating += result.rating;
+       					rated.save;
+       					result.save;
             		}
             	});
             } else{
@@ -40,10 +42,26 @@ module.exports = {
        					result._ratings.push({rated_friend: rated._id, rating: req.body.rating});
        					rated.rating += req.body.rating;
        					rated.evaluations += 1;
+       					rated.save;
+       					result.save;
             		}
             	});
             }
 
 		});
-	}
+	},
+
+	findUsers: function(house){
+        var renters = house.currentRenters;
+        var objects = new Array(house.currentRenters.length);
+
+        for (var i = 0; i < renters.length; i++){
+            User.findOne({username: renters[i]}, function(err, result){
+                if (err) return console.error(err);
+                objects[i] = result;
+            })
+        }
+
+        return objects;
+    }
 }

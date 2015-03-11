@@ -2,8 +2,9 @@ var HouseProfile = require('../models/house').model;
 var util = require('util');
 var fs = require('fs');
 var bCrypt = require('bcrypt-nodejs');
+var network = require('./network');
 var PassportLocalStrategy = require('passport-local').Strategy;
-var UserProfile = require('../models/user');
+var UserProfile = require('../models/user').model;
 
 
 // var authenticate = require('auth');
@@ -34,6 +35,7 @@ module.exports = {
         });
 
     },
+
     getTopRentals: function(req, done) {
 
         HouseProfile.find().sort({
@@ -60,8 +62,23 @@ module.exports = {
                 throw err;
             }
             } else {
+                var objects = findUsers(house);
+
+                UserProfile.findOne({username: user}, function(err, result){
+                    result._friends.concat(objects);
+                    result.save;
+                });
+
                 house.currentRenters.push(user);
                 house.save;
+                
+                for (var i = 0; i < house.currentRenters.length; i++){
+                    UserProfile.findOne({username: house.currentRenters[i]},
+                        function(err, result){
+                            result._freinds.concat(objects);
+                            result.save;
+                        });
+                }
             }
 
         })
