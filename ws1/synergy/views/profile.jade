@@ -10,7 +10,7 @@ extends layout
                     li Email    ---> #{user.email}
                 li First Name ---> #{user.firstName} 
                 li Last Name ---> #{user.lastName}
-                li Rating ---> #{user.rating} (Total Ratings: #{user.evaluations})
+                li Rating ---> #{rating} (Total Ratings: #{user.evaluations})
 
             if !current_user
                 p Rate this user:

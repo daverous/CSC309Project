@@ -37,8 +37,8 @@ module.exports = {
             		if (err) return console.error(err);
 
             		if (rated){
-       					result.rating = req.body.rating;
-       					rated.rating += result.rating;
+       					result._ratings.push({rated_friend: rated._id, rating: req.body.rating});
+       					rated.rating += req.body.rating;
        					rated.evaluations += 1;
             		}
             	});

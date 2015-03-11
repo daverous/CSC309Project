@@ -1,5 +1,6 @@
 var express = require('express');
 var rentalManager = require('../js/rentalManager');
+var network = require('../js/network');
 var router = express.Router();
 
 var user = require('../models/user').model;
@@ -124,6 +125,10 @@ module.exports = function(passport) {
             res.render('profile', {});
         }
         //res.send('user ' + req.params.id);
+    });
+    router.post('/user/:id([a-z0-9]+)', function(req, res) {
+        network.addRating(req, res, req.session.user);
+        res.redirect('/user/' + req.params.id);
     });
 
     router.get('/home', function(req, res) {
