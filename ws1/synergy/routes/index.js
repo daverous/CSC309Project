@@ -49,6 +49,7 @@ module.exports = function (passport) {
 		rentalManager.addRental(req, res, req.session.userName);
 		res.render('home', { user: req.session.userName });
 	});
+
 	router.get('/editRental', function(req, res) {
 		res.render('editRental', { house: req.house });
 	});
@@ -58,7 +59,7 @@ module.exports = function (passport) {
 	});
 
 	router.get('/manageRentals', function(req, res) {
-		houses = 
+		// houses = 
 		res.render('manageRentals', { user: req.user, houses: req.houses });
 	});
 	

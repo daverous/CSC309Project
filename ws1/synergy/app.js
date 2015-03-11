@@ -40,10 +40,8 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 // adding user-authentication code
 authenticate(passport);
-
 
 var routes = require('./routes/index')(passport);
 
