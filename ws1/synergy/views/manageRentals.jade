@@ -1,23 +1,32 @@
 extends layout
 
 block content
-    include navbar
-    
-    if user
-      p 
-        h3 <b>Rentals managed by #{user.username}</b>
- 
-    if houses 
-      .row
-        each house in houses
-          .col-sm-12
-            h2 house.name
-            h3 description
-            p house.description
-            h3 max renters
-            p house.maxRenters
-            each renter in house.currentRenters
-              p a(href='/'renter) renter
-            a.btn.btn-default(href='/editRental', role='button') Edit »
-      footer
-        p &copy; 2014 Spanish Inquisition
+		include navbar
+		div.col-sm-6.col-md-6.col-md-offset-3
+			div.jumbotron
+
+
+				if user
+					h3 <b>Rentals managed by #{user}</b>
+				else
+					h3 <b>An error has occured</b>
+				if houses
+					h3 here 
+					.row
+						each house in houses
+							.col-sm-12
+								h2 here
+								h2 #{house.name}
+								h2 house =  #{house.desc}</h2>
+								h3 description
+								p house.description
+								h3 max renters
+								p house.maxRenters
+								each renter in house.currentRenters
+									p a(href='/'#{renter}) #{renter}
+								a.btn.btn-default(href='/editRental', role='button') Edit »
+				else
+					h3 fuck
+		footer
+			p &copy; 2014 Spanish Inquisition
+

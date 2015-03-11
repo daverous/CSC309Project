@@ -11,11 +11,14 @@ var UserProfile = require('../models/user');
 
 module.exports = {
 
-    findHousesForUser : function(req,username, done) {
+    findHousesForUser : function(username) {
         HouseProfile.find({ owner: username }, function(err, houses) {
+
             if (err) {
                 return console.error(err);
             }
+            console.log("name"+username);
+            console.log(houses);
             return houses;
         });
 

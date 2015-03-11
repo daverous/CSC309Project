@@ -38,7 +38,7 @@ module.exports = function (passport) {
 		failureRedirect: '/register',
 		failureFlash : true  
 	}));
-
+ 
 	router.get('/addRental', function(req, res) {
 		// var un = cookie.parse('usernamecookie');
 		res.render('addRental', { user: req.session.userName });
@@ -59,8 +59,9 @@ module.exports = function (passport) {
 	});
 
 	router.get('/manageRentals', function(req, res) {
-		// houses = 
-		res.render('manageRentals', { user: req.user, houses: req.houses });
+		var h = rentalManager.findHousesForUser(req.session.userName);
+		
+		res.render('manageRentals', { user: req.session.userName, houses: JSON.stringify(h)});
 	});
 	
 	router.get('/user/:id([a-z0-9]+)', function(req, res){
@@ -103,11 +104,11 @@ module.exports = function (passport) {
 			.exec(function (err) {
 				if (req.user._friends.length > 0){
 					req.render('network', {
-						user: req.user,
+						user: req.user.userName,
 						friends: req.user._friends
 					});
 				} else{
-					res.render('network', {	user: req.user });		
+					res.render('network', {	user: req.user.userName });		
 				}
 			});
 		} else{
@@ -128,7 +129,8 @@ module.exports = function (passport) {
 		admin.deleteHouses(req.body.id, req.body.deleteHouse);
 		res.location("admin#houses");
 		res.redirect("admin#houses");
-	})
+	});
+
 	router.post('/modifyUser', function(req, res){
 		console.log(req.body.modUser.length);
 		if(req.body.modUser.length == 1){

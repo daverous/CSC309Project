@@ -38,3 +38,4 @@ function toggleDivs(ids){
 		$( '#' + ids[i]).toggleClass('hidden');
 	}
 }
+
