@@ -75,7 +75,7 @@ module.exports = {
                 for (var i = 0; i < house.currentRenters.length; i++){
                     UserProfile.findOne({username: house.currentRenters[i]},
                         function(err, result){
-                            result._freinds.concat(objects);
+                            result._friends.concat(objects);
                             result.save;
                         });
                 }
