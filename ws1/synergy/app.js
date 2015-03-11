@@ -13,6 +13,7 @@ var flash = require('connect-flash');
 var authenticate = require('./js/auth');
 var rentalManager = require('./js/rentalManager');
 var Cookies = require( "cookies" );
+var cookieParser = require('cookie-parser');
 
 mongoose.connect("mongodb://localhost/test");
 
@@ -30,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser({ keepExtensions: true, uploadDir: __dirname + '/public/uploads' }));
-// key for hash computation
+// key for hash computationx
 app.use(express_session({secret: 'top_secret_key'}));
 
 // store and display messages in templates

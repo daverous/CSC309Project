@@ -6,6 +6,7 @@ var bCrypt = require('bcrypt-nodejs');
 var PassportLocalStrategy   = require('passport-local').Strategy;
 var UserProfile = require('../models/user');
 
+
 // var authenticate = require('auth');
 
 module.exports = {
@@ -42,12 +43,12 @@ module.exports = {
         }
         )},
     //add rental
-    addRental : function (req, done) { 
+    addRental : function (req, done , user) { 
         findOrCreateHouse = function() {
 
-            console.log(req);
-            var userName = req.param('username');
-            console.log(userName);
+            console.log("user" + user);
+            // var userName = req.param('username');
+            // console.log(userName);
             var houseName = req.body.houseName;
             if (!houseName) {
                 return done;
@@ -73,14 +74,15 @@ module.exports = {
 
         // function(req, houseObj, done){
         //  // TODO make sure its not just name that is checked
-        HouseProfile.findOne({ 'houseName' :  houseName }, function(err, house) {
+        HouseProfile.findOne({ 'name' :  houseName }, function(err, house) {
             if (!house) {
 
                 var createHouse = new HouseProfile();
-                createHouse.houseName = houseName;
-                // createHouse.description = req.body.params['description'];
+                createHouse.name = houseName;
+                createHouse.desc = req.body.description;
                             // name of path will be housename
-                            createHouse.maxRenters = req.body.maxtenents;
+                            createHouse.maxRenters = req.body.maxt;
+                            createHouse.owner = user;
                             if (req.files) {
                             // createHouse.picture.data = fs.readFileSync(tempPath);
                             // createHouse.picture.contentType = type;
@@ -95,7 +97,7 @@ module.exports = {
                                     throw err;  
                                 }
                                 else {
-                                    console.log('Added house succesfully');    
+                                    console.log('Added house succesfully' + createHouse);    
                                     return done;
                                 }
                             });

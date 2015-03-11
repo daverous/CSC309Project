@@ -4,14 +4,15 @@ block content
 		include navbar
 		div.container
 			div.col-sm-6.col-md-6.col-md-offset-3
-				form(method="post" enctype="multipart/form-data")#house-form.well.span4
-					h2 <b>Create a new listing</b>
+				form(method="post")#house-form.well.span4
+					h2 <b>Create a new listing for #{user} </b>
 					br
 					p
+						//- input(id='pd',type='hidden',name='user',value='#{user}')
 						input.form-control(type='text', name='houseName', placeholder='House Name')
 					p
 						//- div(data-role='fieldcontain')
-						input.form-control(type='text',pattern='\\d*', name=' ', placeholder='Maximum Number of tenents')
+						input.form-control(type='text',pattern='\\d*', name='maxt', placeholder='Maximum Number of tenents')
 						textarea(id="theTextarea" class="form-control" rows="3" placeholder="description", name='description')
 						br
 						
