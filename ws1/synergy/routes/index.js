@@ -49,7 +49,7 @@ module.exports = function (passport) {
 		// var un = cookie.parse('usernamecookie');
 		console.log("username" + req.session.userName);
 		rentalManager.addRental(req, res, req.session.userName);
-		res.render('home', { user: req.session.userName });
+		res.redirect('/home');
 	});
 
 	router.get('/editRental', function(req, res) {
