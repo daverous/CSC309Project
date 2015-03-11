@@ -203,7 +203,7 @@ module.exports = function(passport) {
     router.post('/rent', function(req, res) {
         // rentalManager.addTennant(req, res, req.session.userName);
         var dateObj =  new Date();
-        res.render('rentalAgreement', {user : req.session.userName, house : req.body.house, owner : req.body.owner, date : dateObj});
+        res.render('rentalAgreement', {id : req.body.id, user : req.session.userName, house : req.body.house, owner : req.body.owner, date : dateObj});
     });
     router.post('/rentaccept', function(req, res) {
         rentalManager.addTennant(req, res, req.session.userName);
