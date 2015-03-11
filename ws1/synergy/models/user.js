@@ -1,5 +1,10 @@
 var mongoose = require('mongoose');
 
+var ratingSchema = new mongoose.Schema({
+	rated_friend: {type: mongoose.Schema.ObjectId, ref: 'User'},
+	rating: {type: Number}
+});
+
 var userSchema = new mongoose.Schema({
 	firstName: String,
 	lastName: String,
@@ -9,6 +14,7 @@ var userSchema = new mongoose.Schema({
 	rating: {type: Number, default: 0},
 	evaluations: {type: Number, default: 0},
 	_friends: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+	_ratings: [ratingSchema],
 	//It's possible for a tenant to also be an owner?
 	role: {type: Number, default: 0}
 });
@@ -25,8 +31,11 @@ userSchema.statics.list = function(callback){
 }
 
 var User = mongoose.model('User', userSchema);
+var Rating = mongoose.model('Rating', ratingSchema);
 
 module.exports = {
 	schema: userSchema,
-	model: User
+	model: User,
+	rschema: ratingSchema,
+	rmodel: Rating
 };

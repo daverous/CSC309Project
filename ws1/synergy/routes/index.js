@@ -3,6 +3,7 @@ var rentalManager = require('../js/rentalManager');
 var router = express.Router();
 
 var user = require('../models/user').model;
+var rating = require('../models/user').rmodel;
 var admin = require('../models/admin').model;
 var house = require('../models/house').model;
 var cookie = require('cookie');
