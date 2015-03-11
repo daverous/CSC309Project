@@ -8,6 +8,8 @@ block content
         .row
         .col-sm-12
           h2=house.name
+          h3 Owner
+          p=house.owner
           h3 description
           p=house.desc
           h3 max renters
@@ -16,6 +18,8 @@ block content
             p a(href='/'renter)=renter
           form(method="post" action='/rent')
             input(name="id", value=house._id, type='hidden')
+            input(name="house", value=house.name, type='hidden')
+            input(name="owner", value=house.owner, type='hidden')
             input(class = 'btn btn-default',type='submit' value='Rent') 
   else
 

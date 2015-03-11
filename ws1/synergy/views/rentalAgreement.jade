@@ -1,14 +1,17 @@
 extends layout
 block content
 
-h2 <b>Rental Agreement</b>
+    h2 <b>Rental Agreement</b>
 
-if renter, user, house, date
-  p This certifies that #{user} is renting #{house} which is owned by #{renter} on #{date}.
+    if owner, user, house, date
+        p This certifies that #{user} is renting #{house} which is owned by #{owner} on #{date}.
 
-button(class="accept", data-action="accept").
-  Accept
-button(class="decline" , data-action="decline").
-  Decline
-else
-  h3 Error  
+
+        form(method="post" action='/rentaccept')
+            input(name="id", value=house._id, type='hidden')
+            input(class = 'btn btn-default',type='submit' value='Accept') 
+        form(method="get" action='/home')
+            input(class = 'btn btn-default',type='submit' value='Decline') 
+          Decline
+    else
+      h3 Error  
