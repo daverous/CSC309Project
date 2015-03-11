@@ -17,6 +17,8 @@ var userSchema = new mongoose.Schema({
 	_ratings: [ratingSchema],
 	//It's possible for a tenant to also be an owner?
 	role: {type: Number, default: 0}
+	//isOwner: Boolean,
+	//isAdmin: Boolean
 });
 
 userSchema.statics.list = function(callback){
