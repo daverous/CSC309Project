@@ -14,7 +14,6 @@ var authenticate = require('./js/auth');
 var rentalManager = require('./js/rentalManager');
 var Cookies = require( "cookies" );
 var cookieParser = require('cookie-parser');
-
 mongoose.connect("mongodb://localhost/test");
 
 var app = express();

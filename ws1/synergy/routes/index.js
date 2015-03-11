@@ -13,7 +13,10 @@ module.exports = function (passport) {
 	//TODO store user somewhere for session
 	/* GET home page. */
 	router.get('/', function(req, res, next) {
-	  res.render('index', { user: req.user });
+		if (req.user) {
+		req.session.userName = req.user.username;
+	}
+	  	res.render('index', { user: req.user });
 	});
 
 	router.get('/login', function(req, res, next) {
@@ -37,14 +40,14 @@ module.exports = function (passport) {
 	}));
 
 	router.get('/addRental', function(req, res) {
-		var un = cookie.parse('usernamecookie');
-		res.render('addRental', { user: un });
+		// var un = cookie.parse('usernamecookie');
+		res.render('addRental', { user: req.session.userName });
 	});
 	router.post('/addRental',function(req, res) {
-		var un = cookie.parse('usernamecookie');
-		console.log("username" + req.cookes);
-		rentalManager.addRental(req, res, un);
-		res.render('home', { user: un });
+		// var un = cookie.parse('usernamecookie');
+		console.log("username" + req.session.userName);
+		rentalManager.addRental(req, res, req.session.userName);
+		res.render('home', { user: req.session.userName });
 	});
 	router.get('/editRental', function(req, res) {
 		res.render('editRental', { house: req.house });
@@ -78,13 +81,16 @@ module.exports = function (passport) {
 	});
 
 	router.get('/home', function(req, res) {
-        res.cookie('usernamecookie', req.user.username, { maxAge: 2592000000 });  // Expires in one mon
+        // res.cookie('usernamecookie', req.user.username, { maxAge: 2592000000 });  // Expires in one mon
+        if (req.user) {
+        req.session.userName = req.user.username;
+    }
 		res.render('home', { user: req.user });
 	});
 
 	router.get('/logout', function(req, res) {
 		req.logout();
-		res.clearCookie('usernamecookie');
+		// res.clearCookie('usernamecookie');
 		res.redirect('/');
 	});
 
