@@ -49,5 +49,19 @@ module.exports = {
             }
 
 		});
-	}
+	},
+
+	findUsers: function(house){
+        var renters = house.currentRenters;
+        var objects = new Array(house.currentRenters.length);
+
+        for (var i = 0; i < renters.length; i++){
+            User.findOne({username: renters[i]}, function(err, result){
+                if (err) return console.error(err);
+                objects[i] = result;
+            })
+        }
+
+        return objects;
+    }
 }
