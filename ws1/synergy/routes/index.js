@@ -16,6 +16,7 @@ module.exports = function (passport) {
 	router.get('/', function(req, res, next) {
 		if (req.user) {
 		req.session.userName = req.user.username;
+		req.session.user = req.user;
 	}
 	  	res.render('index', { user: req.user });
 	});
@@ -66,18 +67,18 @@ module.exports = function (passport) {
 	});
 	
 	router.get('/user/:id([a-z0-9]+)', function(req, res){
-		req.user = req.session.userName;
-		
-		var isFriend = req.user._friends.some(function (friend){
+		cuser = req.session.user;
+
+		var isFriend = cuser._friends.some(function (friend){
 			return friend.equals(req.params.id);
 		});
 
-		if (req.user && req.user._id == req.params.id){
+		if (cuser && cuser._id == req.params.id){
 			res.render('profile', { user: req.params.id });
 		} else if (isFriend){
 			res.render('profile', { 
 				user: req.params.id,
-				current_user: req.user
+				current_user: cuser
 			});
 		} else{
 			res.render('profile', { });	
@@ -89,6 +90,7 @@ module.exports = function (passport) {
         // res.cookie('usernamecookie', req.user.username, { maxAge: 2592000000 });  // Expires in one mon
         if (req.user) {
         req.session.userName = req.user.username;
+        req.session.user = req.user;
     }
 		res.render('home', { user: req.user });
 	});
@@ -100,24 +102,24 @@ module.exports = function (passport) {
 	});
 
 	router.get('/network', function(req, res, next){
-		req.user = req.session.userName;
+		cuser = req.session.user;
 
-		if (req.user){
+		if (cuser){
 			User
-			.findOne({ _id: req.user._id })
+			.findOne({ _id: cuser._id })
 			.populate('_friends')
 			.exec(function (err) {
-				if (req.user._friends.length > 0){
+				if (cuser._friends.length > 0){
 					req.render('network', {
-						user: req.user.userName,
-						friends: req.user._friends
+						user: req.session.userName,
+						friends: cuser._friends
 					});
 				} else{
-					res.render('network', {	user: req.user.userName });		
+					res.render('network', {	user: req.session.userName });		
 				}
 			});
 		} else{
-			res.render('network', {	user: req.user });
+			res.render('network', {	user: cuser });
 		}
 	});
 
