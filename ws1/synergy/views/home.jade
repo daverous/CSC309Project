@@ -16,7 +16,9 @@ block content
               p=house.maxRenters
               each renter in house.currentRenters
                 p a(href='/'renter)=renter
-              a.btn.btn-default(href='/editRental', role='button') Edit »
+              form(method="post" action='/editRental')
+                input(name="id", value=house._id, type='hidden')
+                input(class = 'btn btn-default',type='submit' value='Edit »') 
       else
         .row
           h3 No Rentals yet!

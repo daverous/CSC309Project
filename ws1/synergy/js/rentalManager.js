@@ -9,11 +9,21 @@ var UserProfile = require('../models/user');
 // var authenticate = require('auth');
 
 module.exports = {
-
-    findHousesForUser: function (username) {
+    findHouseById: function(id) {
+        console.log("id" + id);
+        HouseProfile.find({
+            _id: id
+        }, function(err, house) {
+            if (err) {
+                return console.err(err);
+            }
+            return house;
+        });
+    },
+    findHousesForUser: function(username) {
         HouseProfile.find({
             owner: username
-        }, function (err, houses) {
+        }, function(err, houses) {
 
             if (err) {
                 return console.error(err);
@@ -24,24 +34,24 @@ module.exports = {
         });
 
     },
-    getTopRentals: function (req, done) {
+    getTopRentals: function(req, done) {
 
         HouseProfile.find().sort({
-                rating: 1
-            }).limit(10),
-            function (err, houses) {
-                if (err) return console.error(err);
-                return houses;
-            }
+            rating: 1
+        }).limit(10),
+        function(err, houses) {
+            if (err) return console.error(err);
+            return houses;
+        }
 
     },
 
-    addTennant: function (req, done) {
+    addTennant: function(req, done) {
         var houseName = req.body.houseName;
         var newTennant = req.body.user;
         HouseProfile.findOne({
             'houseName': houseName
-        }, function (err, house) {
+        }, function(err, house) {
             if (!house) {
                 throw err;
             } else {
@@ -51,8 +61,8 @@ module.exports = {
         })
     },
     //add rental
-    addRental: function (req, done, user) {
-        findOrCreateHouse = function () {
+    addRental: function(req, done, user) {
+        findOrCreateHouse = function() {
 
             console.log("user" + user);
             console.log(req.body.houseName);
@@ -79,7 +89,7 @@ module.exports = {
             //  // TODO make sure its not just name that is checked
             HouseProfile.findOne({
                 'name': houseName
-            }, function (err, house) {
+            }, function(err, house) {
                 if (!house) {
                     console.log('Hey we did not find a house');
                     var createHouse = new HouseProfile();
@@ -97,7 +107,7 @@ module.exports = {
 
 
                     // add the user to the database
-                    createHouse.save(function (err) {
+                    createHouse.save(function(err) {
                         if (err) {
                             console.log('Error (could not save): ' + err);
                             throw err;
@@ -116,23 +126,25 @@ module.exports = {
     },
 
     // take in old name to avoid new one being changed
-    editRental: function (req, oldName, houseObj, userName, done) {
-        // TODO make sure its not just name that is checked
-        if (userName != houseObj.owner) {
-            return false;
-        }
-        HouseProfile.update({
-            'houseName': houseObj.houseName
+    editRental: function(req, done) {
+        HouseProfile.findOneAndUpdate({
+            _id: req.body.id
         }, {
-            name: houseObj.name,
-            desription: houseObj.description,
-            owner: houseObj.owner,
-            rating: houseObj.rating,
-            evaluations: houseObj.evaluations,
-            maxRenters: houseObj.maxRenters,
-            currentRenters: houseObj.currentRenters,
-            // Path to folder where images for house are stored
-            picture: houseObj.picture,
+            $set: {
+                name: req.body.houseName,
+                desc: req.body.description,
+                maxRenters: req.body.maxt
+
+                // Path to folder where images for house are stored
+                //TODO update picture
+            }
+        }, function(err, update) {
+            if (err) {
+                throw (err);
+            } else if (update == null) {
+                throw new Error('user cannot be found');
+            }
+            update.save();
         });
     }
 }
