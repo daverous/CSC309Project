@@ -82,18 +82,7 @@ module.exports = function(passport) {
             });
         })
     });
-    router.post('/modifyRental', function(req, res) {
-        console.log(req.body.desc);
-    rentalManager.editRental(req, res, req.session.userName);
-    res.redirect('/home'); 
-    // TODO success screen
-    });
-    router.get('/topRentals', function(req, res) {
-        res.render('topRentals', {
-            user: req.user,
-            houses: rentalManager.get
-        });
-    });
+  
 
     router.get('/manageRentals', function(req, res) {
         var h = rentalManager.findHousesForUser(req.session.userName);
@@ -192,9 +181,23 @@ module.exports = function(passport) {
             });
         });
     });
+    router.get('/browse', function(req, res) {
+        HouseProfile.list(function(err, housesObj) {
+            console.log(housesObj);
+            res.render('browse', {
+                houses: housesObj
+            });
+        });
+    });
+
+     router.post('/rent', function(req, res) {
+        rentalManager.addTennant(req,res,req.session.userName);
+        res.redirect('home');
+    });
 
     router.get('/listHouses', function(req, res) {
         HouseProfile.list(function(err, houses) {
+            console.log(houses);
             res.render('listHouses', {
                 "houses": houses
             });

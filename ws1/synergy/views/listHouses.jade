@@ -1,6 +1,5 @@
 extends layout
 block content
-    div("class = container hidden")
       table.table
         thead
           tr
@@ -19,7 +18,7 @@ block content
                 td  
                   input(type="text", name=name, value=house.name readonly)
                 td  
-                  input(type="text", name=description, value=house.description readonly)
+                  input(type="text", name=description, value=house.desc readonly)
                 td  
                   input(type="text", name=owner, value=house.owner readonly)
                 td  
