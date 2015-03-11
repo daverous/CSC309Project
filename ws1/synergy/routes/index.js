@@ -67,7 +67,7 @@ module.exports = function (passport) {
 	});
 	
 	router.get('/user/:id([a-z0-9]+)', function(req, res){
-		cuser = req.session.user;
+		var cuser = req.session.user;
 
 		var isFriend = cuser._friends.some(function (friend){
 			return friend.equals(req.params.id);
@@ -102,7 +102,7 @@ module.exports = function (passport) {
 	});
 
 	router.get('/network', function(req, res, next){
-		cuser = req.session.user;
+		var cuser = req.session.user;
 
 		if (cuser){
 			User
