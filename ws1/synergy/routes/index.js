@@ -83,7 +83,7 @@ module.exports = function(passport) {
             });
         })
     });
-  
+
 
     router.get('/manageRentals', function(req, res) {
         var h = rentalManager.findHousesForUser(req.session.userName);
@@ -100,7 +100,9 @@ module.exports = function(passport) {
         var isFriend = cuser._friends.some(function(friend) {
             return friend.equals(req.params.id);
         });
-        var id_user = user.findOne({_id: req.params.id});
+        var id_user = user.findOne({
+            _id: req.params.id
+        });
         var rating = network.calcRating(id_user);
 
         if (cuser && cuser._id == req.params.id) {
@@ -198,8 +200,8 @@ module.exports = function(passport) {
         });
     });
 
-     router.post('/rent', function(req, res) {
-        rentalManager.addTennant(req,res,req.session.userName);
+    router.post('/rent', function(req, res) {
+        rentalManager.addTennant(req, res, req.session.userName);
         res.redirect('home');
     });
 
