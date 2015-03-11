@@ -11,190 +11,218 @@ var cookieParser = require('cookie-parser');
 
 
 module.exports = function (passport) {
-	//TODO store user somewhere for session
-	/* GET home page. */
-	router.get('/', function(req, res, next) {
-		if (req.user) {
-		req.session.userName = req.user.username;
-		req.session.user = req.user;
-	}
-	  	res.render('index', { user: req.user });
-	});
+    //TODO store user somewhere for session
+    /* GET home page. */
+    router.get('/', function (req, res, next) {
+        if (req.user) {
+            req.session.userName = req.user.username;
+            req.session.user = req.user;
+        }
+        res.render('index', {
+            user: req.user
+        });
+    });
 
-	router.get('/login', function(req, res, next) {
-	  res.render('login', { message: req.flash('message') });
-	});
+    router.get('/login', function (req, res, next) {
+        res.render('login', {
+            message: req.flash('message')
+        });
+    });
 
-	router.post('/login', passport.authenticate('login', {
-			successRedirect: '/home',
-			failureRedirect: '/login',
-			failureFlash : true  
-	}));
+    router.post('/login', passport.authenticate('login', {
+        successRedirect: '/home',
+        failureRedirect: '/login',
+        failureFlash: true
+    }));
 
-	router.get('/register', function(req, res, next) {
-	  res.render('register', { message: req.flash('message') });
-	});
+    router.get('/register', function (req, res, next) {
+        res.render('register', {
+            message: req.flash('message')
+        });
+    });
 
-	router.post('/register', passport.authenticate('register', {
-		successRedirect: '/home',
-		failureRedirect: '/register',
-		failureFlash : true  
-	}));
- 
-	router.get('/addRental', function(req, res) {
-		// var un = cookie.parse('usernamecookie');
-		res.render('addRental', { user: req.session.userName });
-	});
-	router.post('/addRental',function(req, res) {
-		// var un = cookie.parse('usernamecookie');
-		console.log(req.body);
-		console.log("username" + req.session.userName);
-		rentalManager.addRental(req, res, req.session.userName);
-		res.redirect('/home');
-	});
+    router.post('/register', passport.authenticate('register', {
+        successRedirect: '/home',
+        failureRedirect: '/register',
+        failureFlash: true
+    }));
 
-	router.get('/editRental', function(req, res) {
-		res.render('editRental', { house: req.house });
-	});
+    router.get('/addRental', function (req, res) {
+        // var un = cookie.parse('usernamecookie');
+        res.render('addRental', {
+            user: req.session.userName
+        });
+    });
+    router.post('/addRental', function (req, res) {
+        // var un = cookie.parse('usernamecookie');
+        console.log(req.body);
+        console.log("username" + req.session.userName);
+        rentalManager.addRental(req, res, req.session.userName);
+        res.redirect('/home');
+    });
 
-	router.get('/topRentals', function(req, res) {
-		res.render('topRentals', { user: req.user, houses: rentalManager.get });
-	});
+    router.get('/editRental', function (req, res) {
+        res.render('editRental', {
+            house: req.house
+        });
+    });
 
-	router.get('/manageRentals', function(req, res) {
-		var h = rentalManager.findHousesForUser(req.session.userName);
-		
-		res.render('manageRentals', { user: req.session.userName, houses: JSON.stringify(h)});
-	});
-	
-	router.get('/user/:id([a-z0-9]+)', function(req, res){
-		var cuser = req.session.user;
+    router.get('/topRentals', function (req, res) {
+        res.render('topRentals', {
+            user: req.user,
+            houses: rentalManager.get
+        });
+    });
 
-		var isFriend = cuser._friends.some(function (friend){
-			return friend.equals(req.params.id);
-		});
+    router.get('/manageRentals', function (req, res) {
+        var h = rentalManager.findHousesForUser(req.session.userName);
 
-		if (cuser && cuser._id == req.params.id){
-			res.render('profile', { user: req.params.id });
-		} else if (isFriend){
-			res.render('profile', { 
-				user: req.params.id,
-				current_user: cuser
-			});
-		} else{
-			res.render('profile', { });	
-		}
-  		//res.send('user ' + req.params.id);
-	});
+        res.render('manageRentals', {
+            user: req.session.userName,
+            houses: JSON.stringify(h)
+        });
+    });
 
-	router.get('/home', function(req, res) {
+    router.get('/user/:id([a-z0-9]+)', function (req, res) {
+        var cuser = req.session.user;
+
+        var isFriend = cuser._friends.some(function (friend) {
+            return friend.equals(req.params.id);
+        });
+
+        if (cuser && cuser._id == req.params.id) {
+            res.render('profile', {
+                user: req.params.id
+            });
+        } else if (isFriend) {
+            res.render('profile', {
+                user: req.params.id,
+                current_user: cuser
+            });
+        } else {
+            res.render('profile', {});
+        }
+        //res.send('user ' + req.params.id);
+    });
+
+    router.get('/home', function (req, res) {
         // res.cookie('usernamecookie', req.user.username, { maxAge: 2592000000 });  // Expires in one mon
-        function render(user, houses){
-        	res.render('home', { user: req.user, "houses": houses });
+        function render(user, houses) {
+            res.render('home', {
+                user: req.user,
+                "houses": houses
+            });
         }
 
         if (req.user) {
-	        req.session.userName = req.user.username;
-	        req.session.user = req.user;
-	        house.find({owner : req.user.username}, function(err, houses){
-	        	if(err){
-	        		console.log("could not find house");
-	        	}
-	        	console.log(houses);
-	        	render(req.session.user, houses);
-	        });
-    	}
-		
-	});
+            req.session.userName = req.user.username;
+            req.session.user = req.user;
+            house.find({
+                owner: req.user.username
+            }, function (err, houses) {
+                if (err) {
+                    console.log("could not find house");
+                }
+                console.log(houses);
+                render(req.session.user, houses);
+            });
+        }
 
-	router.get('/logout', function(req, res) {
-		req.logout();
-		// res.clearCookie('usernamecookie');
-		res.redirect('/');
-	});
+    });
 
-	router.get('/network', function(req, res, next){
-		var cuser = req.session.user;
+    router.get('/logout', function (req, res) {
+        req.logout();
+        // res.clearCookie('usernamecookie');
+        res.redirect('/');
+    });
 
-		if (cuser){
-			user
-			.findOne({ _id: cuser._id })
-			.populate('_friends')
-			.exec(function (err) {
-				if (cuser._friends.length > 0){
-					req.render('network', {
-						user: req.session.userName,
-						friends: cuser._friends
-					});
-				} else{
-					res.render('network', {	user: req.session.userName });		
-				}
-			});
-		} else{
-			res.render('network', {	user: cuser });
-		}
-	});
+    router.get('/network', function (req, res, next) {
+        var cuser = req.session.user;
 
-	router.get('/admin', function(req, res){
-		user.list(function(err, users){
-			res.render('admin',{
-				"users" : users
-			});
-		});
-	});
+        if (cuser) {
+            user
+                .findOne({
+                    _id: cuser._id
+                })
+                .populate('_friends')
+                .exec(function (err) {
+                    if (cuser._friends.length > 0) {
+                        req.render('network', {
+                            user: req.session.userName,
+                            friends: cuser._friends
+                        });
+                    } else {
+                        res.render('network', {
+                            user: req.session.userName
+                        });
+                    }
+                });
+        } else {
+            res.render('network', {
+                user: cuser
+            });
+        }
+    });
 
-	router.get('/listHouses', function(req, res){
-		house.list(function(err, houses){
-			res.render('listHouses',{
-				"houses" : houses
-			});
-		});
-	});
+    router.get('/admin', function (req, res) {
+        user.list(function (err, users) {
+            res.render('admin', {
+                "users": users
+            });
+        });
+    });
 
-	router.post('/modifyHouse', function(req, res){
-		// console.log(req.body);
-		admin.deleteHouses(req.body.id, req.body.deleteHouse);
-		res.location("admin#houses");
-		res.redirect("admin#houses");
-	});
+    router.get('/listHouses', function (req, res) {
+        house.list(function (err, houses) {
+            res.render('listHouses', {
+                "houses": houses
+            });
+        });
+    });
 
-	router.post('/modifyUser', function(req, res){
-		console.log(req.body.modUser.length);
-		if(req.body.modUser.length == 1){
-			//when length == 1 req.body.id is passed as a string rather than string array
-			//of length 1.
-			if(req.body.delUser == 1){
-				admin.deleteUser(req.body.id);
-			}else{
-				console.log(req.body.id);
-				admin.changeRating(req.body.id, req.body.rating);
-			}
-		}
-		else{
-			admin.deleteUsers(req.body.modUser, req.body.id, req.body.delUser, function(deleted){
-				//users have been deleted, do not both modifying 
-				for(var i = 0; i < deleted.length; i++){
-					req.body.modUser[deleted[i]] = 0;
-				}
-			});
-			admin.changeRatings(req.body.modUser, req.body.id, req.body.rating);
-		}
-		res.location("admin#users");
-		res.redirect("admin#users");
+    router.post('/modifyHouse', function (req, res) {
+        // console.log(req.body);
+        admin.deleteHouses(req.body.id, req.body.deleteHouse);
+        res.location("admin#houses");
+        res.redirect("admin#houses");
+    });
 
-	});
+    router.post('/modifyUser', function (req, res) {
+        console.log(req.body.modUser.length);
+        if (req.body.modUser.length == 1) {
+            //when length == 1 req.body.id is passed as a string rather than string array
+            //of length 1.
+            if (req.body.delUser == 1) {
+                admin.deleteUser(req.body.id);
+            } else {
+                console.log(req.body.id);
+                admin.changeRating(req.body.id, req.body.rating);
+            }
+        } else {
+            admin.deleteUsers(req.body.modUser, req.body.id, req.body.delUser, function (deleted) {
+                //users have been deleted, do not both modifying 
+                for (var i = 0; i < deleted.length; i++) {
+                    req.body.modUser[deleted[i]] = 0;
+                }
+            });
+            admin.changeRatings(req.body.modUser, req.body.id, req.body.rating);
+        }
+        res.location("admin#users");
+        res.redirect("admin#users");
 
-	router.post('/')
-	return router;
+    });
+
+    router.post('/')
+    return router;
 }
 
 var isAuthenticated = function (req, res, next) {
-	// check if user is authenticated
-	if (req.isAuthenticated()) {
-		return next;
-	}
+    // check if user is authenticated
+    if (req.isAuthenticated()) {
+        return next;
+    }
 
-	// if not authenticated, then redirect to login page
+    // if not authenticated, then redirect to login page
 
-	res.redirect('/login');
+    res.redirect('/login');
 }
