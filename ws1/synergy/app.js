@@ -12,7 +12,7 @@ var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var authenticate = require('./js/auth');
 var rentalManager = require('./js/rentalManager');
-var Cookies = require( "cookies" );
+var Cookies = require("cookies");
 
 mongoose.connect("mongodb://localhost/test");
 
@@ -40,10 +40,8 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 // adding user-authentication code
 authenticate(passport);
-
 
 var routes = require('./routes/index')(passport);
 

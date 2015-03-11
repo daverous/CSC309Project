@@ -77,7 +77,7 @@ module.exports = function(passport) {
 
                         var createUser = new UserProfile();
                         createUser.username = username;
-                        createUser.email = -req.param('email');
+                        createUser.email = req.param('email');
                         createUser.firstName = req.param('fName');
                         createUser.lastName = req.param('lName');
                         createUser.password = createHash(password);

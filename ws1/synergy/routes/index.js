@@ -35,10 +35,11 @@ module.exports = function (passport) {
 		res.render('addRental', { user: req.user });
 	});
 	router.post('/addRental',function(req, res) {
-		// console.log(req);
+		console.log(req.body);
 		rentalManager.addRental(req, res);
 		res.render('home', { user: req.user });
 	});
+
 	router.get('/editRental', function(req, res) {
 		res.render('editRental', { house: req.house });
 	});
@@ -48,7 +49,7 @@ module.exports = function (passport) {
 	});
 
 	router.get('/manageRentals', function(req, res) {
-		houses = 
+		// houses = 
 		res.render('manageRentals', { user: req.user, houses: req.houses });
 	});
 	
