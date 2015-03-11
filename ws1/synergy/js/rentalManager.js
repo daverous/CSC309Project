@@ -50,10 +50,12 @@ module.exports = {
         findOrCreateHouse = function() {
 
             console.log("user" + user);
+            console.log(req.body.houseName);
             // var userName = req.param('username');
             // console.log(userName);
             var houseName = req.body.houseName;
             if (!houseName) {
+                console.log('I am finished');
                 return done;
             }
             if (req.files) {
@@ -79,36 +81,36 @@ module.exports = {
         //  // TODO make sure its not just name that is checked
         HouseProfile.findOne({ 'name' :  houseName }, function(err, house) {
             if (!house) {
-
+                console.log('Hey we did not find a house');
                 var createHouse = new HouseProfile();
                 createHouse.name = houseName;
                 createHouse.desc = req.body.description;
-                            // name of path will be housename
-                            createHouse.maxRenters = req.body.maxt;
-                            createHouse.owner = user;
-                            if (req.files) {
-                            // createHouse.picture.data = fs.readFileSync(tempPath);
-                            // createHouse.picture.contentType = type;
+                // name of path will be housename
+                createHouse.maxRenters = req.body.maxt;
+                createHouse.owner = user;
+                if (req.files) {
+                    // createHouse.picture.data = fs.readFileSync(tempPath);
+                    // createHouse.picture.contentType = type;
+                }
                         
 
 
 
-                            // add the user to the database
-                            createHouse.save(function(err) {
-                                if (err){
-                                    console.log('Error (could not save): ' + err);  
-                                    throw err;  
-                                }
-                                else {
-                                    console.log('Added house succesfully' + createHouse);    
-                                    return done;
-                                }
-                            });
-                        }
+                // add the user to the database
+                createHouse.save(function(err) {
+                    if (err){
+                        console.log('Error (could not save): ' + err);  
+                        throw err;  
                     }
-                        else {
-                            console.log('Error (house exists): ' + houseName);
-                        }});
+                    else {
+                        console.log('Added house succesfully' + createHouse);    
+                        return done;
+                    }
+                });
+            }
+            else {
+                console.log('Error (house exists): ' + houseName);
+            }});
     }
     process.nextTick(findOrCreateHouse);
 

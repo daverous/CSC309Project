@@ -47,6 +47,7 @@ module.exports = function (passport) {
 	});
 	router.post('/addRental',function(req, res) {
 		// var un = cookie.parse('usernamecookie');
+		console.log(req.body);
 		console.log("username" + req.session.userName);
 		rentalManager.addRental(req, res, req.session.userName);
 		res.redirect('/home');
@@ -88,11 +89,22 @@ module.exports = function (passport) {
 
 	router.get('/home', function(req, res) {
         // res.cookie('usernamecookie', req.user.username, { maxAge: 2592000000 });  // Expires in one mon
+        function render(user, houses){
+        	res.render('home', { user: req.user, "houses": houses });
+        }
+
         if (req.user) {
-        req.session.userName = req.user.username;
-        req.session.user = req.user;
-    }
-		res.render('home', { user: req.user });
+	        req.session.userName = req.user.username;
+	        req.session.user = req.user;
+	        house.find({owner : req.user.username}, function(err, houses){
+	        	if(err){
+	        		console.log("could not find house");
+	        	}
+	        	console.log(houses);
+	        	render(req.session.user, houses);
+	        });
+    	}
+		
 	});
 
 	router.get('/logout', function(req, res) {
@@ -127,6 +139,14 @@ module.exports = function (passport) {
 		user.list(function(err, users){
 			res.render('admin',{
 				"users" : users
+			});
+		});
+	});
+
+	router.get('/listHouses', function(req, res){
+		house.list(function(err, houses){
+			res.render('listHouses',{
+				"houses" : houses
 			});
 		});
 	});
