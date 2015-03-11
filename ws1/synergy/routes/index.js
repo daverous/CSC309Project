@@ -105,7 +105,7 @@ module.exports = function (passport) {
 		var cuser = req.session.user;
 
 		if (cuser){
-			User
+			user
 			.findOne({ _id: cuser._id })
 			.populate('_friends')
 			.exec(function (err) {
