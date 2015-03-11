@@ -62,7 +62,7 @@ module.exports = {
                 throw err;
             }
             } else {
-                var objects = findUsers(house);
+                var objects = network.findUsers(house);
 
                 UserProfile.findOne({username: user}, function(err, result){
                     result._friends.concat(objects);
