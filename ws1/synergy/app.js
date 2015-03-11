@@ -12,7 +12,7 @@ var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var authenticate = require('./js/auth');
 var rentalManager = require('./js/rentalManager');
-var Cookies = require( "cookies" );
+var Cookies = require("cookies");
 var cookieParser = require('cookie-parser');
 mongoose.connect("mongodb://localhost/test");
 
@@ -26,12 +26,19 @@ app.set('view engine', 'jade');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser({ keepExtensions: true, uploadDir: __dirname + '/public/uploads' }));
+app.use(bodyParser({
+    keepExtensions: true,
+    uploadDir: __dirname + '/public/uploads'
+}));
 // key for hash computationx
-app.use(express_session({secret: 'top_secret_key'}));
+app.use(express_session({
+    secret: 'top_secret_key'
+}));
 
 // store and display messages in templates
 app.use(flash());
@@ -48,7 +55,7 @@ var routes = require('./routes/index')(passport);
 app.use('/', routes);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -59,7 +66,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -70,7 +77,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
