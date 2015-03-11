@@ -20,7 +20,6 @@ module.exports = {
         });
 
     },
-
     getTopRentals : function(req, done){
 
         HouseProfile.find().sort( { rating: 1} ).limit(10), function(err, houses) {
@@ -40,6 +39,7 @@ module.exports = {
             else {
                 house.currentRenters.push(newTennant);
             }
+
         }
         )},
     //add rental
@@ -86,7 +86,7 @@ module.exports = {
                             if (req.files) {
                             // createHouse.picture.data = fs.readFileSync(tempPath);
                             // createHouse.picture.contentType = type;
-                        }
+                        
 
 
 
@@ -102,28 +102,21 @@ module.exports = {
                                 }
                             });
                         }
+                    }
                         else {
-                            console.log('Added house succesfully');    
-                            return done;
-                        }
-                    });
-                } else {
-                   console.log('Error (house exists): ' + houseName);
-                }
-            });
-        }
-    
-        process.nextTick(findOrCreateHouse);
+                            console.log('Error (house exists): ' + houseName);
+                        }});
+    }
+    process.nextTick(findOrCreateHouse);
 
-    },
+},
 
-    // take in old name to avoid new one being changed
-    editRental : function (req, oldName, houseObj, userName ,done) {
+        // take in old name to avoid new one being changed
+        editRental : function (req, oldName, houseObj, userName ,done){
         // TODO make sure its not just name that is checked
         if  (userName != houseObj.owner) {
             return false;
         }
-
         HouseProfile.update({ 'houseName' :  houseObj.houseName }, {
             name: houseObj.name,
             desription: houseObj.description,
@@ -132,8 +125,14 @@ module.exports = {
             evaluations:houseObj.evaluations,
             maxRenters: houseObj.maxRenters,
             currentRenters: houseObj.currentRenters,
-            // Path to folder where images for house are stored
-            picture : houseObj.picture,
-        });
+        // Path to folder where images for house are stored
+        picture : houseObj.picture,
+    }
+    );
     }
 }
+
+
+
+
+
