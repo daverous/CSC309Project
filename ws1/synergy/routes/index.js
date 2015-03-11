@@ -1,5 +1,6 @@
 var express = require('express');
 var rentalManager = require('../js/rentalManager');
+var network = require('../js/network');
 var router = express.Router();
 
 var user = require('../models/user').model;
@@ -99,20 +100,27 @@ module.exports = function(passport) {
         var isFriend = cuser._friends.some(function(friend) {
             return friend.equals(req.params.id);
         });
+        var id_user = user.findOne({_id: req.params.id});
+        var rating = network.calcRating(id_user);
 
         if (cuser && cuser._id == req.params.id) {
             res.render('profile', {
-                user: req.params.id
+                user: id_user
             });
         } else if (isFriend) {
             res.render('profile', {
-                user: req.params.id,
-                current_user: cuser
+                user: id_user,
+                current_user: cuser,
+                rating: rating
             });
         } else {
             res.render('profile', {});
         }
         //res.send('user ' + req.params.id);
+    });
+    router.post('/user/:id([a-z0-9]+)', function(req, res) {
+        network.addRating(req, res, req.session.user);
+        res.redirect('/user/' + req.params.id);
     });
 
     router.get('/home', function(req, res) {
