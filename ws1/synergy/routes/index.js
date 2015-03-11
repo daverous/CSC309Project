@@ -201,10 +201,14 @@ module.exports = function(passport) {
     });
 
     router.post('/rent', function(req, res) {
-        rentalManager.addTennant(req, res, req.session.userName);
-        res.redirect('home');
+        // rentalManager.addTennant(req, res, req.session.userName);
+        var dateObj =  new Date();
+        res.render('rentalAgreement', {user : req.session.userName, house : req.body.house, owner : req.body.owner, date : dateObj});
     });
-
+    router.post('/rentaccept', function(req, res) {
+        rentalManager.addTennant(req, res, req.session.userName);
+        res.redirect('/home');
+    });
     router.get('/listHouses', function(req, res) {
         HouseProfile.list(function(err, houses) {
             console.log(houses);

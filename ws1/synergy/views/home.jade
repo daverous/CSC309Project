@@ -23,6 +23,8 @@ block content
                   p No Renters
               form(method="post" action='/editRental')
                 input(name="id", value=house._id, type='hidden')
+                input(name="house", value=house.name, type='hidden')
+                input(name="owner", value=house.owner, type='hidden')
                 input(class = 'btn btn-default',type='submit' value='Edit »') 
       else
         .row
