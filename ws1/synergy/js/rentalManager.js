@@ -3,7 +3,7 @@ var util = require('util');
 var fs = require('fs');
 var bCrypt = require('bcrypt-nodejs');
 var PassportLocalStrategy = require('passport-local').Strategy;
-var UserProfile = require('../models/user');
+var UserProfile = require('../models/user').model;
 
 
 // var authenticate = require('auth');

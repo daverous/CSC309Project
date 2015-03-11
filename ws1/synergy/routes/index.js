@@ -120,7 +120,7 @@ module.exports = function(passport) {
     });
     router.post('/user/:id([a-z0-9]+)', function(req, res) {
         network.addRating(req, res, req.session.user);
-        res.redirect('/user/' + req.params.id);
+        res.send("Updated rating");
     });
 
     router.get('/home', function(req, res) {
