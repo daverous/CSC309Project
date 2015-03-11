@@ -4,12 +4,19 @@ var util = require('util');
 var fs = require('fs');
 var bCrypt = require('bcrypt-nodejs');
 var PassportLocalStrategy   = require('passport-local').Strategy;
-var UserProfile = require('../models/user');
 
 
 // var authenticate = require('auth');
 
 module.exports = {
+    findHousesByName : function(name) {
+        HouseProfile.find({name: new RegExp(name, /^a/i)}, function(err, houses) {
+               if (err) {
+                return console.error(err);
+            }
+            return houses;
+});
+    },
 
     findHousesForUser : function(username) {
         HouseProfile.find({ owner: username }, function(err, houses) {
