@@ -3,6 +3,7 @@ var rentalManager = require('../js/rentalManager');
 var router = express.Router();
 
 var user = require('../models/user').model;
+var rating = require('../models/user').rmodel;
 var admin = require('../models/admin').model;
 var house = require('../models/house').model;
 var cookie = require('cookie');
@@ -65,6 +66,8 @@ module.exports = function (passport) {
 	});
 	
 	router.get('/user/:id([a-z0-9]+)', function(req, res){
+		req.user = req.session.userName;
+		
 		var isFriend = req.user._friends.some(function (friend){
 			return friend.equals(req.params.id);
 		});
@@ -97,6 +100,8 @@ module.exports = function (passport) {
 	});
 
 	router.get('/network', function(req, res, next){
+		req.user = req.session.userName;
+
 		if (req.user){
 			User
 			.findOne({ _id: req.user._id })
