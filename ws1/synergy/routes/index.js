@@ -83,7 +83,12 @@ module.exports = function(passport) {
             });
         })
     });
-
+    router.post('/modifyRental', function(req, res) {
+        console.log(req.body.desc);
+        rentalManager.editRental(req, res, req.session.userName);
+        res.redirect('/home');
+        // TODO success screen
+    });
 
     router.get('/manageRentals', function(req, res) {
         var h = rentalManager.findHousesForUser(req.session.userName);
@@ -202,8 +207,14 @@ module.exports = function(passport) {
 
     router.post('/rent', function(req, res) {
         // rentalManager.addTennant(req, res, req.session.userName);
-        var dateObj =  new Date();
-        res.render('rentalAgreement', {id : req.body.id, user : req.session.userName, house : req.body.house, owner : req.body.owner, date : dateObj});
+        var dateObj = new Date();
+        res.render('rentalAgreement', {
+            id: req.body.id,
+            user: req.session.userName,
+            house: req.body.house,
+            owner: req.body.owner,
+            date: dateObj
+        });
     });
     router.post('/rentaccept', function(req, res) {
         rentalManager.addTennant(req, res, req.session.userName);
@@ -251,9 +262,9 @@ module.exports = function(passport) {
     });
 
     router.post('/')
-    router.get('*', function(req, res){
-  res.render('notfound', 404);
-});
+    router.get('*', function(req, res) {
+        res.render('notfound', 404);
+    });
     return router;
 }
 

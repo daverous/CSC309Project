@@ -4,6 +4,8 @@ var houseSchema = new mongoose.Schema({
     name: String,
     desc: String,
     owner: String,
+    addr:String,
+    price: Number,
     rating: {
         type: Number,
         default: 3

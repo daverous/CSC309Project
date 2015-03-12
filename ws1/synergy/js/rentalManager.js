@@ -58,23 +58,27 @@ module.exports = {
             }
             if (!house) {
                 throw err;
-            if (!user) {
-                throw err;
-            }
+                if (!user) {
+                    throw err;
+                }
             } else {
                 var objects = network.findUsers(house);
 
-                UserProfile.findOne({username: user}, function(err, result){
+                UserProfile.findOne({
+                    username: user
+                }, function(err, result) {
                     result._friends.concat(objects);
                     result.save;
                 });
 
                 house.currentRenters.push(user);
                 house.save;
-                
-                for (var i = 0; i < house.currentRenters.length; i++){
-                    UserProfile.findOne({username: house.currentRenters[i]},
-                        function(err, result){
+
+                for (var i = 0; i < house.currentRenters.length; i++) {
+                    UserProfile.findOne({
+                            username: house.currentRenters[i]
+                        },
+                        function(err, result) {
                             result._friends.concat(objects);
                             result.save;
                         });
@@ -118,6 +122,8 @@ module.exports = {
                     var createHouse = new HouseProfile();
                     createHouse.name = houseName;
                     createHouse.desc = req.body.description;
+                    createHouse.addr = req.body.addr;
+                    createHouse.price = req.body.price;
                     // name of path will be housename
                     createHouse.maxRenters = req.body.maxt;
                     createHouse.owner = user;
@@ -156,7 +162,9 @@ module.exports = {
             $set: {
                 name: req.body.houseName,
                 desc: req.body.description,
-                maxRenters: req.body.maxt
+                maxRenters: req.body.maxt,
+                addr: req.body.addr,
+                price: req.body.price
 
                 // Path to folder where images for house are stored
                 //TODO update picture

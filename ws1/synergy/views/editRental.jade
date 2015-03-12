@@ -11,9 +11,15 @@ block content
             p
               <b>House Name</b> 
               input.form-control(type='text', name='houseName' value=house.name)
+            p
+              <b>Address</b> 
+              input.form-control(type='text', name='addr' value=house.addr)
             p 
               <b>Maximum tenants</b> 
               input(type='number', name='maxt', value='#{house.maxRenters}')
+             p 
+              <b>Price</b> 
+              input(type='number', name='price', value='#{house.price}')
             p
               <b> House description </b>
               textarea(name="description" class="form-control" rows="3" placeholder='#{house.desc}')
