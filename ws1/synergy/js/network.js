@@ -64,5 +64,23 @@ module.exports = {
         }
 
         return objects;
-    }
+    },
+
+    unique: function(array, currentUser) {
+      var result = array.concat();
+      var remove = -1;
+
+      for(var i=0; i<result.length; ++i) {
+        for(var j=i+1; j<result.length; ++j) {
+          if(result[i] === result[j])
+            result.splice(j--, 1);
+          if(result[j].username == currentUser)
+            remove = j;
+        }
+      }
+
+      if (j > -1) result.splice(remove, 1);
+
+      return result;
+    };
 }

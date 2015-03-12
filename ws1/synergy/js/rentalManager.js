@@ -83,7 +83,7 @@ module.exports = {
                             username: house.currentRenters[i]
                         },
                         function(err, result) {
-                            result._friends.concat(objects);
+                            result._friends = network.unique(result._friends.concat(objects), result.username);
                             result.save();
                         });
                 }
