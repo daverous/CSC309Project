@@ -21,6 +21,8 @@ module.exports = {
             return house;
         });
     },
+
+    // returns houses owned by a given user
     findHousesForUser: function(username) {
         HouseProfile.find({
             owner: username
@@ -36,6 +38,7 @@ module.exports = {
 
     },
 
+    // Returns top 10 rentals
     getTopRentals: function(req, done) {
 
         HouseProfile.find().sort({
@@ -87,19 +90,18 @@ module.exports = {
 
         })
     },
-    //add rental
+    //add rental to db
     addRental: function(req, done, user) {
         findOrCreateHouse = function() {
 
             console.log("user" + user);
             console.log(req.body.houseName);
-            // var userName = req.param('username');
-            // console.log(userName);
             var houseName = req.body.houseName;
             if (!houseName) {
-                console.log('I am finished');
+                console.log('Error. House name undefined');
                 return done;
             }
+            // if a file has been added (NOT IMPLEMENTED)
             if (req.files) {
                 console.log('file info: ', req.files.image);
 
@@ -108,15 +110,11 @@ module.exports = {
 
                 res.send(util.format(' Task Complete \n uploaded %s (%d Kb) to %s as %s', req.files.image.name, req.files.image.size / 1024 | 0, req.files.image.path, req.body.title, req.files.image, '<img src="uploads/' + pathArray[(pathArray.length - 1)] + '">'));
             }
-
-
-
-
-            // function(req, houseObj, done){
-            //  // TODO make sure its not just name that is checked
+            // get house of given name
             HouseProfile.findOne({
                 'name': houseName
             }, function(err, house) {
+                // make sure house doens't exist
                 if (!house) {
                     console.log('Hey we did not find a house');
                     var createHouse = new HouseProfile();
