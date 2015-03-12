@@ -251,6 +251,9 @@ module.exports = function(passport) {
     });
 
     router.post('/')
+    router.get('*', function(req, res){
+  res.render('notfound', 404);
+});
     return router;
 }
 
