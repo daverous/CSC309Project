@@ -31,8 +31,8 @@ module.exports = {
             			rated.rating -= result.rating;
        					result.rating = req.body.rating;
        					rated.rating += result.rating;
-       					rated.save;
-       					result.save;
+       					rated.save();
+       					result.save();
             		}
             	});
             } else{
@@ -43,8 +43,8 @@ module.exports = {
        					result._ratings.push({rated_friend: rated._id, rating: req.body.rating});
        					rated.rating += req.body.rating;
        					rated.evaluations += 1;
-       					rated.save;
-       					result.save;
+       					rated.save();
+       					result.save();
             		}
             	});
             }

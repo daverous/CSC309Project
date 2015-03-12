@@ -48,7 +48,7 @@ module.exports = {
 
     },
 
-    addTennant: function(req, done, user) {
+    addTennant: function(req, user) {
         var id = req.body.id;
         HouseProfile.findOne({
             '_id': id
@@ -68,11 +68,12 @@ module.exports = {
                     username: user
                 }, function(err, result) {
                     result._friends.concat(objects);
-                    result.save;
+                    result.save();
                 });
 
                 house.currentRenters.push(user);
-                house.save;
+                console.log(house.currentRenters)''
+                house.save();
 
                 for (var i = 0; i < house.currentRenters.length; i++) {
                     UserProfile.findOne({
@@ -80,7 +81,7 @@ module.exports = {
                         },
                         function(err, result) {
                             result._friends.concat(objects);
-                            result.save;
+                            result.save();
                         });
                 }
             }
