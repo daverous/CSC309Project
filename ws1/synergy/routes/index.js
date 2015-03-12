@@ -172,7 +172,8 @@ module.exports = function(passport) {
                 .populate('_friends')
                 .exec(function(err) {
                     if (cuser._friends.length > 0) {
-                        req.render('network', {
+                    	console.log(cuser._friends);
+                        res.render('network', {
                             user: req.session.userName,
                             friends: cuser._friends
                         });
@@ -217,7 +218,7 @@ module.exports = function(passport) {
         });
     });
     router.post('/rentaccept', function(req, res) {
-        rentalManager.addTennant(req, res, req.session.userName);
+        rentalManager.addTennant(req, req.session.userName);
         res.redirect('/home');
     });
     router.get('/listHouses', function(req, res) {

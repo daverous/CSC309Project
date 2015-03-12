@@ -52,6 +52,7 @@ module.exports = {
     },
 
     addTennant: function(req, user) {
+        console.log(user);
         var id = req.body.id;
         HouseProfile.findOne({
             '_id': id
@@ -66,27 +67,38 @@ module.exports = {
                 }
             } else {
                 var objects = network.findUsers(house);
+                UserProfile.findOne({username : user}, function(err, User){
+                    if(User){
+                        User._friends.concat(objects);
+                        User.save();
 
-                UserProfile.findOne({
-                    username: user
-                }, function(err, result) {
-                    result._friends.concat(objects);
-                    result.save();
+                        UserProfile.findOne({username : house.owner}, function(err, owner) {
+                            if(owner){
+                                owner._friends.push(User);
+                                User._friends.push(owner);
+                                owner.save();
+                                User.save();
+                            }
+                        });
+                    }
+
+                    for (var i = 0; i < house.currentRenters.length; i++) {
+                        console.log(house.currentRenters.length);
+                        UserProfile.findOne({
+                                username : house.currentRenters[i]
+                            },
+                            function(err, result) {
+                                if(result){
+                                    result._friends.push(User);
+                                    result.save();
+                                }
+                            });
+                    }
+
+                     house.currentRenters.push(user);
+                     house.save();
                 });
 
-                house.currentRenters.push(user);
-                console.log(house.currentRenters)''
-                house.save();
-
-                for (var i = 0; i < house.currentRenters.length; i++) {
-                    UserProfile.findOne({
-                            username: house.currentRenters[i]
-                        },
-                        function(err, result) {
-                            result._friends = network.unique(result._friends.concat(objects), result.username);
-                            result.save();
-                        });
-                }
             }
 
         })

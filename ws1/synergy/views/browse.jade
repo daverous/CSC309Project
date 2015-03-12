@@ -19,7 +19,7 @@ block content
           h3 max renters
           p=house.maxRenters
           each renter in house.currentRenters
-            p a(href='/'renter)=renter
+            a(href='/#{renter}')=renter
           form(method="post" action='/rent')
             input(name="id", value=house._id, type='hidden')
             input(name="house", value=house.name, type='hidden')

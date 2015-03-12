@@ -10,9 +10,9 @@ block content
           if friends
             ul.user-network
                 each friend in friends
-                  li a(href="/user/" + friend._id) #{friend.firstname} #{friend.lastname}
+                  a(href="/user/#{friend._id}") #{friend.firstName} #{friend.lastName}
           else
-            p You currenly have no one in your network. Rent or Add a Workspace to get started.
+            p You currently have no one in your network. Rent or Add a Workspace to get started.
         else
           h2 <b>Welcome to Synergy Space!</b>
           a(href="/login") Please login to see your network.

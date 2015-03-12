@@ -25,8 +25,9 @@ var userSchema = new mongoose.Schema({
         default: 0
     },
     _friends: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'User'
+        _id: { type: mongoose.Schema.ObjectId, ref: 'User' },
+        firstName : { type: String, ref: 'User'},
+        lastName : { type: String, ref: 'User'}
     }],
     _ratings: [ratingSchema],
     //It's possible for a tenant to also be an owner?
@@ -44,6 +45,16 @@ userSchema.statics.list = function (callback) {
             return (err, null);
         } else {
             callback(null, users);
+        }
+    });
+}
+
+userSchema.statics.getUser = function(username, callback){
+    this.findOne({username : username}, function(err, user){
+        if(err){
+            return (err, null);
+        } else{
+            callback(null, user);
         }
     });
 }

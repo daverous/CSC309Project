@@ -82,5 +82,5 @@ module.exports = {
       if (j > -1) result.splice(remove, 1);
 
       return result;
-    };
+    }
 }
