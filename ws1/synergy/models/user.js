@@ -49,16 +49,6 @@ userSchema.statics.list = function (callback) {
     });
 }
 
-userSchema.statics.getUser = function(username, callback){
-    this.findOne({username : username}, function(err, user){
-        if(err){
-            return (err, null);
-        } else{
-            callback(null, user);
-        }
-    });
-}
-
 var User = mongoose.model('User', userSchema);
 var Rating = mongoose.model('Rating', ratingSchema);
 
