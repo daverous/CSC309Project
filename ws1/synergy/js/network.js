@@ -52,6 +52,10 @@ module.exports = {
 		});
 	},
 
+  findUsers: function(house){
+        return house.currentRenters;
+  },
+  /*
 	findUsers: function(house){
         var renters = house.currentRenters;
         var objects = new Array(house.currentRenters.length);
@@ -65,7 +69,7 @@ module.exports = {
 
         return objects;
     },
-
+  */
     unique: function(array, currentUser) {
       var result = array.concat();
       var remove = -1;

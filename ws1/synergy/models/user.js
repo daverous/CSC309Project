@@ -27,7 +27,12 @@ var userSchema = new mongoose.Schema({
     _friends: [{
         _id: { type: mongoose.Schema.ObjectId, ref: 'User' },
         firstName : { type: String, ref: 'User'},
-        lastName : { type: String, ref: 'User'}
+        lastName : { type: String, ref: 'User'},
+        email: { type: String, ref: 'User'},
+        username: { type: String, ref: 'User'},
+        rating: {type: Number, default: 0, ref: 'User'},
+        evaluations: {type: Number, default: 0, ref: 'User'}
+
     }],
     _ratings: [ratingSchema],
     //It's possible for a tenant to also be an owner?

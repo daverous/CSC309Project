@@ -81,7 +81,12 @@ module.exports = {
                             }
                         });
                     }
-
+                    for (var i = 0; i < house.currentRenters.length; i++) {
+                        console.log(house.currentRenters.length);
+                        house.currentRenters[i]._friends.push(User);
+                        house.currentRenters[i].save();
+                    }
+                    /*
                     for (var i = 0; i < house.currentRenters.length; i++) {
                         console.log(house.currentRenters.length);
                         UserProfile.findOne({
@@ -93,9 +98,9 @@ module.exports = {
                                     result.save();
                                 }
                             });
-                    }
+                    }*/
 
-                     house.currentRenters.push(user);
+                     house.currentRenters.push(User);
                      house.save();
                 });
 

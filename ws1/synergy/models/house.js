@@ -15,9 +15,16 @@ var houseSchema = new mongoose.Schema({
         default: 0
     },
     maxRenters: Number,
-    currentRenters: {
-        type: [String]
-    },
+    currentRenters: [{
+        _id: { type: mongoose.Schema.ObjectId, ref: 'User' },
+        firstName : { type: String, ref: 'User'},
+        lastName : { type: String, ref: 'User'},
+        email: { type: String, ref: 'User'},
+        username: { type: String, ref: 'User'},
+        rating: {type: Number, default: 0, ref: 'User'},
+        evaluations: {type: Number, default: 0, ref: 'User'}
+
+    }],
     // Path to folder where images for house are stored
     picture: {
         data: Buffer,
