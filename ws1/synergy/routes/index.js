@@ -100,28 +100,31 @@ module.exports = function(passport) {
     });
 
     router.get('/user/:id([a-z0-9]+)', function(req, res) {
-        var cuser = req.session.user;
-        var isFriend = cuser._friends.some(function(friend){
-        	return friend._id == req.params.id;
-        });
-        user.findOne({_id: req.params.id}, function(err, id_user){
-        	var rating = network.calcRating(id_user);
+        if (req.session.user){
+            var cuser = req.session.user;
+            var isFriend = cuser._friends.some(function(friend){
+                return friend._id == req.params.id;
+            });
+            user.findOne({_id: req.params.id}, function(err, id_user){
+                var rating = network.calcRating(id_user);
 
-	        if (cuser && cuser._id == req.params.id) {
-	            res.render('profile', {
-	                user: id_user,
-	                current_user: cuser
-	            });
-	        } else if (isFriend) {
-	            res.render('profile', {
-	                user: id_user,
-	                current_user: cuser,
-	                rating: rating
-	            });
-	        } else {
-	            res.render('profile', {});
-	        }
-        });
+                if (cuser && cuser._id == req.params.id) {
+                    res.render('profile', {
+                        user: id_user
+                    });
+                } else if (isFriend) {
+                    res.render('profile', {
+                        user: id_user,
+                        current_user: cuser,
+                        rating: rating
+                    });
+                } /*else {
+                    res.render('profile', {});
+                }*/
+            });
+        } else {
+            res.redirect('/');
+        }
         //res.send('user ' + req.params.id);
     });
     router.post('/user/:id([a-z0-9]+)', function(req, res) {
