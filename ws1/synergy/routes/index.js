@@ -252,7 +252,7 @@ module.exports = function(passport) {
             }
         } else {
             admin.deleteUsers(req.body.modUser, req.body.id, req.body.delUser, function(deleted) {
-                //users have been deleted, do not both modifying 
+                //users have been deleted, do not both modifying
                 for (var i = 0; i < deleted.length; i++) {
                     req.body.modUser[deleted[i]] = 0;
                 }
@@ -265,38 +265,38 @@ module.exports = function(passport) {
     });
 
      router.get('/HomesModel', function(req, res) {
-        HouseProfile.find(), function(err, houses) {
+        HouseProfile.find().exec(function(err, houses) {
             if (err) {
                 throw err;
             }
             else {
                 res.status(200).send(houses);
             }
-        }
+        });
     });
 
     router.get('/UserModel', function(req, res) {
-        user.find(), function(err, users) {
+        user.find().exec(function(err, users) {
             if (err) {
                 throw err;
             }
             else {
                 res.status(200).send(users);
             }
-        }
+        });
     });
 
     router.get('/UserAuthenticatedModel', function(req, res) {
         user.find( {
             username: req.session.userName
-        }), function(err, users) {
+        }).exec(function(err, users) {
             if (err) {
                 throw err;
             }
             else {
                 res.status(200).send(users);
             }
-        }
+        });
     });
 
 
