@@ -132,7 +132,7 @@ module.exports = function(passport) {
         res.send("Updated rating");
     });
 
-    router.get('/home', function(req, res) {
+       router.get('/home', function(req, res) {
         // res.cookie('usernamecookie', req.user.username, { maxAge: 2592000000 });  // Expires in one mon
         function render(user, houses) {
             res.render('home', {
@@ -263,6 +263,45 @@ module.exports = function(passport) {
         res.redirect("admin#users");
 
     });
+
+     router.get('/HomesModel', function(req, res) {
+        HouseProfile.find(), function(err, houses) {
+            if (err) {
+                throw err;
+            }
+            else {
+                res.status(200).send(houses);
+            }
+        }
+    });
+
+    router.get('/UserModel', function(req, res) {
+        user.find(), function(err, users) {
+            if (err) {
+                throw err;
+            }
+            else {
+                res.status(200).send(users);
+            }
+        }
+    });
+
+    router.get('/UserAuthenticatedModel', function(req, res) {
+        user.find( {
+            username: req.session.userName
+        }), function(err, users) {
+            if (err) {
+                throw err;
+            }
+            else {
+                res.status(200).send(users);
+            }
+        }
+    });
+
+
+
+
 
     router.post('/')
     router.get('*', function(req, res) {

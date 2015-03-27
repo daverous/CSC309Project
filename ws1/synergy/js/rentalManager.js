@@ -67,13 +67,17 @@ module.exports = {
                 }
             } else {
                 var objects = network.findUsers(house);
-                UserProfile.findOne({username : user}, function(err, User){
-                    if(User){
+                UserProfile.findOne({
+                    username: user
+                }, function(err, User) {
+                    if (User) {
                         User._friends.concat(objects);
                         User.save();
 
-                        UserProfile.findOne({username : house.owner}, function(err, owner) {
-                            if(owner){
+                        UserProfile.findOne({
+                            username: house.owner
+                        }, function(err, owner) {
+                            if (owner) {
                                 owner._friends.push(User);
                                 User._friends.push(owner);
                                 owner.save();
@@ -100,8 +104,8 @@ module.exports = {
                             });
                     }*/
 
-                     house.currentRenters.push(User);
-                     house.save();
+                    house.currentRenters.push(User);
+                    house.save();
                 });
 
             }
@@ -194,4 +198,40 @@ module.exports = {
             update.save();
         });
     }
+    $(function() {
+        var source = $("#search-results").html();
+        var dataTemplate = Handlebars.compile(source);
+        $results = $('#results')
+
+        $('#search').on('keyup', function(e) {
+            if (e.keyCode === 13) {
+                var parameters = {
+                    search: $(this).val()
+                };
+                $.get('/searching', parameters, function(data) {
+                    if (data instanceof Array) {
+                        $results.html(dataTemplate({
+                            resultsArray: data
+                        }));
+                    } else {
+                        $results.html(data);
+                    };
+                });
+            };
+        });
+        $('#results').on('click', '.save-btn', function() {
+            var jobTitle = $(this).next('a').text()
+            var jobURL = $(this).next('a').attr('href')
+            var parameters = {
+                title: jobTitle,
+                url: jobURL
+            };
+            console.log(parameters)
+            $(this).parent().remove()
+            $.get('/save', parameters, function(data) {
+                $('#alert').html(data)
+                console.log(data)
+            });
+        });
+    });
 }
