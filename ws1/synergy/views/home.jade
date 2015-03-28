@@ -2,43 +2,47 @@ extends layout
 
 block content
     include navbar
-  
-    if user
-      h3 <b>Welcome, #{user.username}</b>
-      if houses 
-        .row
-          each house in houses
-            .col-sm-12
-              h2=house.name
-              h3 description
-              p=house.desc
-              h3 price
-              p=house.price
-              h3 address
-              p=house.addr
-              h3 max renters
-              p=house.maxRenters
-              h3 Current Renters
-                if house.currentRenters
-                  p=house.currentRenters
-                  each renter in house.currentRenters
-                    p a(href='/'renter)=renter
-                else
-                  p No Renters
-              form(method="post" action='/editRental')
-                input(name="id", value=house._id, type='hidden')
-                input(name="house", value=house.name, type='hidden')
-                input(name="owner", value=house.owner, type='hidden')
-                input(class = 'btn btn-default',type='submit' value='Edit »') 
-      else
-        .row
-          h3 No Rentals yet!
-          a.btn.btn-default(href='/addRental', role='button') Add New Rental »
-    else
-      h3 <b> Error </b>
-      p 
-        a.btn.btn-primary.btn-large Learn more &raquo;
 
-   
+    div(ng-controller='HomeCtrl')
+      if user
+        h3 <b>Welcome, #{user.username}</b>
+        if houses
+          .row
+          div(ng-init="setContent('homeView.jade')")
+            div(ng-include="content")
+          //
+              each house in houses
+                .col-sm-12
+                  h2=house.name
+                  h3 description
+                  p=house.desc
+                  h3 price
+                  p=house.price
+                  h3 address
+                  p=house.addr
+                  h3 max renters
+                  p=house.maxRenters
+                  h3 Current Renters
+                    if house.currentRenters
+                      p=house.currentRenters
+                      each renter in house.currentRenters
+                        p a(href='/'renter)=renter
+                    else
+                      p No Renters
+                  form(method="post" action='/editRental')
+                    input(name="id", value=house._id, type='hidden')
+                    input(name="house", value=house.name, type='hidden')
+                    input(name="owner", value=house.owner, type='hidden')
+                    input(class = 'btn btn-default',type='submit' value='Edit »')
+        else
+          .row
+            h3 No Rentals yet!
+            a.btn.btn-default(href='/addRental', role='button') Add New Rental »
+
+      else
+        h3 <b> Error </b>
+        p
+          a.btn.btn-primary.btn-large Learn more &raquo;
+
     footer
       p &copy; 2014 Spanish Inquisition

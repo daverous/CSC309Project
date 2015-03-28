@@ -3,7 +3,7 @@ extends layout
 block content
 	div.container
 		div.col-sm-6.col-md-6.col-md-offset-3
-			form( method='post')#login-form.well.span4
+			form(class='form-signin' method='post' action='/login')#login-form.well.span4
 				h2 <b>Welcome to Synergy Space!</b>
 				h3 Please sign in
 				p
@@ -14,11 +14,11 @@ block content
 					button(type='submit')#btn-login.btn.btn-primary
 						i.icon-lock.icon-white
 						| Sign in
-			
+
 				//
-					label.checkbox.input(type='checkbox' style='margin-left: 1px;' value='remember-me')  
+					label.checkbox.input(type='checkbox' style='margin-left: 1px;' value='remember-me')
 						&nbsp; &nbsp; &nbsp; Remember me
-				
+
 				div.clear-fix
 				div.btm-links
 					//

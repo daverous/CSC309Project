@@ -4,7 +4,7 @@ block content
 		include navbar
 		div.container
 			div.col-sm-6.col-md-6.col-md-offset-3
-				form(method="post" )#house-form.well.span4
+				form(method="post" action="/addRental")#house-form.well.span4
 					h2 <b>Create a new listing for #{user} </b>
 					br
 					p
@@ -13,14 +13,14 @@ block content
 					p
 						input.form-control(type='text', name='addr', placeholder='Address')
 
-						input.form-control(type='number', step="0.01", name='addr', placeholder='Price')
+						input.form-control(type='number', step="0.01", name='price', placeholder='Price')
 						//- div(data-role='fieldcontain')
 						input.form-control(type='text',pattern='\\d*', name='maxt', placeholder='Maximum Number of tenents')
 						textarea(id="theTextarea" class="form-control" rows="3" placeholder="description", name='description')
 						br
-						
+
 						input(type="file", multiple, name="image")
-						br      
+						br
 						button(type='submit')#btn-create.btn.btn-success
 							i.icon-lock.icon-white
 							| Create
