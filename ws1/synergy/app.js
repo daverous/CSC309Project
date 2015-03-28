@@ -27,14 +27,10 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: false
+    extended: true
 }));
+
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser({
-    keepExtensions: true,
-    uploadDir: __dirname + '/public/uploads'
-}));
 // key for hash computationx
 app.use(express_session({
     secret: 'top_secret_key'
@@ -50,9 +46,7 @@ app.use(passport.session());
 // adding user-authentication code
 authenticate(passport);
 
-var routes = require('./routes/index')(passport);
-
-app.use('/', routes);
+require('./routes')(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -85,4 +79,5 @@ app.use(function(err, req, res, next) {
     });
 });
 
-module.exports = app;
+app.listen(8080);
+// module.exports = app;
