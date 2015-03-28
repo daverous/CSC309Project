@@ -1,20 +1,22 @@
 var express = require('express');
-var rentalManager = require('../js/rentalManager');
-var network = require('../js/network');
 var router = express.Router();
-
-var user = require('../models/user').model;
-var rating = require('../models/user').rmodel;
-var admin = require('../models/admin').model;
-var HouseProfile = require('../models/house').model;
 var cookie = require('cookie');
 var cookieParser = require('cookie-parser');
 
 
-module.exports = function(passport) {
+module.exports = function(app, passport) {
+    var user = require('./models/user').model;
+    var rating = require('./models/user').rmodel;
+    var admin = require('./models/admin').model;
+    var HouseProfile = require('./models/house').model;
+    var rentalManager = require('./js/rentalManager');
+    var network = require('./js/network');
+
+    app.use('/public', express.static( './public'));
+
     //TODO store user somewhere for session
     /* GET home page. */
-    router.get('/', function(req, res, next) {
+    app.get('/', function(req, res, next) {
         if (req.user) {
             req.session.userName = req.user.username;
             req.session.user = req.user;
@@ -24,37 +26,37 @@ module.exports = function(passport) {
         });
     });
 
-    router.get('/login', function(req, res, next) {
+    app.get('/login', function(req, res, next) {
         res.render('login', {
             message: req.flash('message')
         });
     });
 
-    router.post('/login', passport.authenticate('login', {
+    app.post('/login', passport.authenticate('login', {
         successRedirect: '/home',
         failureRedirect: '/login',
         failureFlash: true
     }));
 
-    router.get('/register', function(req, res, next) {
+    app.get('/register', function(req, res, next) {
         res.render('register', {
             message: req.flash('message')
         });
     });
 
-    router.post('/register', passport.authenticate('register', {
+    app.post('/register', passport.authenticate('register', {
         successRedirect: '/home',
         failureRedirect: '/register',
         failureFlash: true
     }));
 
-    router.get('/addRental', function(req, res) {
+    app.get('/addRental', function(req, res) {
         // var un = cookie.parse('usernamecookie');
         res.render('addRental', {
             user: req.session.userName
         });
     });
-    router.post('/addRental', function(req, res) {
+    app.post('/addRental', function(req, res) {
         // var un = cookie.parse('usernamecookie');
         // console.log(req.body);
         console.log("username" + req.session.userName);
@@ -62,11 +64,11 @@ module.exports = function(passport) {
         res.redirect('/home');
     });
 
-    // router.get('/editRental', function (req, res) {
+    // app.get('/editRental', function (req, res) {
     //     res.render('error', {status: ""});
     // });
 
-    router.post('/editRental', function(req, res) {
+    app.post('/editRental', function(req, res) {
         console.log(req.body.id);
         HouseProfile.findOne({
             _id: req.body.id
@@ -83,14 +85,14 @@ module.exports = function(passport) {
             });
         })
     });
-    router.post('/modifyRental', function(req, res) {
+    app.post('/modifyRental', function(req, res) {
         console.log(req.body.desc);
         rentalManager.editRental(req, res, req.session.userName);
         res.redirect('/home');
         // TODO success screen
     });
 
-    router.get('/manageRentals', function(req, res) {
+    app.get('/manageRentals', function(req, res) {
         var h = rentalManager.findHousesForUser(req.session.userName);
 
         res.render('manageRentals', {
@@ -99,7 +101,7 @@ module.exports = function(passport) {
         });
     });
 
-    router.get('/user/:id([a-z0-9]+)', function(req, res) {
+    app.get('/user/:id([a-z0-9]+)', function(req, res) {
         if (req.session.user){
             var cuser = req.session.user;
             var isFriend = cuser._friends.some(function(friend){
@@ -127,12 +129,12 @@ module.exports = function(passport) {
         }
         //res.send('user ' + req.params.id);
     });
-    router.post('/user/:id([a-z0-9]+)', function(req, res) {
+    app.post('/user/:id([a-z0-9]+)', function(req, res) {
         network.addRating(req, res, req.session.user);
         res.send("Updated rating");
     });
 
-       router.get('/home', function(req, res) {
+       app.get('/home', function(req, res) {
         // res.cookie('usernamecookie', req.user.username, { maxAge: 2592000000 });  // Expires in one mon
         function render(user, houses) {
             res.render('home', {
@@ -157,13 +159,13 @@ module.exports = function(passport) {
 
     });
 
-    router.get('/logout', function(req, res) {
+    app.get('/logout', function(req, res) {
         req.logout();
         // res.clearCookie('usernamecookie');
         res.redirect('/');
     });
 
-    router.get('/network', function(req, res, next) {
+    app.get('/network', function(req, res, next) {
         var cuser = req.session.user;
 
         if (cuser) {
@@ -192,14 +194,14 @@ module.exports = function(passport) {
         }
     });
 
-    router.get('/admin', function(req, res) {
+    app.get('/admin', function(req, res) {
         user.list(function(err, users) {
             res.render('admin', {
                 "users": users
             });
         });
     });
-    router.get('/browse', function(req, res) {
+    app.get('/browse', function(req, res) {
         HouseProfile.list(function(err, housesObj) {
             console.log(housesObj);
             res.render('browse', {
@@ -208,7 +210,7 @@ module.exports = function(passport) {
         });
     });
 
-    router.post('/rent', function(req, res) {
+    app.post('/rent', function(req, res) {
         // rentalManager.addTennant(req, res, req.session.userName);
         var dateObj = new Date();
         res.render('rentalAgreement', {
@@ -219,11 +221,11 @@ module.exports = function(passport) {
             date: dateObj
         });
     });
-    router.post('/rentaccept', function(req, res) {
+    app.post('/rentaccept', function(req, res) {
         rentalManager.addTennant(req, req.session.userName);
         res.redirect('/home');
     });
-    router.get('/listHouses', function(req, res) {
+    app.get('/listHouses', function(req, res) {
         HouseProfile.list(function(err, houses) {
             console.log(houses);
             res.render('listHouses', {
@@ -232,14 +234,14 @@ module.exports = function(passport) {
         });
     });
 
-    router.post('/modifyHouse', function(req, res) {
+    app.post('/modifyHouse', function(req, res) {
         // console.log(req.body);
         admin.deleteHouses(req.body.id, req.body.deleteHouse);
         res.location("admin#houses");
         res.redirect("admin#houses");
     });
 
-    router.post('/modifyUser', function(req, res) {
+    app.post('/modifyUser', function(req, res) {
         console.log(req.body.modUser.length);
         if (req.body.modUser.length == 1) {
             //when length == 1 req.body.id is passed as a string rather than string array
@@ -264,7 +266,7 @@ module.exports = function(passport) {
 
     });
 
-     router.get('/HomesModel', function(req, res) {
+     app.get('/get/homes', function(req, res) {
         HouseProfile.find().exec(function(err, houses) {
             if (err) {
                 throw err;
@@ -275,7 +277,7 @@ module.exports = function(passport) {
         });
     });
 
-    router.get('/UserModel', function(req, res) {
+    app.get('/get/allusers', function(req, res) {
         user.find().exec(function(err, users) {
             if (err) {
                 throw err;
@@ -286,7 +288,7 @@ module.exports = function(passport) {
         });
     });
 
-    router.get('/UserAuthenticatedModel', function(req, res) {
+    app.get('/get/authUser', function(req, res) {
         user.find( {
             username: req.session.userName
         }).exec(function(err, users) {
@@ -299,15 +301,10 @@ module.exports = function(passport) {
         });
     });
 
-
-
-
-
-    router.post('/')
-    router.get('*', function(req, res) {
+    app.post('/')
+    app.get('*', function(req, res) {
         res.render('notfound', 404);
     });
-    return router;
 }
 
 var isAuthenticated = function(req, res, next) {
