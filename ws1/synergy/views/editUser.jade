@@ -1,0 +1,29 @@
+extends layout
+
+block content
+	include navbar
+	div.container
+		div.col-sm-6.col-md-6.col-md-offset-3
+		if user
+			form(method='post' action="/modifyUser")#register-form.well.span4
+				h2 <b>Edit Profile for  #{user.name}</b>
+				br
+				p
+					input.form-control(type='text', name='fName', value='#{user.firstName}')
+				p
+					input.form-control(type='text', name='lName', placeholder='#{user.lastName}')
+				p
+					input.form-control(type='email', name='email', placeholder='#{user.email}')
+				p
+					input.form-control(type='username', name='username', placeholder='#{user.username}')
+					br
+				input(name="id", value=user._id, type='hidden') 
+
+					button(type='submit')#btn-login.btn.btn-success
+						i.icon-lock.icon-white
+						| Edit
+		else
+			h2 <b> There has been an error
+				#message
+					if message
+						h3.text-center.error-message #{message}

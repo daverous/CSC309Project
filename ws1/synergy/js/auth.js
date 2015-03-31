@@ -108,4 +108,40 @@ module.exports = function (passport) {
 
             process.nextTick(findOrCreateUser);
         }));
+
+    passport.use('editUser', new PassportLocalStrategy({
+            passReqToCallback: true
+        },
+        function (req, username, password, done) {
+
+            editUser = function () {
+                // search in database using username
+                UserProfile.findOneAndUpdate({
+                    'username': username
+                }, {
+            $set: {
+                username: req.body.username,
+                email: req.body.email,
+                firstName: req.body.fName,
+                lastName: req.body.lName
+            }
+        }, function (err, user) {
+                    if (err) {
+                        console.log('Error (in login): ' + err);
+                        return done(err);
+                    }
+
+                    if (!user) {
+                        // create a new user profile
+                        console.log("error - user not found");
+                    } else {
+                        // if username exists in database
+                        console.log('Error (user exists): ' + username);
+                        return done(null, false, req.flash('message', 'Error: Username has been taken'));
+                    }
+                });
+            };
+
+            process.nextTick(findOrCreateUser);
+        }));
 }

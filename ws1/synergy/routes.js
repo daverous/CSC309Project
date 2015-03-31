@@ -85,12 +85,37 @@ module.exports = function(app, passport) {
             });
         })
     });
+
+    app.post('/editUser', function(req, res) {
+        console.log(req.body.id);
+        user.findOne({
+            _id: req.body.id
+        }, function(err, userObj) {
+            if (err) {
+                return console.err(err);
+            }
+            if (!userObj) {
+                console.log("user not found");
+            }
+            res.render('editUser', {
+                user: userObj
+            });
+        })
+    });
+
+// TODO this modification needs done! EDIT 
+     app.post('/modifyUser', function(req, res) {
+        // rentalManager.editRental(req, res, req.session.userName);
+        res.redirect('/home');
+    });
     app.post('/modifyRental', function(req, res) {
-        console.log(req.body.desc);
         rentalManager.editRental(req, res, req.session.userName);
         res.redirect('/home');
         // TODO success screen
     });
+
+
+
 
     app.get('/manageRentals', function(req, res) {
         var h = rentalManager.findHousesForUser(req.session.userName);
