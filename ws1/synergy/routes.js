@@ -105,9 +105,13 @@ module.exports = function(app, passport) {
 
 // TODO this modification needs done! EDIT 
      app.post('/modifyUser', function(req, res) {
-        // rentalManager.editRental(req, res, req.session.userName);
-        res.redirect('/home');
+        passport.authenticate('register', {
+        successRedirect: '/home',
+        failureRedirect: '/register',
+        failureFlash: true
     });
+ });
+
     app.post('/modifyRental', function(req, res) {
         rentalManager.editRental(req, res, req.session.userName);
         res.redirect('/home');
