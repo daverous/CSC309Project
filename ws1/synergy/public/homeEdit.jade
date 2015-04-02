@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="col-sm-6 col-md-6 col-md-offset-3">
+    <br>
+    <button class="btn btn-lg btn-primary btn-block" ng-click="setContent('editView.jade');">Go back to your postings</button>
+    <h2 style="text-align:center">Read House Description</h2>
+    <br>
+    <div class="row">
+        <form role="form" method="POST" action="/modifyRental">
+            <div class="form-group">
+                <label>House Name:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="selectedHome.name" name="houseName" placeholder="Enter House Name" required>
+                    <span class="input-group-addon"><span class=""></span></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>House Address:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="selectedHome.addr" name="addr" placeholder="Enter House Address" required>
+                    <span class="input-group-addon"><span class=""></span></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>House Price:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="selectedHome.price" name="price" placeholder="Enter Rent Charges" required>
+                    <span class="input-group-addon"><span class=""></span></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>House Rating:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="selectedHome.rating" name="rating" placeholder="Rate House" required>
+                    <span class="input-group-addon"><span class=""></span></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>House Max. Renters:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="selectedHome.maxRenters" name="maxt" placeholder="Enter Maximum Tenants" required>
+                    <span class="input-group-addon"><span class=""></span></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>House Description:</label>
+                <div class="input-group">
+                  <textarea name="description" ng-model="selectedHome.desc" class="form-control" rows="10" required></textarea>
+                  <span class="input-group-addon"><span class=""></span></span>
+                </div>
+            </div>
+            <br>
+            <input name="id", value="{{selectedHome._id}}", type='hidden'>
+            <input name="house", value="{{selectedHome.name}}", type='hidden'>
+            <input name="owner", value="{{selectedHome.owner}}", type='hidden'>
+            <button class = 'btn btn-lg btn-success btn-block',type='submit', ng-click="setContent('editView.jade')">Save Changes</button>
+        </form>
+    </div>
+  </div>
+</div>
