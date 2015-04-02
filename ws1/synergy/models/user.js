@@ -32,7 +32,6 @@ var userSchema = new mongoose.Schema({
         username: { type: String, ref: 'User'},
         rating: {type: Number, default: 0, ref: 'User'},
         evaluations: {type: Number, default: 0, ref: 'User'}
-
     }],
     _ratings: [ratingSchema],
     //It's possible for a tenant to also be an owner?

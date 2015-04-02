@@ -6,6 +6,7 @@ var houseSchema = new mongoose.Schema({
     owner: String,
     addr:String,
     price: Number,
+    phone: String,
     rating: {
         type: Number,
         default: 3
@@ -23,7 +24,6 @@ var houseSchema = new mongoose.Schema({
         username: { type: String, ref: 'User'},
         rating: {type: Number, default: 0, ref: 'User'},
         evaluations: {type: Number, default: 0, ref: 'User'}
-
     }],
     // Path to folder where images for house are stored
     picture: {
