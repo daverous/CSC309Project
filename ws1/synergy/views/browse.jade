@@ -1,33 +1,8 @@
 extends layout
 block content
   include navbar
-  <b>Browse all Houses</b>
-  if houses 
-    
-      each house in houses
-        .row
-        .col-sm-12
-          h2=house.name
-          h3 Owner
-          p=house.owner
-          h3 description
-          p=house.desc
-          h3 address
-          p=house.addr
-          h3 price
-          p=house.price
-          h3 max renters
-          p=house.maxRenters
-          each renter in house.currentRenters
-            a(href='/user/#{renter._id}') #{renter.firstName} #{renter.lastName}
-          form(method="post" action='/rent')
-            input(name="id", value=house._id, type='hidden')
-            input(name="house", value=house.name, type='hidden')
-            input(name="owner", value=house.owner, type='hidden')
-            input(class = 'btn btn-default',type='submit' value='Rent') 
-  else
 
-
-
-    footer
-      p &copy; 2014 Spanish Inquisition
+  div.container(ng-controller='EditCtrl')
+    .row
+    div(ng-init="setContent('editView.jade')")
+      div(ng-include="content")
