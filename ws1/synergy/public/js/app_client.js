@@ -61,6 +61,55 @@ app.controller('HomeCtrl', ['$scope', '$http', '$location', '$window',
 }]);
 
 
+app.controller('EditCtrl', ['$scope', '$http', '$location', '$window',
+                                function($scope, $http, $location, $window) {
+
+      $scope.user;
+      $scope.homes;
+
+      $scope.resetUser = function() {
+        $http.get('/user/profile')
+            .success(function(data, status, headers, config) {
+          console.log(data);
+          $scope.user = data;
+          $scope.error = "";
+        }).
+        error(function(data, status, headers, config) {
+          $scope.user = {};
+          $scope.error = data;
+        });
+      };
+
+      $scope.getHomes = function() {
+        var url = '/get/edithomes';
+        $http.get(url)
+            .success(function(data, status, headers, config) {
+          console.log(data);
+          $scope.homesfil = data;
+          $scope.error = "";
+        }).
+        error(function(data, status, headers, config) {
+          $scope.homes = {};
+          $scope.error = data;
+        });
+      };
+
+      $scope.setSelected = function () {
+        $scope.selectedHome = this.home;
+        $scope.setContent('homeEdit.jade');
+      };
+
+      $scope.setContent = function(filename) {
+        $scope.content = '/public/' + filename;
+      };
+
+      $scope.orderByField = 'price';
+      $scope.reverseSort = true;
+
+      $scope.resetUser();
+      $scope.getHomes();
+}]);
+
 app.controller('TempController', ['$scope', '$http', '$location', '$window',
                                 function($scope, $http, $location, $window) {
 
