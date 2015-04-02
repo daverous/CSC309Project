@@ -14,7 +14,7 @@ var authenticate = require('./js/auth');
 var rentalManager = require('./js/rentalManager');
 var Cookies = require("cookies");
 var cookieParser = require('cookie-parser');
-mongoose.connect("mongodb://localhost/test");
+mongoose.connect("mongodb://localhost/csc309_project");
 
 var app = express();
 
