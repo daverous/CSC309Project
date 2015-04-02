@@ -92,7 +92,8 @@ var numdesc = desc.length;
 function addHouses () {
   for (j = 0; j < fakeHouses.length; j++) {
     descr = desc[j % numdesc];
-    owner = test_users[j % numusers];
+    var split = test_users[j % numusers].split(" ");
+    owner = split[0] + "." + split[1];
 
     var split = fakeHouses[j][0].split(" ");
     housename = split[1] + " " + split[2];
@@ -102,7 +103,7 @@ function addHouses () {
       addr += fakeHouses[j][i] + ", ";
     }
     addr += fakeHouses[j][4];
-    
+
     phone = fakeHouses[j][5];
     maxrenters = (j % 3) + 3;
 
@@ -116,7 +117,7 @@ function addHouses () {
 
     currentrenters = [];
     for (i = 0; i < currenters; i++) {
-      currentrenters[i] = friends[j % numusers];
+      currentrenters[i] = friends[(j % numusers) + 1];
     }
 
     rating = j % 5;
