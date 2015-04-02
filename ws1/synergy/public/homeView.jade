@@ -1,3 +1,33 @@
+<br>
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+          <p><label>Enter Query Keyword (Server): </label>
+          <input type="text" class="form-control" name="keyword" ng-model="query_word" placeholder="Enter Query Keyword"></p>
+      </div>
+      <div class="col-md-4">
+          <label>Enter Maximum Queries: </label>
+          <input type="number" class="form-control" min="1" max="100" name="max_models" ng-init="max_models=homesfil.length" ng-model="max_models" placeholder="(1-100)" required>
+      </div>
+      <div class="col-md-4">
+        <button class="btn btn-primary btn-block" ng-click="doQuery(query_word, max_models)">Query Ideas</button>
+        <button class="btn btn-primary btn-block" ng-click="resetHomes()">Reset Ideas</button>
+      </div>
+  </div>
+</div>
+
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <p><label>Smart Filter (Local): </label>
+        <input type="text" class="form-control" name="keyword" ng-model="keyword" placeholder="Enter Keyword"></p>
+    </div>
+  </div>
+</div>
+
 <h3>Select posting for more detail:</h3>
 <br>
 <table class="table table-hover table-striped table-bordered">
@@ -11,11 +41,6 @@
       <th>
         <a href="#" ng-click="orderByField='owner'; reverseSort = !reverseSort">
         Owner <span ng-show="orderByField == 'owner'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-        </a>
-      </th>
-      <th>
-        <a href="#" ng-click="orderByField='desc'; reverseSort = !reverseSort">
-        Description <span ng-show="orderByField == 'desc'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
         </a>
       </th>
       <th>
@@ -33,16 +58,29 @@
         Max. Renters <span ng-show="orderByField == 'maxRenters'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
         </a>
       </th>
+      <th>
+        <a href="#" ng-click="orderByField='rating'; reverseSort = !reverseSort">
+        Rating <span ng-show="orderByField == 'rating'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+        </a>
+      </th>
+      <!--th>
+        <a href="#" ng-click="orderByField='desc'; reverseSort = !reverseSort">
+        Description <span ng-show="orderByField == 'desc'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+        </a>
+      </th-->
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="home in homes | orderBy:orderByField:reverseSort | limitTo:10 | filter:keyword" ng-click="setSelected();">
+    <tr ng-repeat="home in homesfil | orderBy:orderByField:reverseSort | limitTo:homesfil.length | filter:keyword" ng-click="setSelected();">
       <td>{{ home.name }}</td>
       <td>{{ home.owner }}</td>
-      <td>{{ home.desc }}</td>
       <td>{{ home.addr }}</td>
       <td>{{ home.price }}</td>
       <td>{{ home.maxRenters }}</td>
+      <td>
+        {{ home.rating }}
+      </td>
+      <!--td>{{ home.desc }}</td-->
     </tr>
   </tbody>
 </table>

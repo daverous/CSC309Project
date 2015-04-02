@@ -2,7 +2,7 @@
   .container
     .navbar-header
 
-      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+      button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-control='navbar')
         span.sr-only Toggle navigation
         span.icon-bar
         span.icon-bar
@@ -10,37 +10,26 @@
 
       a.navbar-brand(href='/home')
         span.ion-cube
-        | <b>Synergy Space</b>
+        | <b>SYNERGY SPACE</b>
 
     .collapse.navbar-collapse
       ul.nav.navbar-nav
         li(class=title=='Home'?'active':undefined)
           a(href='/home') <b>Home</b>
-          //- .li(class=title=='Rentals'?'active':undefined)
-          //- a(href='/ren.tals') <b>Rentals</b>
-           li.dropdown
         ul.nav.navbar-nav.navbar-left
           li.dropdown
             a.dropdown-toggle(href="#" data-toggle="dropdown") <b>Rentals</b>
               b.caret
               ul.dropdown-menu
                 li
-                  a(href="/addRental") Add Rental
+                  a(href="/addRental") Add a new Rental
                 li
-                  a(href="/browse") Browse All Rentals
+                  a(href="/browse") Edit your Rentals
 
-
-        form.navbar-form.navbar-left(role="search")
-          .form-group
-            input.form-control(type="text" ng-model="keyword" placeholder="Search")
-          //
-            button.btn.btn-default Submit
-
-
-        ul.nav.navbar-nav.navbar-right
-          li(class=title=='Profile'?'active':undefined)
-            a(href='/') <b>Profile</b>
-          li(class=title=='Network'?'active':undefined)
-            a(href='/network') <b>Network</b>
-          li(class=title=='Logout'?'active':undefined)
-            a(href='/logout') <b>Logout</b>
+      ul(class="nav navbar-nav navbar-right")
+        li(class=title=='Profile'?'active':undefined)
+          a(href='/') <b>Profile</b>
+        li(class=title=='Network'?'active':undefined)
+          a(href='/network') <b>Network</b>
+        li(class=title=='Logout'?'active':undefined)
+          a(href='/logout') <b>Logout</b>

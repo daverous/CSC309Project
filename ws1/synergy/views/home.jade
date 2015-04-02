@@ -3,9 +3,9 @@ extends layout
 block content
     include navbar
 
-    div(ng-controller='HomeCtrl')
+    div.container(ng-controller='HomeCtrl')
       if user
-        h3 <b>Welcome, #{user.username}</b>
+        h3 <b>Welcome, #{user.firstName} #{user.lastName}</b>
         if houses
           .row
           div(ng-init="setContent('homeView.jade')")
@@ -43,6 +43,7 @@ block content
         h3 <b> Error </b>
         p
           a.btn.btn-primary.btn-large Learn more &raquo;
-
-    footer
-      p &copy; 2014 Spanish Inquisition
+    //
+      footer
+        <br>
+        p &copy; 2014 Spanish Inquisition

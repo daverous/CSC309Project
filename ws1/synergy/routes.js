@@ -103,7 +103,7 @@ module.exports = function(app, passport) {
         })
     });
 
-// TODO this modification needs done! EDIT 
+// TODO this modification needs done! EDIT
      app.post('/modifyUser', function(req, res) {
         passport.authenticate('register', {
         successRedirect: '/home',
@@ -327,6 +327,33 @@ module.exports = function(app, passport) {
             else {
                 res.status(200).send(users);
             }
+        });
+    });
+
+    //Query keyword using max limit
+    app.get('/get/homes/:id', function(req, res) {
+      var input = req.params.id;
+      input = input.split("++");
+      var keyword = new RegExp(input[0], 'i');
+      var num = input[1];
+      console.log("Sent query - " + input[0] + " num - " + num);
+
+      HouseProfile.find().or([
+        {'name': { $regex: keyword }},
+        {'desc': { $regex: keyword }},
+        {'owner': { $regex: keyword }},
+        {'addr': { $regex: keyword }},
+        {'phone': { $regex: keyword }},
+        {'currentRenters.firstName': { $regex: keyword }},
+        {'currentRenters.lastName': { $regex: keyword }},
+        {'currentRenters.email': { $regex: keyword }},
+      ]).limit(num).exec(
+        function (err, homes) {
+          if(!homes) {
+            res.status(404).send("No homes found");
+          } else {
+            res.status(200).send(homes);
+          }
         });
     });
 

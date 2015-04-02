@@ -9,12 +9,45 @@ app.controller('HomeCtrl', ['$scope', '$http', '$location', '$window',
             .success(function(data, status, headers, config) {
           console.log(data);
           $scope.homes = data;
+          $scope.homesfil = data;
           $scope.error = "";
         }).
         error(function(data, status, headers, config) {
           $scope.homes = {};
           $scope.error = data;
         });
+      };
+
+      $scope.doQuery = function (keyword, num) {
+        if (keyword) {
+          if (num) {
+            var url = "/get/homes/" + keyword + "++" + num;
+            console.log(url);
+            $http.get(url)
+                .success(function(data, status, headers, config) {
+              // console.log(data);
+              $scope.homesfil = data;
+              $scope.error = "";
+            }).
+            error(function(data, status, headers, config) {
+              $scope.homesfil = {};
+              $scope.error = data;
+            });
+          } else {
+            $window.alert("Invalid Input: Please enter a valid number for max queries");
+          }
+        } else {
+          $window.alert("Invalid Input: Please enter a valid keyword");
+        }
+      };
+
+      $scope.resetHomes = function () {
+        $scope.getHomes();
+      };
+
+      $scope.setSelected = function () {
+        $scope.selectedHome = this.home;
+        $scope.setContent('homeDesc.jade');
       };
 
       $scope.setContent = function(filename) {
