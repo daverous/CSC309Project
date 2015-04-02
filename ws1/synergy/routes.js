@@ -114,12 +114,21 @@ module.exports = function(app, passport) {
 
     app.post('/modifyRental', function(req, res) {
         rentalManager.editRental(req, res, req.session.userName);
-        res.redirect('/home');
-        // TODO success screen
     });
 
 
-
+    app.get('/user/profile', function(req, res) {
+      console.log(req.session.userName);
+      user.findOne({ username: req.session.userName })
+        .exec(function(err, user) {
+          if (!user){
+            res.status(404).send("No user found");
+          } else {
+            console.log('Profile of user sent');
+            res.json(user);
+          }
+        });
+    });
 
     app.get('/manageRentals', function(req, res) {
         var h = rentalManager.findHousesForUser(req.session.userName);
@@ -168,6 +177,7 @@ module.exports = function(app, passport) {
         function render(user, houses) {
             res.render('home', {
                 user: req.user,
+                "userName": req.user.username,
                 "houses": houses
             });
         }
@@ -230,13 +240,12 @@ module.exports = function(app, passport) {
             });
         });
     });
-    app.get('/browse', function(req, res) {
-        HouseProfile.list(function(err, housesObj) {
-            console.log(housesObj);
-            res.render('browse', {
-                houses: housesObj
-            });
-        });
+
+    app.get('/browse/:id', function(req, res) {
+      console.log("USERNAME - " + req.params.id);
+      res.render('browse', {
+          "userName": req.params.id
+      });
     });
 
     app.post('/rent', function(req, res) {
@@ -305,6 +314,19 @@ module.exports = function(app, passport) {
             }
         });
     });
+
+    app.get('/get/edithomes', function(req, res) {
+       console.log("Username - " + req.session.userName);
+       HouseProfile.find({owner: req.session.userName})
+       .exec(function(err, houses) {
+           if (err) {
+               throw err;
+           }
+           else {
+               res.status(200).send(houses);
+           }
+       });
+   });
 
     app.get('/get/allusers', function(req, res) {
         user.find().exec(function(err, users) {
