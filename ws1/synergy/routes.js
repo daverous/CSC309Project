@@ -52,9 +52,10 @@ module.exports = function(app, passport) {
 
     app.get('/addRental', function(req, res) {
         // var un = cookie.parse('usernamecookie');
-        res.render('addRental', {
+        isAuthenticated(req,res, function() {res.render('addRental', {
             user: req.session.userName
         });
+    });
     });
     app.post('/addRental', function(req, res) {
         // var un = cookie.parse('usernamecookie');
