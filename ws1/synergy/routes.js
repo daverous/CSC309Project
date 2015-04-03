@@ -181,7 +181,7 @@ module.exports = function(app, passport) {
                 "houses": houses
             });
         }
-
+        isAuthenticated(req,res, function() {
         if (req.user) {
             req.session.userName = req.user.username;
             req.session.user = req.user;
@@ -194,7 +194,7 @@ module.exports = function(app, passport) {
                 // console.log(houses);
                 render(req.session.user, houses);
             });
-        }
+        }});
 
     });
 
