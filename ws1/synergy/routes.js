@@ -59,13 +59,13 @@ module.exports = function(app, passport) {
     app.post('/addRental', function(req, res) {
         // var un = cookie.parse('usernamecookie');
         // console.log(req.body);
-        console.log("username" + req.session.userName);
+        console.log('username' + req.session.userName);
         rentalManager.addRental(req, res, req.session.userName);
         res.redirect('/home');
     });
 
     // app.get('/editRental', function (req, res) {
-    //     res.render('error', {status: ""});
+    //     res.render('error', {status: ''});
     // });
 
     app.post('/editRental', function(req, res) {
@@ -77,9 +77,9 @@ module.exports = function(app, passport) {
                 return console.err(err);
             }
             if (!houseObj) {
-                console.log("house not found");
+                console.log('house not found');
             }
-            console.log("name" + houseObj);
+            console.log('name' + houseObj);
             res.render('editRental', {
                 house: houseObj
             });
@@ -95,7 +95,7 @@ module.exports = function(app, passport) {
                 return console.err(err);
             }
             if (!userObj) {
-                console.log("user not found");
+                console.log('user not found');
             }
             res.render('editUser', {
                 user: userObj
@@ -122,7 +122,7 @@ module.exports = function(app, passport) {
       user.findOne({ username: req.session.userName })
         .exec(function(err, user) {
           if (!user){
-            res.status(404).send("No user found");
+            res.status(404).send('No user found');
           } else {
             console.log('Profile of user sent');
             res.json(user);
@@ -169,7 +169,7 @@ module.exports = function(app, passport) {
     });
     app.post('/user/:id([a-z0-9]+)', function(req, res) {
         network.addRating(req, res, req.session.user);
-        res.send("Updated rating");
+        res.send('Updated rating');
     });
 
        app.get('/home', function(req, res) {
@@ -177,11 +177,12 @@ module.exports = function(app, passport) {
         function render(user, houses) {
             res.render('home', {
                 user: req.user,
-                "userName": req.user.username,
-                "houses": houses
+                'userName': req.user.username,
+                'houses': houses
             });
         }
-        isAuthenticated(req,res, function() {
+        var renderUser = function () {
+            console.log('in render user');
         if (req.user) {
             req.session.userName = req.user.username;
             req.session.user = req.user;
@@ -189,12 +190,18 @@ module.exports = function(app, passport) {
                 owner: req.user.username
             }, function(err, houses) {
                 if (err) {
-                    console.log("could not find house");
+                    console.log('could not find house');
                 }
                 // console.log(houses);
                 render(req.session.user, houses);
             });
-        }});
+        }
+                else {
+            console.log('there has been an error jeff');
+            res.render(error);
+        }
+    }
+        isAuthenticated(req,res, renderUser);
 
     });
 
@@ -236,15 +243,15 @@ module.exports = function(app, passport) {
     app.get('/admin', function(req, res) {
         user.list(function(err, users) {
             res.render('admin', {
-                "users": users
+                'users': users
             });
         });
     });
 
     app.get('/browse/:id', function(req, res) {
-      console.log("USERNAME - " + req.params.id);
+      console.log('USERNAME - ' + req.params.id);
       res.render('browse', {
-          "userName": req.params.id
+          'userName': req.params.id
       });
     });
 
@@ -267,7 +274,7 @@ module.exports = function(app, passport) {
         HouseProfile.list(function(err, houses) {
             console.log(houses);
             res.render('listHouses', {
-                "houses": houses
+                'houses': houses
             });
         });
     });
@@ -275,8 +282,8 @@ module.exports = function(app, passport) {
     app.post('/modifyHouse', function(req, res) {
         // console.log(req.body);
         admin.deleteHouses(req.body.id, req.body.deleteHouse);
-        res.location("admin#houses");
-        res.redirect("admin#houses");
+        res.location('admin#houses');
+        res.redirect('admin#houses');
     });
 
     app.post('/modifyUser', function(req, res) {
@@ -299,8 +306,8 @@ module.exports = function(app, passport) {
             });
             admin.changeRatings(req.body.modUser, req.body.id, req.body.rating);
         }
-        res.location("admin#users");
-        res.redirect("admin#users");
+        res.location('admin#users');
+        res.redirect('admin#users');
 
     });
 
@@ -316,7 +323,7 @@ module.exports = function(app, passport) {
     });
 
     app.get('/get/edithomes', function(req, res) {
-       console.log("Username - " + req.session.userName);
+       console.log('Username - ' + req.session.userName);
        HouseProfile.find({owner: req.session.userName})
        .exec(function(err, houses) {
            if (err) {
@@ -355,10 +362,10 @@ module.exports = function(app, passport) {
     //Query keyword using max limit
     app.get('/get/homes/:id', function(req, res) {
       var input = req.params.id;
-      input = input.split("++");
+      input = input.split('++');
       var keyword = new RegExp(input[0], 'i');
       var num = input[1];
-      console.log("Sent query - " + input[0] + " num - " + num);
+      console.log('Sent query - ' + input[0] + ' num - ' + num);
 
       HouseProfile.find().or([
         {'name': { $regex: keyword }},
@@ -372,7 +379,7 @@ module.exports = function(app, passport) {
       ]).limit(num).exec(
         function (err, homes) {
           if(!homes) {
-            res.status(404).send("No homes found");
+            res.status(404).send('No homes found');
           } else {
             res.status(200).send(homes);
           }
@@ -388,7 +395,8 @@ module.exports = function(app, passport) {
 var isAuthenticated = function(req, res, next) {
     // check if user is authenticated
     if (req.isAuthenticated()) {
-        return next;
+        console.log('isAuthenticated');
+        return next();
     }
 
     // if not authenticated, then redirect to login page
