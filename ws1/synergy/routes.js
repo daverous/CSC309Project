@@ -151,6 +151,10 @@ module.exports = function(app, passport) {
             user.find({
                 username: req.session.userName
             }, function(err, cuser) {
+                if (cuser == undefined) {
+                    res.render('error');
+                    return;
+                }
                 var isFriend = cuser._friends.some(function(friend) {
                     return friend._id == req.params.id;
                 });

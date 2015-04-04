@@ -11,6 +11,7 @@ block content
             ul.user-network
                 each friend in friends
                   a(href="/user/#{friend._id}") #{friend.firstName} #{friend.lastName}
+                  br
           else
             p You currently have no one in your network. Rent or Add a Workspace to get started.
         else
