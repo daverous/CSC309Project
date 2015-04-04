@@ -2,20 +2,20 @@ var bCrypt = require('bcrypt-nodejs');
 var PassportLocalStrategy = require('passport-local').Strategy;
 var UserProfile = require('../models/user').model;
 
-module.exports = function (passport) {
+module.exports = function(passport) {
 
     // verify password
-    var verifyPassword = function (user, password) {
+    var verifyPassword = function(user, password) {
         return bCrypt.compareSync(password, user.password);
     }
 
     // encrypt password
-    var createHash = function (password) {
+    var createHash = function(password) {
         return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
     }
 
     // serialize a user
-    passport.serializeUser(function (user, done) {
+    passport.serializeUser(function(user, done) {
         console.log('serializing user: ', user);
         done(null, user._id);
     });
@@ -24,8 +24,8 @@ module.exports = function (passport) {
     // FOR SIGNOUT res.clearCookie('username');
 
     // deserialize a user
-    passport.deserializeUser(function (id, done) {
-        UserProfile.findById(id, function (err, user) {
+    passport.deserializeUser(function(id, done) {
+        UserProfile.findById(id, function(err, user) {
             console.log('deserializing user: ', user);
             done(err, user);
         });
@@ -34,11 +34,11 @@ module.exports = function (passport) {
     passport.use('login', new PassportLocalStrategy({
             passReqToCallback: true
         },
-        function (req, username, password, done) {
+        function(req, username, password, done) {
             UserProfile.findOne({
                     'username': username
                 },
-                function (err, user) {
+                function(err, user) {
                     if (err) {
                         return done(err);
                     }
@@ -63,13 +63,13 @@ module.exports = function (passport) {
     passport.use('register', new PassportLocalStrategy({
             passReqToCallback: true
         },
-        function (req, username, password, done) {
+        function(req, username, password, done) {
 
-            findOrCreateUser = function () {
+            findOrCreateUser = function() {
                 // search in database using username
                 UserProfile.findOne({
                     'username': username
-                }, function (err, user) {
+                }, function(err, user) {
                     if (err) {
                         console.log('Error (in login): ' + err);
                         return done(err);
@@ -90,7 +90,7 @@ module.exports = function (passport) {
                         createUser.password = createHash(password);
 
                         // add the user to the database
-                        createUser.save(function (err) {
+                        createUser.save(function(err) {
                             if (err) {
                                 console.log('Error (could not save): ' + err);
                                 throw err;
@@ -112,20 +112,20 @@ module.exports = function (passport) {
     passport.use('editUser', new PassportLocalStrategy({
             passReqToCallback: true
         },
-        function (req, username, password, done) {
+        function(req, username, password, done) {
 
-            editUser = function () {
+            editUser = function() {
                 // search in database using username
                 UserProfile.findOneAndUpdate({
                     'username': username
                 }, {
-            $set: {
-                username: req.body.username,
-                email: req.body.email,
-                firstName: req.body.fName,
-                lastName: req.body.lName
-            }
-        }, function (err, user) {
+                    $set: {
+                        username: req.body.username,
+                        email: req.body.email,
+                        firstName: req.body.fName,
+                        lastName: req.body.lName
+                    }
+                }, function(err, user) {
                     if (err) {
                         console.log('Error (in login): ' + err);
                         return done(err);
