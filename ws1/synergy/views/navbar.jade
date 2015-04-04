@@ -15,10 +15,10 @@
     .collapse.navbar-collapse
       ul.nav.navbar-nav
         li(class=title=='Home'?'active':undefined)
-          a(href='/home') <b>Home</b>
+          a(href='/home' class="glyphicon glyphicon-home") <b>Home</b>
         ul.nav.navbar-nav.navbar-left
           li.dropdown
-            a.dropdown-toggle(href="#" data-toggle="dropdown") <b>Rentals</b>
+            a.dropdown-toggle(href="#" data-toggle="dropdown") <span class="glyphicon glyphicon-usd"> <b>Rentals</b>
               b.caret
               ul.dropdown-menu
                 li
@@ -27,9 +27,9 @@
                   a(href="/browse/"+userName) Edit your Rentals
 
       ul(class="nav navbar-nav navbar-right")
-        li(class=title=='Profile'?'active':undefined)
-          a(href='/') <b>Profile</b>
+        li(class='title'=='Profile'?'active':undefined)
+          a(href='/', class='glyphicon glyphicon-user') <b>Profile</b>
         li(class=title=='Network'?'active':undefined)
-          a(href='/network') <b>Network</b>
+          a(href='/network' class='glyphicon glyphicon-send') <b>Network</b>
         li(class=title=='Logout'?'active':undefined)
-          a(href='/logout') <b>Logout</b>
+          a(href='/logout' class='glyphicon glyphicon-off') <b>Logout</b>
