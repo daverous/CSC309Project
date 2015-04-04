@@ -19,7 +19,6 @@ module.exports = function(app, passport) {
     app.get('/', function(req, res, next) {
         if (req.user) {
             req.session.userName = req.user.username;
-            req.session.user = req.user;
         }
         res.render('index', {
             user: req.user
@@ -88,7 +87,7 @@ module.exports = function(app, passport) {
             });
         });
     });
-       app.get('/editProfile', function(req, res) {
+    app.get('/editProfile', function(req, res) {
         isAuthenticated(req, res, function() {
             user.findOne({
                 username: req.session.userName
@@ -97,21 +96,21 @@ module.exports = function(app, passport) {
                     return console.err(err);
                 }
                 console.log("ds");
-            res.render('editUser', {
-                user: userObj
+                res.render('editUser', {
+                    user: userObj
+                });
             });
         });
-    });
     });
 
     // TODO this modification needs done! EDIT
     app.post('/modifyUser', function(req, res) {
-       isAuthenticated(req, res, function() {
+        isAuthenticated(req, res, function() {
             rentalManager.editUser(req, res, function() {
-            res.redirect('home');
+                res.redirect('home');
+            });
         });
     });
-   });
 
     app.post('/modifyRental', function(req, res) {
         isAuthenticated(req, res, function() {
@@ -149,8 +148,9 @@ module.exports = function(app, passport) {
     app.get('/user/:id([a-z0-9]+)', function(req, res) {
         console.log(req.params.id);
         isAuthenticated(req, res, function() {
-            if (req.session.user) {
-                var cuser = req.session.user;
+            user.find({
+                username: req.session.userName
+            }, function(err, cuser) {
                 var isFriend = cuser._friends.some(function(friend) {
                     return friend._id == req.params.id;
                 });
@@ -170,21 +170,23 @@ module.exports = function(app, passport) {
                             rating: rating
                         });
                     }
-                    /*else {
-                    res.render('profile', {});
-                }*/
+
                 });
-            } else {
-                res.redirect('/');
-            }
-            //res.send('user ' + req.params.id);
+
+
+                //res.send('user ' + req.params.id);
+            });
         });
     });
 
     app.post('/user/:id([a-z0-9]+)', function(req, res) {
         isAuthenticated(req, res, function() {
-            network.addRating(req, res, req.session.user);
-            res.send('Updated rating');
+            user.find({
+                username: req.session.userName
+            }, function(err, cuser) {
+                network.addRating(req, res, cuser);
+                res.send('Updated rating');
+            });
         });
     });
 
@@ -200,7 +202,6 @@ module.exports = function(app, passport) {
             console.log('in render user');
             if (req.user) {
                 req.session.userName = req.user.username;
-                req.session.user = req.user;
                 HouseProfile.find({
                     owner: req.user.username
                 }, function(err, houses) {
@@ -208,7 +209,7 @@ module.exports = function(app, passport) {
                         console.log('could not find house');
                     }
                     // console.log(houses);
-                    render(req.session.user, houses);
+                    render(req.user, houses);
                 });
             } else {
                 console.log('there has been an error jeff');
@@ -229,22 +230,22 @@ module.exports = function(app, passport) {
     app.get('/network', function(req, res, next) {
 
         isAuthenticated(req, res, function() {
-                user.findOne({
-                        username: req.session.userName
-                    },function(err,cuser) {
-                        if (cuser._friends.length > 0) {
-                            console.log(cuser._friends);
-                            res.render('network', {
-                                user: req.session.userName,
-                                friends: cuser._friends
-                            });
-                        } else {
-                            res.render('network', {
-                                user: req.session.userName
-                            });
-                        }
+            user.findOne({
+                username: req.session.userName
+            }, function(err, cuser) {
+                if (cuser._friends.length > 0) {
+                    console.log(cuser._friends);
+                    res.render('network', {
+                        user: req.session.userName,
+                        friends: cuser._friends
                     });
+                } else {
+                    res.render('network', {
+                        user: req.session.userName
+                    });
+                }
             });
+        });
     });
 
     app.get('/admin', function(req, res) {
@@ -278,8 +279,8 @@ module.exports = function(app, passport) {
     app.post('/rentaccept', function(req, res) {
         isAuthenticated(req, res, function() {
             rentalManager.addTennant(req, req.session.userName, function() {
-            res.redirect('/home');
-        });
+                res.redirect('/home');
+            });
         });
     });
 
