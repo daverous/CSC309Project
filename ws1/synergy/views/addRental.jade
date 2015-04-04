@@ -1,30 +1,56 @@
-
 extends layout
 block content
-		include navbar
-		div.container
-			div.col-sm-6.col-md-6.col-md-offset-3
-				form(method="post" action="/addRental")#house-form.well.span4
-					h2 <b>Create a new listing for #{user} </b>
-					br
-					p
-						//- input(id='pd',type='hidden',name='user',value='#{user}')
-						input.form-control(type='text', name='houseName', placeholder='House Name')
-					p
-						input.form-control(type='text', name='addr', placeholder='Address')
+  include navbar
+  <div class="container">
+  <div class="col-sm-6 col-md-6 col-md-offset-3">
+  <br>
+  <button class="btn btn-lg btn-primary btn-block" ng-click="setContent('editView.jade');">Go back to your postings</button>
+  <h2 style="text-align:center">Add New House</h2>
+  <br>
+  <div class="row">
+  <form role="form" method="POST" action="/addRental">
+  <div class="form-group">
+  <label>House Name:</label>
+  <div class="input-group">
+  <input type="text" class="form-control" name="houseName" placeholder="Enter House Name" required>
+  <span class="input-group-addon"><span class=""></span></span>
+  </div>
+  </div>
+  <div class="form-group">
+  <label>House Address:</label>
+  <div class="input-group">
+  <input type="text" class="form-control" name="addr" placeholder="Enter House Address" required>
+  <span class="input-group-addon"><span class=""></span></span>
+  </div>
+  </div>
+  <div class="form-group">
+  <label>House Price:</label>
+  <div class="input-group">
+  <input type="text" class="form-control" name="price" placeholder="Enter Rent Charges" required>
+  <span class="input-group-addon"><span class=""></span></span>
+  </div>
+  </div>
+  <div class="form-group">
+  <label>House Max. Renters:</label>
+  <div class="input-group">
+  <input type="text" class="form-control" name="maxt" placeholder="Enter Maximum Tenants" required>
+  <span class="input-group-addon"><span class=""></span></span>
+  </div>
+  </div>
+  <div class="form-group">
+  <label>House Description:</label>
+  <div class="input-group">
+  <textarea name="description" class="form-control" rows="10" required></textarea>
+  <span class="input-group-addon"><span class=""></span></span>
+  </div>
+  </div>
+  <br>
+  <input name="id",  type='hidden'>
+  <input name="house",  type='hidden'>
+  <input name="owner", type='hidden'>
+  <button class = 'btn btn-lg btn-success btn-block',type='submit', >Save House</button>
+  </form>
+  </div>
+  </div>
+  </div>
 
-						input.form-control(type='number', step="0.01", name='price', placeholder='Price')
-						//- div(data-role='fieldcontain')
-						input.form-control(type='text',pattern='\\d*', name='maxt', placeholder='Maximum Number of tenents')
-						textarea(id="theTextarea" class="form-control" rows="3" placeholder="description", name='description')
-						br
-
-						input(type="file", multiple, name="image")
-						br
-						button(type='submit')#btn-create.btn.btn-success
-							i.icon-lock.icon-white
-							| Create
-
-					#message
-						if message
-							h3.text-center.error-message #{message}
