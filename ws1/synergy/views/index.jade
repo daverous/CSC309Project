@@ -14,7 +14,7 @@ block content
               li Last Name ---> #{user.lastName}
               li Rating ---> #{user.rating} (Total Ratings: #{user.evaluations})
           p
-            a.small(href="profile") Edit my profile
+            a.small(href="/editProfile") Edit my profile
           a.btn.btn-primary(href="/logout") Logout
         else
           h2 <b>Welcome to Synergy Space!</b>

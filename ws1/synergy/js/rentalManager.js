@@ -10,6 +10,31 @@ var UserProfile = require('../models/user').model;
 // var authenticate = require('auth');
 
 module.exports = {
+
+
+    editUser: function(req, done, callback) {
+        UserProfile.findOneAndUpdate({
+            _id: req.body.id
+        }, {
+            $set: {
+                lastname: req.body.houseName,
+                lastname: req.body.lastname,
+                // username: req.body.username,
+                email: req.body.email
+
+                // Path to folder where images for house are stored
+                //TODO update picture
+            }
+        }, function(err, update) {
+            if (err) {
+                throw (err);
+            } else if (update == null) {
+                throw new Error('user cannot be found');
+            }
+            update.save();
+        });
+        return callback();
+    },
     findHouseById: function(id) {
         console.log("id" + id);
         HouseProfile.find({
@@ -51,7 +76,7 @@ module.exports = {
 
     },
 
-    addTennant: function(req, user) {
+    addTennant: function(req, user, callback) {
         console.log(user);
         var id = req.body.id;
         HouseProfile.findOne({
@@ -85,25 +110,22 @@ module.exports = {
                             }
                         });
                     }
-                    for (var i = 0; i < house.currentRenters.length; i++) {
-                        console.log(house.currentRenters.length);
-                        house.currentRenters[i]._friends.push(User);
-                        house.currentRenters[i].save();
-                    }
-                    /*
+                    // for (var i = 0; i < house.currentRenters.length; i++) {
+                    //     console.log(house.currentRenters[i]);
+                    //     house.currentRenters[i]._friends.push(User);
+                    //     house.currentRenters[i].save();
+                    // }
                     for (var i = 0; i < house.currentRenters.length; i++) {
                         console.log(house.currentRenters.length);
                         UserProfile.findOne({
-                                username : house.currentRenters[i]
+                                username: house.currentRenters[i].username
                             },
                             function(err, result) {
-                                if(result){
-                                    result._friends.push(User);
-                                    result.save();
-                                }
-                            });
-                    }*/
+                                result._friends.push(User);
+                                result.save();
 
+                            });
+                    }
                     house.currentRenters.push(User);
                     house.save();
                 });
@@ -111,6 +133,7 @@ module.exports = {
             }
 
         })
+        return callback();
     },
     //add rental to db
     addRental: function(req, done, user) {
@@ -122,15 +145,6 @@ module.exports = {
             if (!houseName) {
                 console.log('Error. House name undefined');
                 return done;
-            }
-            // if a file has been added (NOT IMPLEMENTED)
-            if (req.files) {
-                console.log('file info: ', req.files.image);
-
-                //split the url into an array and then get the last chunk and render it out in the send req.
-                var pathArray = req.files.image.path.split('/');
-
-                res.send(util.format(' Task Complete \n uploaded %s (%d Kb) to %s as %s', req.files.image.name, req.files.image.size / 1024 | 0, req.files.image.path, req.body.title, req.files.image, '<img src="uploads/' + pathArray[(pathArray.length - 1)] + '">'));
             }
             // get house of given name
             HouseProfile.findOne({

@@ -4,6 +4,28 @@ var UserProfile = require('../models/user').model;
 
 module.exports = function(passport) {
 
+   var editUser = function(req, done) {
+        UserProfile.findOneAndUpdate({
+            _id: req.body.id
+        }, {
+            $set: {
+                lastname: req.body.houseName,
+                lastname: req.body.lastname,
+                username: req.body.username,
+                email: req.body.email
+
+                // Path to folder where images for house are stored
+                //TODO update picture
+            }
+        }, function(err, update) {
+            if (err) {
+                throw (err);
+            } else if (update == null) {
+                throw new Error('user cannot be found');
+            }
+            update.save();
+        });
+    }
     // verify password
     var verifyPassword = function(user, password) {
         return bCrypt.compareSync(password, user.password);

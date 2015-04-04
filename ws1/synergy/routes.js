@@ -88,33 +88,30 @@ module.exports = function(app, passport) {
             });
         });
     });
-
-    app.post('/editUser', function(req, res) {
+       app.get('/editProfile', function(req, res) {
         isAuthenticated(req, res, function() {
             user.findOne({
-                _id: req.body.id
+                username: req.session.userName
             }, function(err, userObj) {
                 if (err) {
                     return console.err(err);
                 }
-                if (!userObj) {
-                    console.log('user not found');
-                }
-                res.render('editUser', {
-                    user: userObj
-                });
+                console.log("ds");
+            res.render('editUser', {
+                user: userObj
             });
         });
+    });
     });
 
     // TODO this modification needs done! EDIT
     app.post('/modifyUser', function(req, res) {
-        passport.authenticate('register', {
-            successRedirect: '/home',
-            failureRedirect: '/register',
-            failureFlash: true
+       isAuthenticated(req, res, function() {
+            rentalManager.editUser(req, res, function() {
+            res.redirect('home');
         });
     });
+   });
 
     app.post('/modifyRental', function(req, res) {
         isAuthenticated(req, res, function() {
@@ -150,6 +147,7 @@ module.exports = function(app, passport) {
 
 
     app.get('/user/:id([a-z0-9]+)', function(req, res) {
+        console.log(req.params.id);
         isAuthenticated(req, res, function() {
             if (req.session.user) {
                 var cuser = req.session.user;
@@ -231,15 +229,9 @@ module.exports = function(app, passport) {
     app.get('/network', function(req, res, next) {
 
         isAuthenticated(req, res, function() {
-            var cuser = req.session.user;
-
-            if (cuser) {
-                user
-                    .findOne({
-                        _id: cuser._id
-                    })
-                    .populate('_friends')
-                    .exec(function(err) {
+                user.findOne({
+                        username: req.session.userName
+                    },function(err,cuser) {
                         if (cuser._friends.length > 0) {
                             console.log(cuser._friends);
                             res.render('network', {
@@ -252,12 +244,7 @@ module.exports = function(app, passport) {
                             });
                         }
                     });
-            } else {
-                res.render('network', {
-                    user: cuser
-                });
-            }
-        });
+            });
     });
 
     app.get('/admin', function(req, res) {
@@ -290,8 +277,9 @@ module.exports = function(app, passport) {
     });
     app.post('/rentaccept', function(req, res) {
         isAuthenticated(req, res, function() {
-            rentalManager.addTennant(req, req.session.userName);
+            rentalManager.addTennant(req, req.session.userName, function() {
             res.redirect('/home');
+        });
         });
     });
 
