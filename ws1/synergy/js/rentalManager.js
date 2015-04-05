@@ -232,7 +232,9 @@ module.exports = {
         }
 
         if (!result){
-            house._ratings.push({rated_friend: rated._id, rating: req.body.rating});
+            house._ratings.push({rated_friend: rated._id, rating: rating});
+            house.rating += rating;
+            house.evaluations += 1;
             house.save();
         });
     }
