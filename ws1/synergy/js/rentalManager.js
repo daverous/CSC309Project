@@ -5,7 +5,7 @@ var bCrypt = require('bcrypt-nodejs');
 var network = require('./network');
 var PassportLocalStrategy = require('passport-local').Strategy;
 var UserProfile = require('../models/user').model;
-
+var Rating = require('../models/user').rmodel;
 
 // var authenticate = require('auth');
 
@@ -215,6 +215,25 @@ module.exports = {
                 throw new Error('user cannot be found');
             }
             update.save();
+        });
+    },
+
+    addRating: function(user_id, house, rating) {
+        if (!house || !user){
+            return;
+        }
+
+        var result = null;
+
+        for (var i=0; i < user._ratings.length; i++){
+            if (house._ratings[i].rated_friend == user_id){
+                result = house._ratings[i];
+            }
+        }
+
+        if (!result){
+            house._ratings.push({rated_friend: rated._id, rating: req.body.rating});
+            house.save();
         });
     }
 }
