@@ -218,24 +218,30 @@ module.exports = {
         });
     },
 
-    addRating: function(user_id, house, rating) {
-        if (!house || !user){
+    addRating: function(user_id, house_id, rating) {
+        if (!house_id || !user){
             return;
         }
 
-        var result = null;
-
-        for (var i=0; i < user._ratings.length; i++){
-            if (house._ratings[i].rated_friend == user_id){
-                result = house._ratings[i];
+        House.findById(house_id, function(err, house){
+            if (err || !house){
+                return;
             }
-        }
 
-        if (!result){
-            house._ratings.push({rated_friend: rated._id, rating: rating});
-            house.rating += rating;
-            house.evaluations += 1;
-            house.save();
+            var result = null;
+
+            for (var i=0; i < user._ratings.length; i++){
+                if (house._ratings[i].rated_friend == user_id){
+                    result = house._ratings[i];
+                }
+            }
+
+            if (!result){
+                house._ratings.push({rated_friend: rated._id, rating: rating});
+                house.rating += rating;
+                house.evaluations += 1;
+                house.save();
+            });
         });
     }
 }

@@ -229,6 +229,17 @@ module.exports = function(app, passport) {
 
     });
 
+    app.post('/updateHouseRating', function(req, res) {
+        isAuthenticated(req, res, function() {
+            user.findOne({
+                username: req.session.userName
+            }, function(err, cuser) {
+                rentalManager.addRating(cuser._id, req.body.hid, req.body.rating);
+                res.redirect('/home');
+            });
+        });
+    });
+
 
     app.get('/logout', function(req, res) {
         req.logout();
