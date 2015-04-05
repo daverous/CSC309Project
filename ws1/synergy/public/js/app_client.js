@@ -121,6 +121,18 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
 
     $scope.user;
     $scope.homes;
+    $scope.selected = ['showGraph'];
+
+    $http.get("/userstats")
+        .success(function(data, status, headers, config) {
+      console.log(data);
+      $scope.models = data;
+      $scope.error = "";
+    }).
+    error(function(data, status, headers, config) {
+      $scope.models = {};
+      $scope.error = data;
+    });
 
     $scope.genGraph = function () {
       // $scope.models = data;
@@ -190,36 +202,28 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
     };
 
   $scope.setStats = function(){
-    $http.get("/userstats")
-        .success(function(data, status, headers, config) {
-      console.log(data);
-      $scope.models = data;
-      $scope.error = "";
-    }).
-    error(function(data, status, headers, config) {
-      $scope.models = {};
-      $scope.error = data;
-    });
-    $scope.genGraph();
     $scope.setContent('showStats.jade');
   };
   
-  $scope.setUsers = function(){
-    $scope.setContent('listUsers.jade');
-    $scope.getUsers();
-  };
-
-  $scope.setHomes = function(){
-    $scope.setContent('listHomes.jade');
-    $scope.getHomes();
-  }
-
   $scope.setContent = function(filename) {
     $scope.content = '/public/' + filename;
   };
 
+  $scope.select = function(id) {
+    $scope.selected.pop();
+    $scope.selected.push(id);
+  }
+  $scope.isSelected = function(id) {
+    if($scope.selected.length == 0){
+      return false;
+    }
+    return $scope.selected.indexOf(id) > -1
+  }
+
   $scope.orderByField = 'firstName';
   $scope.reverseSort = true;
 
-  //$scope.setStats();
+  $scope.setStats();
+  $scope.getUsers();
+  $scope.getHomes();
 }]);
