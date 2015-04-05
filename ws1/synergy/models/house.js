@@ -1,4 +1,9 @@
+var util = require('util');
 var mongoose = require('mongoose');
+var rating = require('./user').rmodel;
+var houseRatingSchema = new mongoose.Schema();
+
+util.inherits(houseRatingSchema, rating);
 
 var houseSchema = new mongoose.Schema({
     name: String,
@@ -28,6 +33,7 @@ var houseSchema = new mongoose.Schema({
         rating: {type: Number, default: 0, ref: 'User'},
         evaluations: {type: Number, default: 0, ref: 'User'}
     }],
+    _ratings: [houseRatingSchema],
     // Path to folder where images for house are stored
     picture: {
         data: Buffer,
@@ -46,8 +52,11 @@ houseSchema.statics.list = function (callback) {
 }
 
 var House = mongoose.model('House', houseSchema);
+var HouseRating = mongoose.model('HouseRating', houseRatingSchema)
 
 module.exports = {
     schema: houseSchema,
-    model: House
+    model: House,
+    rschema: houseRatingSchema,
+    rmodel: HouseRating
 };
