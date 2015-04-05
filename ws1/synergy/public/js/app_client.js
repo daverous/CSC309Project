@@ -126,24 +126,28 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
         success : function(result){
           console.log(result);
           console.log(typeof result);
+          createGraph(result);
         }});
 
-      $scope.chartObject = {};
+      funtion createGraph (data) {
+        $scope.models = data;
+        $scope.chartObject = {};
 
-      var rows = [];
-      var i;
+        var rows = [];
+        var i;
 
-      for(i = 0; i < $scope.models.length; i++){
-        rows[i] = {c:[
-                    {v: $scope.models[i]._id},
-                    {v: $scope.models[i].count}]};
+        for(i = 0; i < $scope.models.length; i++){
+          rows[i] = {c:[
+                      {v: $scope.models[i]._id},
+                      {v: $scope.models[i].count}]};
+        }
+
+        $scope.chartObject.data = {"cols":[
+                                  {id: "t", label:"Date", type: "string"},
+                                  {id : "s", label: "Users", type : "number"}], "rows":rows};
+
+        $scope.chartObject.type = "BarChart";
       }
-
-      $scope.chartObject.data = {"cols":[
-                                {id: "t", label:"Date", type: "string"},
-                                {id : "s", label: "Users", type : "number"}], "rows":rows};
-
-      $scope.chartObject.type = "BarChart";
     };
 
     $scope.setSelected = function () {
