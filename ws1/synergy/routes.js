@@ -158,9 +158,9 @@ module.exports = function(app, passport) {
                 var isFriend = cuser._friends.some(function(friend) {
                     return friend._id == req.params.id;
                 });
-                user.findOne({
-                    _id: req.params.id
-                }, function(err, id_user) {
+                user.findById(
+                    req.params.id, 
+                    function(err, id_user) {
                     var rating = network.calcRating(id_user);
 
                     if (cuser && cuser._id == req.params.id) {
