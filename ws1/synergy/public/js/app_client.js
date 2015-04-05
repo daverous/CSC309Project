@@ -129,7 +129,7 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
           createGraph(result);
         }});
 
-      funtion createGraph (data) {
+      function createGraph (data) {
         $scope.models = data;
         $scope.chartObject = {};
 
