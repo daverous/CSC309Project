@@ -1,7 +1,7 @@
 extends layout
 
 block content  
-    if 'user' in this
+    if user
             include navbar
             h2 <b> #{user.username}</b>
             p

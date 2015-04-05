@@ -151,7 +151,7 @@ module.exports = function(app, passport) {
             user.findOne({
                 username: req.session.userName
             }, function(err, cuser) {
-                if (cuser == undefined) {
+                if (err || cuser == undefined) {
                     res.render('error');
                     return;
                 }
@@ -164,10 +164,12 @@ module.exports = function(app, passport) {
                     var rating = network.calcRating(id_user);
 
                     if (cuser && cuser._id == req.params.id) {
+                        console.log("Current user's profile.");
                         res.render('profile', {
                             user: id_user
                         });
                     } else if (isFriend) {
+                        console.log("Friend's profile.");
                         res.render('profile', {
                             user: id_user,
                             current_user: cuser,
