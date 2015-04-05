@@ -267,6 +267,11 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('/listUsers', function(req, res){
+        user.list(function(err, users){
+            res.send(users);
+        });
+    });
     app.get('/browse/:id', function(req, res) {
         isAuthenticated(req, res, function() {
             res.render('browse', {

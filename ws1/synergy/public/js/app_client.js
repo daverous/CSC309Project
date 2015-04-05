@@ -118,14 +118,14 @@ app.controller('TempController', ['$scope', '$http', '$location', '$window',
 
 app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
                                 function($scope, $http, $location, $window) {
+    $scope.users;
+    $scope.homes;
 
     $scope.genGraph = function(){
       $.ajax({
         dataType: "json",
         url: "/userstats",
         success : function(result){
-          console.log(result);
-          console.log(typeof result);
           createGraph(result);
         }});
 
@@ -150,6 +150,20 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
       }
     };
 
+    $scope.getUsers = function (){
+      var url = '/listUsers';
+        $http.get(url)
+            .success(function(data, status, headers, config) {
+          console.log(data);
+          $scope.usersfil = data;
+          $scope.error = "";
+        }).
+        error(function(data, status, headers, config) {
+          $scope.homes = {};
+          $scope.error = data;
+        });
+    };
+
     $scope.setSelected = function () {
         $scope.selectedHome = this.home;
         $scope.setContent('homeDesc.jade');
@@ -158,4 +172,6 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
     $scope.setContent = function(filename) {
       $scope.content = '/public/' + filename;
     };
+
+    $scope.getUsers();
 }]);
