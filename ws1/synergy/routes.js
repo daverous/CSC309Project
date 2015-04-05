@@ -165,9 +165,9 @@ module.exports = function(app, passport) {
 
                     if (cuser && cuser._id == req.params.id) {
                         console.log("Current user's profile.");
-                        res.render('profile', {
+                        /*res.render('profile', {
                             user: id_user
-                        });
+                        });*/res.redirect('/');
                     } else if (isFriend) {
                         console.log("Friend's profile.");
                         res.render('profile', {
