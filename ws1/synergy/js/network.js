@@ -24,7 +24,7 @@ module.exports = {
             }
 
             if (result){
-            	User.find({_id: req.params.id}, function(err, rated){
+            	User.findOne({_id: req.params.id}, function(err, rated){
             		if (err) return console.error(err);
 
             		if (rated){
@@ -36,7 +36,7 @@ module.exports = {
             		}
             	});
             } else{
-            	User.find({_id: req.params.id}, function(err, rated){
+            	User.findOne({_id: req.params.id}, function(err, rated){
             		if (err) return console.error(err);
 
             		if (rated){
