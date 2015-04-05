@@ -194,7 +194,7 @@ module.exports = function(app, passport) {
                 username: req.session.userName
             }, function(err, cuser) {
                 network.addRating(req, res, cuser);
-                res.send('Updated rating');
+                res.redirect('/user/' + req.params.id);
             });
         });
     });
