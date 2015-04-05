@@ -14,17 +14,53 @@ module.exports = {
 	}, 
 
 	addRating: function(req, res, user){
-		if (user._id == req.params.id){
+		if (!user){
+      return;
+    }else if (user._id == req.params.id){
 			return;
 		}
 
-		user._ratings.find({rated_user: req.params.id}, function(err, result){
+    var result = null;
+
+    for (var i=0; i < user._ratings.length; i++){
+      if (user._ratings[i].rated_friend == req.params.id){
+        result = user._ratings[i];
+      }
+    }
+
+    if (result){
+      User.findById(req.params.id, function(err, rated){
+        if (err) return console.error(err);
+
+        if (rated){
+          rated.rating -= result.rating;
+          result.rating = req.body.rating;
+          rated.rating += result.rating;
+          rated.save();
+          result.save();
+        }
+      });
+    } else{
+      User.findById(req.params.id, function(err, rated){
+        if (err) return console.error(err);
+
+        if (rated){
+          user._ratings.push({rated_friend: rated._id, rating: req.body.rating});
+          rated.rating += req.body.rating;
+          rated.evaluations += 1;
+          rated.save();
+          user.save();
+        }
+      });
+    }
+
+		/*user._ratings.find({rated_friend: req.params.id}, function(err, result){
 			if (err) {
                 return console.error(err);
             }
 
             if (result){
-            	User.findOne({_id: req.params.id}, function(err, rated){
+            	User.findById(req.params.id, function(err, rated){
             		if (err) return console.error(err);
 
             		if (rated){
@@ -36,7 +72,7 @@ module.exports = {
             		}
             	});
             } else{
-            	User.findOne({_id: req.params.id}, function(err, rated){
+            	User.findById(req.params.id, function(err, rated){
             		if (err) return console.error(err);
 
             		if (rated){
@@ -49,7 +85,7 @@ module.exports = {
             	});
             }
 
-		});
+		});*/
 	},
 
   findUsers: function(house){

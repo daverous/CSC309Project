@@ -170,14 +170,13 @@ module.exports = function(app, passport) {
                         });*/res.redirect('/');
                     } else if (isFriend) {
                         console.log("Friend's profile.");
-                        var rating = 0;
-                        if (id_user.evaluations > 0){
-                            rating = (id_user.rating / id_user.evaluations).toPrecision(2);
-                        }
                         res.render('profile', {
                             user: id_user,
-                            average: rating
+                            average: rating,
+                            rid: req.params.id
                         });
+                    } else{
+                        res.render('profile', {});
                     }
 
                 });
@@ -189,12 +188,13 @@ module.exports = function(app, passport) {
     });
 
     app.post('/user/:id([a-z0-9]+)', function(req, res) {
+        console.log("Receving POST rating.")
         isAuthenticated(req, res, function() {
             user.findOne({
                 username: req.session.userName
             }, function(err, cuser) {
                 network.addRating(req, res, cuser);
-                res.send('Updated rating');
+                res.redirect('/user/' + req.params.id);
             });
         });
     });

@@ -33,6 +33,7 @@ function addUsers () {
     email = username + "@superhero.com";
     password = first_name + last_name + "1234";
     rating = i % 5;
+    eval = 1;
 
     var createUser = new UserProfile();
     createUser.username = username;
@@ -41,6 +42,7 @@ function addUsers () {
     createUser.lastName = last_name;
     createUser.password = createHash(password);
     createUser.rating = rating;
+    createUser.evaluations = eval;
     createUser._friends = friends;
     friends[i] = createUser;
     console.log("Adding user - " + username);
