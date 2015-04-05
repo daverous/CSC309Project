@@ -190,7 +190,7 @@ module.exports = function(app, passport) {
 
     app.post('/user/:id([a-z0-9]+)', function(req, res) {
         isAuthenticated(req, res, function() {
-            user.find({
+            user.findOne({
                 username: req.session.userName
             }, function(err, cuser) {
                 network.addRating(req, res, cuser);
