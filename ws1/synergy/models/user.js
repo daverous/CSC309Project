@@ -16,6 +16,9 @@ var userSchema = new mongoose.Schema({
     email: String,
     username: String,
     password: String,
+    joined: {
+        type: Date, default: Date.now
+    }, 
     rating: {
         type: Number,
         default: 0

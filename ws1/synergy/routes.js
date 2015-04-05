@@ -255,7 +255,9 @@ module.exports = function(app, passport) {
     app.get('/admin', function(req, res) {
         user.list(function(err, users) {
             res.render('admin', {
-                'users': users
+                'users': users,
+                'userStatsURL' : "/userstats",
+                'houseStatsURL' : "/housestats"
             });
         });
     });
@@ -435,6 +437,29 @@ module.exports = function(app, passport) {
                     }
                 });
         });
+    });
+
+    app.get('/userstats', function(req, res){
+        var upper = new Date();
+        var lower = new Date();
+
+        lower.setMonth(lower.getMonth() - 6);
+        user.find({"joined" : {$gt: lower, $lt: upper}}).aggregate([{$group : {
+            "_id": "joined", "count":{$sum:1}}}]).exec(function(err,result){
+                return result;
+            });
+
+    });
+
+    app.get('/housestats', function(req, res){
+        var upper = new Date();
+        var lower = new Date();
+
+        lower.setMonth(lower.getMonth() - 6);
+        house.find({"created" : {$gt: lower, $lt: upper}}).aggregate([{$group : {
+            "_id": "created", "count":{$sum:1}}}]).exec(function(err,result){
+                return result;
+            });
     });
 
     app.post('/')

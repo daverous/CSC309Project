@@ -2,8 +2,12 @@ extends layout
 
 block content
     include navbar
+    include stats
     include admin_nav
     include listUsers
+    script(type='text/javascript').
+      genChart(userStatsURL)
+      genChart(houseStatsURL)
 
     footer
       p &copy; 2014 Spanish Inquisition
