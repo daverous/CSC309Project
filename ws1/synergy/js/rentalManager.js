@@ -92,6 +92,7 @@ module.exports = {
                 }
             } else {
                 var objects = network.findUsers(house);
+                var exists = false;
                 UserProfile.findOne({
                     username: user
                 }, function(err, User) {
@@ -103,10 +104,14 @@ module.exports = {
                             username: house.owner
                         }, function(err, owner) {
                             if (owner) {
-                                owner._friends.push(User);
-                                User._friends.push(owner);
-                                owner.save();
-                                User.save();
+                                if (user._id != owner._id){
+                                    owner._friends.push(User);
+                                    User._friends.push(owner);
+                                    owner.save();
+                                    User.save();
+                                } else{
+                                    exists = true;
+                                }
                             }
                         });
                     }
@@ -115,7 +120,7 @@ module.exports = {
                     //     house.currentRenters[i]._friends.push(User);
                     //     house.currentRenters[i].save();
                     // }
-                    for (var i = 0; i < house.currentRenters.length; i++) {
+                    for (var i = 0; i < house.currentRenters.length && !exists; i++) {
                         console.log(house.currentRenters.length);
                         UserProfile.findOne({
                                 username: house.currentRenters[i].username
