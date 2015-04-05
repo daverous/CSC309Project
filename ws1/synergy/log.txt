@@ -1,8 +1,0 @@
-
-> synergy@0.0.0 start /home/daverous/CSC309Project/ws1/synergy
-> nodemon ./bin/www
-
-10 Mar 21:37:55 - [33m[nodemon] v1.3.7[39m
-10 Mar 21:37:55 - [33m[nodemon] to restart at any time, enter `rs`[39m
-10 Mar 21:37:55 - [33m[nodemon] watching: *.*[39m
-10 Mar 21:37:55 - [32m[nodemon] starting `node ./bin/www`[39m
