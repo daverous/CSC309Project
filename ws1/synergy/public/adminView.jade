@@ -13,7 +13,58 @@
 	</ul>
 </div>
 
+<script src="http://bouil.github.io/angular-google-chart/ng-google-chart.js"></script>
+
 <div class="container" ng-init="genGraph();">
 	<div google-chart chart="chartObject" style="margin: auto; height 450px; width:1000px;"/>
 	</div>
 </div>
+
+<div class="container">
+	<table class="table table-hover table-striped table-bordered">
+	  <thead>
+	    <tr>
+	      <th>
+	        <a href="#" ng-click="orderByField='name'; reverseSort = !reverseSort">
+	        FirstName <span ng-show="orderByField == 'name'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+	        </a>
+	      </th>
+	      <th>
+	        <a href="#" ng-click="orderByField='owner'; reverseSort = !reverseSort">
+	        Lastname <span ng-show="orderByField == 'owner'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+	        </a>
+	      </th>
+	      <th>
+	        <a href="#" ng-click="orderByField='addr'; reverseSort = !reverseSort">
+	        Email <span ng-show="orderByField == 'addr'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+	        </a>
+	      </th>
+	      <th>
+	        <a href="#" ng-click="orderByField='price'; reverseSort = !reverseSort">
+	        Username <span ng-show="orderByField == 'price'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+	        </a>
+	      </th>
+	      <th>
+	        <a href="#" ng-click="orderByField='maxRenters'; reverseSort = !reverseSort">
+	        Rating <span ng-show="orderByField == 'maxRenters'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+	        </a>
+	      </th>
+	      <th>
+	        Delete 
+	      </th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr ng-repeat="user in usersfil | orderBy:orderByField:reverseSort;">
+	      <td>{{ user.firstName }}</td>
+	      <td>{{ user.lastName }}</td>
+	      <td>{{ user.email }}</td>
+	      <td>{{ user.username }}</td>
+	      <td>{{ user.rating }}</td>
+	      <td>{{ user._id }}</td>
+	    </tr>
+	  </tbody>
+	</table>
+</div>
+
+
