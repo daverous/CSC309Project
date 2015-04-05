@@ -170,10 +170,13 @@ module.exports = function(app, passport) {
                         });*/res.redirect('/');
                     } else if (isFriend) {
                         console.log("Friend's profile.");
+                        var rating = 0;
+                        if (id_user.evaluations > 0){
+                            rating = (id_user.rating / id_user.evaluations).toPrecision(2);
+                        }
                         res.render('profile', {
                             user: id_user,
-                            current_user: cuser,
-                            rating: rating
+                            average: rating
                         });
                     }
 
