@@ -174,6 +174,8 @@ module.exports = function(app, passport) {
                             user: id_user,
                             average: rating
                         });
+                    } else{
+                        res.render('profile', {});
                     }
 
                 });
