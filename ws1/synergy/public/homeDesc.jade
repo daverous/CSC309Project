@@ -39,9 +39,39 @@
                 <p>{{ selectedHome.desc }}</p>
             </div>
             <br>
+
+ <h2> Rate this House </h2>
+<div class="radio">
+  <input type="radio", name="rating", value="1">
+  1
+  </input>
+  </div>
+  <div class="radio">
+  <input type="radio", name="rating", value="2">
+  2
+  </input>
+   </div>
+  <div class="radio">
+  <input type="radio", name="rating", value="3">
+  3
+  </input>
+   </div>
+  <div class="radio">
+  <input type="radio", name="rating", value="4">
+  4
+  </input>
+   </div>
+  <div class="radio">
+  <input type="radio", name="rating", value="5">
+  5
+  </input>
+   </div>
+  <br>
+
             <input name="id", value="{{selectedHome._id}}", type='hidden'>
             <input name="house", value="{{selectedHome.name}}", type='hidden'>
             <input name="owner", value="{{selectedHome.owner}}", type='hidden'>
+
             <button class = 'btn btn-lg btn-success btn-block',type='submit'>Rent</button>
         </form>
     </div>
