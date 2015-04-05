@@ -148,7 +148,7 @@ module.exports = function(app, passport) {
     app.get('/user/:id([a-z0-9]+)', function(req, res) {
         console.log(req.params.id);
         isAuthenticated(req, res, function() {
-            user.find({
+            user.findOne({
                 username: req.session.userName
             }, function(err, cuser) {
                 if (cuser == undefined) {
