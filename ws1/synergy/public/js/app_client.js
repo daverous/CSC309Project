@@ -115,3 +115,43 @@ app.controller('TempController', ['$scope', '$http', '$location', '$window',
 
 
 }]);
+
+app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
+                                function($scope, $http, $location, $window) {
+
+    $scope.genGraph = function(){
+      $.ajax({
+        dataType: "json",
+        url: "/userstats",
+        success : function(result){
+          console.log(result);
+          console.log(typeof result);
+        }});
+
+      $scope.chartObject = {};
+
+      var rows = [];
+      var i;
+
+      for(i = 0; i < $scope.models.length; i++){
+        rows[i] = {c:[
+                    {v: $scope.models[i]._id},
+                    {v: $scope.models[i].count}]};
+      }
+
+      $scope.chartObject.data = {"cols":[
+                                {id: "t", label:"Date", type: "string"},
+                                {id : "s", label: "Users", type : "number"}], "rows":rows};
+
+      $scope.chartObject.type = "BarChart";
+    };
+
+    $scope.setSelected = function () {
+        $scope.selectedHome = this.home;
+        $scope.setContent('homeDesc.jade');
+      };
+
+    $scope.setContent = function(filename) {
+      $scope.content = '/public/' + filename;
+    };
+}]);

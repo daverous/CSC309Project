@@ -1,0 +1,22 @@
+<br>
+<div class="container">
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active">
+			<a href="#statistics" aria-controls="statisitics" role="tab" data-toggle="tab" ng-click="">Statistics</a>
+		</li>
+		<li role="presentation">
+			<a href="#users" aria-controls="users" role="tab" data-toggle="tab" ng-click="">Manage Users</a>
+		</li>
+		<li role="presentation">
+			<a href="#houses" aria-controls="houses" role="tab" data-toggle="tab" ng-click="">Manage Houses</a>
+		</li>
+	</ul>
+</div>
+
+<script src="http://bouil.github.io/angular-google-chart/ng-google-chart.js"></script>
+
+<div class="container" ng-init="genGraph();">
+	<div google-chart chart="chartObject" style="margin: auto; height 450px; width:1000px;"/>
+	</div>
+</div>
+

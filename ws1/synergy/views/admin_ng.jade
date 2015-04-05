@@ -1,0 +1,10 @@
+extends layout
+block content
+	include navbar
+	div.container(ng-controller='AdminCtrl')
+		div(ng-init="setContent('adminView.jade')")
+			div(ng-include="content")
+
+
+	footer
+		p &copy; 2014 Spanish Inquisition

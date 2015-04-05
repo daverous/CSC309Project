@@ -254,7 +254,7 @@ module.exports = function(app, passport) {
 
     app.get('/admin', function(req, res) {
         user.list(function(err, users) {
-            res.render('admin', {
+            res.render('admin_ng', {
                 'users': users,
                 'userStatsURL' : "/userstats",
                 'houseStatsURL' : "/housestats"
@@ -440,13 +440,27 @@ module.exports = function(app, passport) {
     });
 
     app.get('/userstats', function(req, res){
-        var upper = new Date();
+        var upper = new Date("2015-9-10");
         var lower = new Date();
 
         lower.setMonth(lower.getMonth() - 6);
-        user.find({"joined" : {$gt: lower, $lt: upper}}).aggregate([{$group : {
-            "_id": "joined", "count":{$sum:1}}}]).exec(function(err,result){
-                return result;
+        console.log("I am in");
+        var query = {"joined" : {$gt: lower, $lt: upper}};
+
+        user.aggregate(
+            [{$match : query},
+            {$group : {
+            "_id": {
+                "year" : {$year : "$joined"},
+                "month" : {$month : "$joined"},
+                "day" : {$dayOfMonth : "$joined"}
+                },
+                "count":{$sum : 1}
+            }
+        }]).exec(function(err,result){
+                    console.log(result);
+                    console.log(typeof result);
+                    res.send(result);
             });
 
     });
@@ -457,8 +471,13 @@ module.exports = function(app, passport) {
 
         lower.setMonth(lower.getMonth() - 6);
         house.find({"created" : {$gt: lower, $lt: upper}}).aggregate([{$group : {
-            "_id": "created", "count":{$sum:1}}}]).exec(function(err,result){
-                return result;
+            "_id": {
+                year : {$year : "created"},
+                month : {$month : "created"},
+                day : {$dayofMonth : "created"}
+                }, 
+                "count":{$sum:1}}}]).exec(function(err,result){
+                    return result;
             });
     });
 
