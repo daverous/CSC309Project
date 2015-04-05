@@ -310,11 +310,12 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.post('/rateHouse', function(req, res)){
+    app.post('/rateHouse', function(req, res){
         Network.addHouseRating(req, res, function (){
             res.redirect('/home');
         });
-    }
+    });
+    
     app.post('/modifyHouse', function(req, res) {
         isAuthenticated(req, res, function() {
             admin.deleteHouses(req.body.id, req.body.deleteHouse);
