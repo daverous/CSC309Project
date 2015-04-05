@@ -119,25 +119,8 @@ app.controller('TempController', ['$scope', '$http', '$location', '$window',
 app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
                                 function($scope, $http, $location, $window) {
 
-    $http.get("/userstats")
-        .success(function(data, status, headers, config) {
-      console.log(data);
-      $scope.models = data;
-      $scope.error = "";
-    }).
-    error(function(data, status, headers, config) {
-      $scope.models = {};
-      $scope.error = data;
-    });
-
-  //  $.ajax({
-  //   dataType: "json",
-  //   url: "/userstats",
-  //   success : function(result){
-  //     // console.log(result);
-  //     // console.log(typeof result);
-  //     createGraph(result);
-  //   }});
+    $scope.user;
+    $scope.homes;
 
     $scope.genGraph = function () {
       // $scope.models = data;
@@ -172,12 +155,71 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
       }
   };
 
+  $scope.getUsers = function(){
+        var url = '/listUsers';
+        $http.get(url)
+          .success(function(data, status, headers, config) {
+          console.log(data);
+          $scope.usersfil = data;
+          $scope.error = "";
+        }).
+        error(function(data, status, headers, config) {
+          $scope.users = {};
+          $scope.error = data;
+        });
+      };
+
+   
+  $scope.getHomes = function() {
+        var url = '/get/homes';
+        $http.get(url)
+            .success(function(data, status, headers, config) {
+          console.log(data);
+          $scope.homesfil = data;
+          $scope.error = "";
+        }).
+        error(function(data, status, headers, config) {
+          $scope.homes = {};
+          $scope.error = data;
+        });
+      };
+
   $scope.setSelected = function () {
       $scope.selectedHome = this.home;
       $scope.setContent('homeDesc.jade');
     };
 
+  $scope.setStats = function(){
+    $http.get("/userstats")
+        .success(function(data, status, headers, config) {
+      console.log(data);
+      $scope.models = data;
+      $scope.error = "";
+    }).
+    error(function(data, status, headers, config) {
+      $scope.models = {};
+      $scope.error = data;
+    });
+    $scope.genGraph();
+    $scope.setContent('showStats.jade');
+  };
+  
+  $scope.setUsers = function(){
+    $scope.setContent('listUsers.jade');
+    $scope.getUsers();
+  };
+
+  $scope.setHomes = function(){
+    $scope.setContent('listHomes.jade');
+    $scope.getHomes();
+  }
+
   $scope.setContent = function(filename) {
     $scope.content = '/public/' + filename;
   };
+
+  $scope.orderByField = 'firstName';
+  $scope.reverseSort = true;
+
+  //$scope.setStats();
 }]);

@@ -272,6 +272,7 @@ module.exports = function(app, passport) {
             res.send(users);
         });
     });
+
     app.get('/browse/:id', function(req, res) {
         isAuthenticated(req, res, function() {
             res.render('browse', {
@@ -304,9 +305,7 @@ module.exports = function(app, passport) {
         isAuthenticated(req, res, function() {
             HouseProfile.list(function(err, houses) {
                 console.log(houses);
-                res.render('listHouses', {
-                    'houses': houses
-                });
+                res.send(houses);
             });
         });
     });
