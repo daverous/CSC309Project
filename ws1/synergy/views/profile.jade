@@ -12,7 +12,7 @@ block content
                 li Last Name ---> #{user.lastName}
                 li Rating ---> #{rating} (Total Ratings: #{user.evaluations})
 
-            if 'current_user' in this
+            if current_user
                 p Rate this user:
                 input(type="radio", name="rating", value="1", checked=average>=1)
                 |1
