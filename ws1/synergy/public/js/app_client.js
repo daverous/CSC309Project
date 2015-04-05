@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap']);
+var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'googlechart']);
 
 app.controller('HomeCtrl', ['$scope', '$http', '$location', '$window',
                                 function($scope, $http, $location, $window) {
@@ -119,43 +119,65 @@ app.controller('TempController', ['$scope', '$http', '$location', '$window',
 app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
                                 function($scope, $http, $location, $window) {
 
-    $scope.genGraph = function(){
-      $.ajax({
-        dataType: "json",
-        url: "/userstats",
-        success : function(result){
-          console.log(result);
-          console.log(typeof result);
-          createGraph(result);
-        }});
+    $http.get("/userstats")
+        .success(function(data, status, headers, config) {
+      console.log(data);
+      $scope.models = data;
+      $scope.error = "";
+    }).
+    error(function(data, status, headers, config) {
+      $scope.models = {};
+      $scope.error = data;
+    });
 
-      function createGraph (data) {
-        $scope.models = data;
-        $scope.chartObject = {};
+  //  $.ajax({
+  //   dataType: "json",
+  //   url: "/userstats",
+  //   success : function(result){
+  //     // console.log(result);
+  //     // console.log(typeof result);
+  //     createGraph(result);
+  //   }});
 
-        var rows = [];
-        var i;
+    $scope.genGraph = function () {
+      // $scope.models = data;
+      // console.log($scope.models);
+      $scope.chartObject = {};
 
-        for(i = 0; i < $scope.models.length; i++){
-          rows[i] = {c:[
-                      {v: $scope.models[i]._id},
-                      {v: $scope.models[i].count}]};
-        }
+      var rows = [];
+      var i;
 
-        $scope.chartObject.data = {"cols":[
-                                  {id: "t", label:"Date", type: "string"},
-                                  {id : "s", label: "Users", type : "number"}], "rows":rows};
-
-        $scope.chartObject.type = "BarChart";
+      for(i = 0; i < $scope.models.length; i++){
+        var temp1 = $scope.models[i]._id.day + "-" + $scope.models[i]._id.month + "-" + $scope.models[i]._id.year;
+        temp1 = String(temp1);
+        var temp2 = $scope.models[i].count;
+        temp2 = Number(temp2);
+        console.log(temp1);
+        console.log(temp2);
+        rows[i] = {c:[
+                    {v: temp1},
+                    {v: temp2}]};
       }
+
+      console.log (rows);
+      $scope.chartObject.data = {"cols":[
+                                {id: "t", label:"Date", type: "string"},
+                                {id : "s", label: "Users", type : "number"}],
+                                "rows":rows};
+
+      $scope.chartObject.type = "BarChart";
+
+      $scope.chartObject.options = {
+          'title': 'How many users have joined'
+      }
+  };
+
+  $scope.setSelected = function () {
+      $scope.selectedHome = this.home;
+      $scope.setContent('homeDesc.jade');
     };
 
-    $scope.setSelected = function () {
-        $scope.selectedHome = this.home;
-        $scope.setContent('homeDesc.jade');
-      };
-
-    $scope.setContent = function(filename) {
-      $scope.content = '/public/' + filename;
-    };
+  $scope.setContent = function(filename) {
+    $scope.content = '/public/' + filename;
+  };
 }]);
