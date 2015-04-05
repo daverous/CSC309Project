@@ -172,7 +172,8 @@ module.exports = function(app, passport) {
                         console.log("Friend's profile.");
                         res.render('profile', {
                             user: id_user,
-                            average: rating
+                            average: rating,
+                            rid: req.params.id
                         });
                     } else{
                         res.render('profile', {});
