@@ -241,7 +241,7 @@ module.exports = {
                 house.rating += rating;
                 house.evaluations += 1;
                 house.save();
-            });
+            }
         });
     }
 }
