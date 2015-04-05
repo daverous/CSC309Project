@@ -148,30 +148,35 @@ module.exports = function(app, passport) {
     app.get('/user/:id([a-z0-9]+)', function(req, res) {
         console.log(req.params.id);
         isAuthenticated(req, res, function() {
-            user.find({
+            user.findOne({
                 username: req.session.userName
             }, function(err, cuser) {
-                if (cuser == undefined) {
+                if (err || cuser == undefined) {
                     res.render('error');
                     return;
                 }
                 var isFriend = cuser._friends.some(function(friend) {
                     return friend._id == req.params.id;
                 });
-                user.findOne({
-                    _id: req.params.id
-                }, function(err, id_user) {
+                user.findById(
+                    req.params.id, 
+                    function(err, id_user) {
                     var rating = network.calcRating(id_user);
 
                     if (cuser && cuser._id == req.params.id) {
-                        res.render('profile', {
+                        console.log("Current user's profile.");
+                        /*res.render('profile', {
                             user: id_user
-                        });
+                        });*/res.redirect('/');
                     } else if (isFriend) {
+                        console.log("Friend's profile.");
+                        var rating = 0;
+                        if (id_user.evaluations > 0){
+                            rating = (id_user.rating / id_user.evaluations).toPrecision(2);
+                        }
                         res.render('profile', {
                             user: id_user,
-                            current_user: cuser,
-                            rating: rating
+                            average: rating
                         });
                     }
 

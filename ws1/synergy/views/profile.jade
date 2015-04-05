@@ -1,29 +1,27 @@
 extends layout
 
-block content  
-    if 'user' in this
-            include navbar
-            h2 <b> #{user.username}</b>
-            p
-              ul.user-details
-                if current_user != user
-                    li Email    ---> #{user.email}
-                li First Name ---> #{user.firstName} 
-                li Last Name ---> #{user.lastName}
-                li Rating ---> #{rating} (Total Ratings: #{user.evaluations})
-
-            if 'current_user' in this
-                p Rate this user:
-                input(type="radio", name="rating", value="1", checked=average>=1)
-                |1
-                input(type="radio", name="rating", value="2", checked=average>=2)
-                |2
-                input(type="radio", name="rating", value="3", checked=average>=3)
-                |3
-                input(type="radio", name="rating", value="4", checked=average>=4)
-                |4
-                input(type="radio", name="rating", value="5", checked=average==5)
-                |5
-            
-    else
-        p This profile is private.
+block content
+  include navbar
+  div.container
+    div.col-sm-6.col-md-6.col-md-offset-3
+      div.jumbotron
+        if user
+          h2 <b>#{user.firstName} #{user.lastName}</b>
+          p
+            ul.user-details
+              li Rating ---> #{user.rating} (Total Ratings: #{user.evaluations})
+          p Rate this user
+          p
+            input(type="radio", name="rating", value="1", checked=average>=1)
+            |1
+            input(type="radio", name="rating", value="2", checked=average>=2)
+            |2
+            input(type="radio", name="rating", value="3", checked=average>=3)
+            |3
+            input(type="radio", name="rating", value="4", checked=average>=4)
+            |4
+            input(type="radio", name="rating", value="5", checked=average==5)
+            |5
+            input(type='submit',value='Submit')  
+        else
+          p This profile is private.
