@@ -237,8 +237,6 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
     console.log(id);
     var mod = $('#modUser' + id);
     var del = $('#delUser' + id);
-    alert(mod.attr('id'));
-    alert(del.attr('id'));
     if (mod.val() == 0) {
         mod.val(1);
     }
@@ -256,7 +254,6 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
     } else {
         del.val(0);
     }
-    alert(del.val());
   };
 
 
