@@ -231,8 +231,23 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
     } else {
         del.val(0);
     }
-};
+  };
 
+  $scope.toggleDelHouse = function(id) {
+    var del = $('#delHouse' + id);
+    if (del.val() == 0) {
+        del.val(1);
+    } else {
+        del.val(0);
+    }
+    alert(del.val());
+  };
+
+
+  $scope.modifyUser = function(id) {
+      var mod = $('#modUser' + id);
+      mod.val(1);
+  };
 
   $scope.orderByField = 'firstName';
   $scope.reverseSort = true;
@@ -240,4 +255,5 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
   $scope.setStats();
   $scope.getUsers();
   $scope.getHomes();
+
 }]);

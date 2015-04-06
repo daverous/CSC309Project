@@ -8,13 +8,8 @@ function toggleDelHouse(id) {
     }
 }
 
-function modifyUser(id) {
-    var mod = $('#modUser' + id);
-    mod.val(1);
-}
-
 function showBtn(id) {
-    var btn = $('#btn');
+    var btn = $('#' + id);
     btn.removeClass('hidden');
 }
 
