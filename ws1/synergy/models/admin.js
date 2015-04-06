@@ -12,9 +12,11 @@ var adminSchema = new mongoose.Schema({
 });
 
 adminSchema.statics.deleteUser = function(userid){
-	User.remove({_id : userid}, function(err){
-		if(err)
+	User.findOneAndUpdate({_id : userid}, {$set: {deleted: true}}, function(err, update){
+		if(err){
 			throw(err);
+		}
+		update.save();
 	});
 }
 adminSchema.statics.deleteUsers = function(users, userids, deletes, callback){
@@ -22,7 +24,6 @@ adminSchema.statics.deleteUsers = function(users, userids, deletes, callback){
 	var j = 0;
 	for(var i = 0; i < users.length; i++){
 		if(deletes[i] == 1){
-			console.log(userids[i]);
 			adminSchema.statics.deleteUser(userids[i]);
 			deleted[j] = i;
 			j++;

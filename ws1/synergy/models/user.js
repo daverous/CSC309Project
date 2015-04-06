@@ -49,7 +49,7 @@ var userSchema = new mongoose.Schema({
 });
 
 userSchema.statics.list = function (callback) {
-    this.find(function (err, users) {
+    this.find({deleted : false}, function (err, users) {
         if (err) {
             return (err, null);
         } else {
