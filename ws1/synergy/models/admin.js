@@ -17,6 +17,7 @@ adminSchema.statics.deleteUsers = function(users, userids, deletes, callback){
 	var j = 0;
 	for(var i = 0; i < users.length; i++){
 		if(deletes[i] == 1){
+			console.log(userids[i]);
 			adminSchema.statics.deleteUser(userids[i]);
 			deleted[j] = i;
 			j++;
@@ -33,20 +34,17 @@ adminSchema.statics.deleteHouse = function(hid){
 	return hid;
 }
 adminSchema.statics.deleteHouses = function(hids, deletes, callback){
-	deleted = [];
+	console.log(deletes);
 	var j = 0;
-	for(var i = 0; i < houses.length; i++){
+	for(var i = 0; i < hids.length; i++){
 		if(deletes[i] == 1){
+			console.log(hids[i]);
 			adminSchema.statics.deleteHouse(hids[i]);
-			deleted[j] = i;
 			j++;
 		}
 	}
-	callback(deleted);	
 }
 adminSchema.statics.changeRating = function(userid, rating){
-	console.log(userid);
-	console.log(rating);
 	User.findOneAndUpdate({_id : userid}, {$set: {rating: rating}}, function(err, update){
 		if(err){
 			throw(err);
