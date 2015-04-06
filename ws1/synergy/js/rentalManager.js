@@ -238,7 +238,7 @@ module.exports = {
 
             if (!result){
                 house._ratings.push({rated_friend: user_id, rating: rating});
-                house.rating += rating;
+                house.rating += Number(rating);
                 house.evaluations += 1;
                 house.save();
             }
