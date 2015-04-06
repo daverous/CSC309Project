@@ -49,6 +49,7 @@
 
     <h2> Rate this House </h2>
     <form role="form" method="POST" action="/rateHouse">
+      <input class="hidden" name="houseid" value="{{selectedHome._id}}"/> 
       <div class="radio" name="ratingRadio" >
         <input type="radio", name="rating", value="1">
         1
