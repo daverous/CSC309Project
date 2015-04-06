@@ -373,6 +373,19 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('/get/home'), function(req,res){
+        isAuthenticated(req, res, function() {
+            console.log(req.body.user.username);
+            HouseProfile.findOne({_id : req.body.hid, currentRenters : {$in: [req.body.username]}}).exec(function(err, house) {
+                if (err) {
+                    throw err;
+                } 
+                if (house){
+                    res.status(200).send(house);
+                }
+            });
+        });
+    }
     app.get('/get/edithomes', function(req, res) {
         isAuthenticated(req, res, function() {
             HouseProfile.find({

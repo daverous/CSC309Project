@@ -47,38 +47,40 @@
             <button class = 'btn btn-lg btn-success btn-block',type='submit'>Rent</button>
         </form>
 
-    <h2> Rate this House </h2>
-    <form role="form" method="POST" action="/rateHouse">
-      <input class="hidden" name="houseid" value="{{selectedHome._id}}"/> 
-      <div class="radio" name="ratingRadio" >
-        <input type="radio", name="rating", value="1">
-        1
-        </input>
-        </div>
-        <div class="radio">
-        <input type="radio", name="rating", value="2">
-        2
-        </input>
-         </div>
-        <div class="radio">
-        <input type="radio", name="rating", value="3">
-        3
-        </input>
-         </div>
-        <div class="radio">
-        <input type="radio", name="rating", value="4">
-        4
-        </input>
-         </div>
-        <div class="radio">
-        <input type="radio", name="rating", value="5">
-        5
-        </input>
-         </div>
-        <br>
-        <input name="id", value="{{selectedHome._id}}", type='hidden'>
-        <button class='btn btn-success', type='submit'>Rate</button>
-      </form>
+    <div class="container">
+        <h2> Rate this House </h2>
+        <form role="form" method="POST" action="/rateHouse">
+          <input class="hidden" name="houseid" value="{{selectedHome._id}}"/> 
+          <div class="radio" name="ratingRadio" >
+            <input type="radio", name="rating", value="1">
+            1
+            </input>
+            </div>
+            <div class="radio">
+            <input type="radio", name="rating", value="2">
+            2
+            </input>
+             </div>
+            <div class="radio">
+            <input type="radio", name="rating", value="3">
+            3
+            </input>
+             </div>
+            <div class="radio">
+            <input type="radio", name="rating", value="4">
+            4
+            </input>
+             </div>
+            <div class="radio">
+            <input type="radio", name="rating", value="5">
+            5
+            </input>
+             </div>
+            <br>
+            <input name="id", value="{{selectedHome._id}}", type='hidden'>
+            <button class='btn btn-success', type='submit'>Rate</button>
+          </form>
+    </div>
     </div>
   </div>
 </div>
