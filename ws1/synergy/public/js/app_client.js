@@ -18,6 +18,22 @@ app.controller('HomeCtrl', ['$scope', '$http', '$location', '$window',
         });
       };
 
+      $scope.isRenting = function(hid){
+        console.log(hid);
+        $http({
+          url: '/getHome', 
+          method: "GET",
+          params: {hid: hid}
+          }).success(function(data){
+            if (data){
+              console.log(data);
+              console.log("I am renting!");
+              $("#ratingForm").removeClass("hidden");
+              $("#rentBtn").addClass("hidden");
+            }
+          });
+      }
+
       $scope.doQuery = function (keyword, num) {
         if (keyword) {
           if (num) {

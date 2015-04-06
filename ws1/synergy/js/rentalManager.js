@@ -218,12 +218,12 @@ module.exports = {
         });
     },
 
-    addRating: function(user_id, house_id, rating) {
-        if (!house_id || !user){
+    addRating: function(user, user_id, house_id, rating) {
+        if (!house_id || !user_id){
             return;
         }
 
-        House.findById(house_id, function(err, house){
+        HouseProfile.findById(house_id, function(err, house){
             if (err || !house){
                 return;
             }
@@ -237,7 +237,7 @@ module.exports = {
             }
 
             if (!result){
-                house._ratings.push({rated_friend: rated._id, rating: rating});
+                house._ratings.push({rated_friend: user_id, rating: rating});
                 house.rating += rating;
                 house.evaluations += 1;
                 house.save();

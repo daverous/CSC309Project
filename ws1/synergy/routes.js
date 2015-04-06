@@ -230,11 +230,13 @@ module.exports = function(app, passport) {
     });
 
     app.post('/updateHouseRating', function(req, res) {
+        console.log(req.session.userName);
+        console.log(req.body.hid);
         isAuthenticated(req, res, function() {
             user.findOne({
                 username: req.session.userName
             }, function(err, cuser) {
-                rentalManager.addRating(cuser._id, req.body.hid, req.body.rating);
+                rentalManager.addRating(cuser, cuser._id, req.body.hid, req.body.rating);
                 res.redirect('/home');
             });
         });
@@ -322,7 +324,7 @@ module.exports = function(app, passport) {
     });
 
     app.post('/rateHouse', function(req, res){
-        Network.addHouseRating(req, res, function (){
+        network.addHouseRating(req, res, function (err, result){
             res.redirect('/home');
         });
     });
@@ -373,19 +375,25 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.get('/get/home'), function(req,res){
+//currentRenters : {$in: [req.session.userName]}
+    app.get('/getHome', function(req,res){
+        console.log(req.query.hid);
+        console.log(req.session.userName);
         isAuthenticated(req, res, function() {
-            console.log(req.body.user.username);
-            HouseProfile.findOne({_id : req.body.hid, currentRenters : {$in: [req.body.username]}}).exec(function(err, house) {
+            HouseProfile.findOne({_id : req.query.hid, "currentRenters.username" : req.session.userName}).exec(function(err, house) {
                 if (err) {
+                    console.log("error");
                     throw err;
                 } 
                 if (house){
+                    console.log(house);
                     res.status(200).send(house);
                 }
             });
         });
-    }
+        res.status(200);
+    });
+
     app.get('/get/edithomes', function(req, res) {
         isAuthenticated(req, res, function() {
             HouseProfile.find({
