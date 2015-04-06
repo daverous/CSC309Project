@@ -36,17 +36,12 @@ adminSchema.statics.deleteHouse = function(hid){
 		if(err)
 			throw(err);
 	});
-
-	return hid;
 }
 adminSchema.statics.deleteHouses = function(hids, deletes, callback){
-	console.log(deletes);
-	var j = 0;
 	for(var i = 0; i < hids.length; i++){
 		if(deletes[i] == 1){
 			console.log(hids[i]);
 			adminSchema.statics.deleteHouse(hids[i]);
-			j++;
 		}
 	}
 }
