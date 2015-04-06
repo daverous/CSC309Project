@@ -20,50 +20,59 @@
 </div>
 
 <div id="showUsers" class="container" ng-show="isSelected('showUsers')">
-	<table class="table table-hover table-striped table-bordered">
-	  <thead>
-	    <tr>
-	      <th>
-	        <a href="#" ng-click="orderByField='firstName'; reverseSort = !reverseSort">
-	        FirstName <span ng-show="orderByField == 'name'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-	        </a>
-	      </th>
-	      <th>
-	        <a href="#" ng-click="orderByField='lastName'; reverseSort = !reverseSort">
-	        Lastname <span ng-show="orderByField == 'owner'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-	        </a>
-	      </th>
-	      <th>
-	        <a href="#" ng-click="orderByField='email'; reverseSort = !reverseSort">
-	        Email <span ng-show="orderByField == 'addr'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-	        </a>
-	      </th>
-	      <th>
-	        <a href="#" ng-click="orderByField='username'; reverseSort = !reverseSort">
-	        Username <span ng-show="orderByField == 'price'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-	        </a>
-	      </th>
-	      <th>
-	        <a href="#" ng-click="orderByField='rating'; reverseSort = !reverseSort">
-	        Rating <span ng-show="orderByField == 'maxRenters'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-	        </a>
-	      </th>
-	      <th>
-	        Delete 
-	      </th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <tr ng-repeat="user in usersfil | orderBy:orderByField:reverseSort;">
-	      <td>{{ user.firstName }}</td>
-	      <td>{{ user.lastName }}</td>
-	      <td>{{ user.email }}</td>
-	      <td>{{ user.username }}</td>
-	      <td>{{ user.rating }}</td>
-	      <td>{{ user._id }}</td>
-	    </tr>
-	  </tbody>
-	</table>
+	<form name="changeUser", action="/changeUser", method="POST">
+		<table class="table table-hover table-striped table-bordered">
+		  <thead>
+		    <tr>
+		      <th>
+		        <a href="#" ng-click="orderByField='firstName'; reverseSort = !reverseSort">
+		        FirstName <span ng-show="orderByField == 'name'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+		        </a>
+		      </th>
+		      <th>
+		        <a href="#" ng-click="orderByField='lastName'; reverseSort = !reverseSort">
+		        Lastname <span ng-show="orderByField == 'owner'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+		        </a>
+		      </th>
+		      <th>
+		        <a href="#" ng-click="orderByField='email'; reverseSort = !reverseSort">
+		        Email <span ng-show="orderByField == 'addr'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+		        </a>
+		      </th>
+		      <th>
+		        <a href="#" ng-click="orderByField='username'; reverseSort = !reverseSort">
+		        Username <span ng-show="orderByField == 'price'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+		        </a>
+		      </th>
+		      <th>
+		        <a href="#" ng-click="orderByField='rating'; reverseSort = !reverseSort">
+		        Rating <span ng-show="orderByField == 'maxRenters'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+		        </a>
+		      </th>
+		      <th>
+		        Delete 
+		      </th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			    <tr ng-repeat="user in usersfil | orderBy:orderByField:reverseSort;">
+			      <td class="hidden"><input id="{{'modUser' + $index}}", name="modUser", value="0"/> </td>
+			      <td class="hide"><input name="id", value="{{user._id}}" /></td>
+			      <td><input type="text", name="firstName", value="{{ user.firstName }}" readonly/></td>
+			      <td><input type="text", name="lastName", value="{{ user.lastName }}" readonly/></td>
+			      <td><input type="text", name="email", value="{{ user.email }}" readonly/></td>
+			      <td><input type="text", name="username", value="{{ user.username }}" readonly/></td>
+			      <td><input type="number", name="rating", value="{{ user.rating }}" readonly/></td>
+			      <td class="hidden"><input id="{{'delUser' + $index}}", name="delUser", value="0"/></td>
+			      <td><input id="$index", type="checkbox", name="delete", onClick="showBtn()", ng-click="toggleDelUser($index)" /></td>
+			    </tr>
+				<tr>
+					<td><input id="btn", class="hidden btn-default", type="submit", value="update"/></td>
+				</tr>
+			</form>
+		  </tbody>
+		</table>
+	</form>
 </div>
 
 <div id="showHouses" class="container" ng-show="isSelected('showHouses')">

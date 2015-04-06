@@ -8,21 +8,6 @@ function toggleDelHouse(id) {
     }
 }
 
-function toggleDelUser(id) {
-    var mod = $('#modUser' + id);
-    var del = $('#delUser' + id);
-    alert(mod.attr('id'));
-    alert(del.attr('id'));
-    if (mod.val() == 0) {
-        mod.val(1);
-    }
-    if (del.val() == 0) {
-        del.val(1);
-    } else {
-        del.val(0);
-    }
-}
-
 function modifyUser(id) {
     var mod = $('#modUser' + id);
     mod.val(1);

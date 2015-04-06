@@ -7,7 +7,7 @@ app.controller('HomeCtrl', ['$scope', '$http', '$location', '$window',
       $scope.getHomes = function() {
         $http.get('/get/homes')
             .success(function(data, status, headers, config) {
-          console.log(data);
+          //console.log(data);
           $scope.homes = data;
           $scope.homesfil = data;
           $scope.error = "";
@@ -22,7 +22,7 @@ app.controller('HomeCtrl', ['$scope', '$http', '$location', '$window',
         if (keyword) {
           if (num) {
             var url = "/get/homes/" + keyword + "++" + num;
-            console.log(url);
+            //console.log(url);
             $http.get(url)
                 .success(function(data, status, headers, config) {
               // console.log(data);
@@ -70,7 +70,7 @@ app.controller('EditCtrl', ['$scope', '$http', '$location', '$window',
       $scope.resetUser = function() {
         $http.get('/user/profile')
             .success(function(data, status, headers, config) {
-          console.log(data);
+          //console.log(data);
           $scope.user = data;
           $scope.error = "";
         }).
@@ -84,7 +84,7 @@ app.controller('EditCtrl', ['$scope', '$http', '$location', '$window',
         var url = '/get/edithomes';
         $http.get(url)
             .success(function(data, status, headers, config) {
-          console.log(data);
+          //console.log(data);
           $scope.homesfil = data;
           $scope.error = "";
         }).
@@ -125,7 +125,7 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
 
     $http.get("/userstats")
         .success(function(data, status, headers, config) {
-      console.log(data);
+      //console.log(data);
       $scope.models = data;
       $scope.error = "";
     }).
@@ -147,14 +147,10 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
         temp1 = String(temp1);
         var temp2 = $scope.models[i].count;
         temp2 = Number(temp2);
-        console.log(temp1);
-        console.log(temp2);
         rows[i] = {c:[
                     {v: temp1},
                     {v: temp2}]};
       }
-
-      console.log (rows);
       $scope.chartObject.data = {"cols":[
                                 {id: "t", label:"Date", type: "string"},
                                 {id : "s", label: "Users", type : "number"}],
@@ -171,7 +167,7 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
         var url = '/listUsers';
         $http.get(url)
           .success(function(data, status, headers, config) {
-          console.log(data);
+          //console.log(data);
           $scope.usersfil = data;
           $scope.error = "";
         }).
@@ -186,7 +182,7 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
         var url = '/get/homes';
         $http.get(url)
             .success(function(data, status, headers, config) {
-          console.log(data);
+          //console.log(data);
           $scope.homesfil = data;
           $scope.error = "";
         }).
@@ -212,13 +208,31 @@ app.controller('AdminCtrl', ['$scope', '$http', '$location', '$window',
   $scope.select = function(id) {
     $scope.selected.pop();
     $scope.selected.push(id);
-  }
+  };
+
   $scope.isSelected = function(id) {
     if($scope.selected.length == 0){
       return false;
     }
     return $scope.selected.indexOf(id) > -1
-  }
+  };
+
+  $scope.toggleDelUser = function(id){
+    console.log(id);
+    var mod = $('#modUser' + id);
+    var del = $('#delUser' + id);
+    alert(mod.attr('id'));
+    alert(del.attr('id'));
+    if (mod.val() == 0) {
+        mod.val(1);
+    }
+    if (del.val() == 0) {
+        del.val(1);
+    } else {
+        del.val(0);
+    }
+};
+
 
   $scope.orderByField = 'firstName';
   $scope.reverseSort = true;

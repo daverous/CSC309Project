@@ -327,7 +327,7 @@ module.exports = function(app, passport) {
         });
     });
     
-    app.post('/modifyHouse', function(req, res) {
+    app.post('/deleteHouse', function(req, res) {
         isAuthenticated(req, res, function() {
             admin.deleteHouses(req.body.id, req.body.deleteHouse);
             res.location('admin#houses');
@@ -335,8 +335,10 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.post('/modifyUser', function(req, res) {
+    app.post('/changeUser', function(req, res) {
         isAuthenticated(req, res, function() {
+            console.log("I am in");
+            console.log(req.body.id);
             if (req.body.modUser.length == 1) {
                 //when length == 1 req.body.id is passed as a string rather than string array
                 //of length 1.
