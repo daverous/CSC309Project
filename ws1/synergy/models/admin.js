@@ -1,10 +1,15 @@
 var util = require('util');
 var mongoose = require('mongoose');
 var User = require('./user').model;
-var adminSchema = mongoose.Schema();
 var HouseProfile = require('./house').model;
 
-util.inherits(adminSchema, User);
+var adminSchema = new mongoose.Schema({
+    firstName: String,
+    lastName: String,
+    email: String,
+    username: String,
+    password: String,
+});
 
 adminSchema.statics.deleteUser = function(userid){
 	User.remove({_id : userid}, function(err){

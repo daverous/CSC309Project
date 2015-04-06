@@ -4,6 +4,7 @@ var connection = mongoose.connect('mongodb://localhost/csc309_project');
 
 var HouseProfile = require('./models/house').model;
 var UserProfile = require('./models/user').model;
+var AdminProfile = require('./models/admin').model
 
 var createHash = function (password) {
     return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
@@ -50,6 +51,28 @@ function addUsers () {
       //handle error
     });
   }
+}
+
+function addAdmin(){
+  var createUser = new UserProfile();
+  var createAdmin = new AdminProfile();
+  console.log(createAdmin.schema.paths);
+
+  createUser.username = "admin";
+  createUser.email = "admin@gmail.com";
+  createUser.firstName = "Lucky";
+  createUser.lastName = "BoJangles";
+  createUser.password = createHash('1234');
+
+  createAdmin.username = createUser.username;
+  createAdmin.email = createUser.email;
+  createAdmin.firstName = createUser.firstName;
+  createAdmin.lastName = createUser.lastName;
+  createAdmin.password = createUser.password;
+
+  createUser.save();
+  createAdmin.save();
+
 }
 
 var desc = [
@@ -146,9 +169,14 @@ function addHouses () {
 
 UserProfile.remove({}, function(err) {
   console.log("Removing users");
-  HouseProfile.remove({}, function(err) {
+  AdminProfile.remove({}, function(err){
+    console.log("Removing admin");
+    HouseProfile.remove({}, function(err) {
     console.log("Removing houses");
     addUsers();
     addHouses();
+    addAdmin();
+  });  
   });
+  
 });

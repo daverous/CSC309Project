@@ -1,9 +1,15 @@
 var util = require('util');
 var mongoose = require('mongoose');
 var rating = require('./user').rmodel;
-var houseRatingSchema = new mongoose.Schema();
-
-util.inherits(houseRatingSchema, rating);
+var houseRatingSchema = new mongoose.Schema({
+    rated_friend: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    },
+    rating: {
+        type: Number
+    }
+});
 
 var houseSchema = new mongoose.Schema({
     name: String,

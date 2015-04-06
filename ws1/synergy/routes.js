@@ -271,12 +271,20 @@ module.exports = function(app, passport) {
     });
 
     app.get('/admin', function(req, res) {
-        user.list(function(err, users) {
-            res.render('admin_ng', {
-                'users': users,
-                'userStatsURL' : "/userstats",
-                'houseStatsURL' : "/housestats"
-            });
+        admin.findOne({username : req.session.userName}, function(err, result){
+            if(result){
+                user.list(function(err, users) {
+                    res.render('admin_ng', {
+                        'users': users,
+                        'userStatsURL' : "/userstats",
+                        'houseStatsURL' : "/housestats"
+                    });
+                });
+            }
+            else{
+                res.location('/home');
+                res.redirect('/home');
+            }
         });
     });
 
