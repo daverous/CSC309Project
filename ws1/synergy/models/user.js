@@ -35,11 +35,16 @@ var userSchema = new mongoose.Schema({
         username: { type: String, ref: 'User'},
         rating: {type: Number, default: 0, ref: 'User'},
         evaluations: {type: Number, default: 0, ref: 'User'}
+        deleted: {typeL Boolean, default: false}
     }],
     _ratings: [ratingSchema],
     role: {
         type: Number,
         default: 0
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 });
 
